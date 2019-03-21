@@ -1,0 +1,155 @@
+1. Написать программу, которая осуществляет перестановку элементов одномерного массива
+(заполненный случайными числами в диапазоне от -5 до 5) без использования
+дополнительного массива.
+
+#include <iostream>
+#include <ctime> // библиотека времени
+using namespace std;
+
+int main()
+{
+    srand(time(0)); // установить от чего будет отталкиваться рандом (от времени)
+    const int size = 10;
+    int max = 5, min = -5;
+    int arr[size]{};
+    int x;
+    for (int i = 0; i < size; i++)
+    {
+        arr[i] = rand() % (max - min) + min; // формула диапазона
+        cout << arr[i] << " ";
+    }
+    cout << "\n\nReversed massive : " << endl;
+    for (int i = size - 1; i >= 0; i--)
+    {
+        arr[i];
+        cout << arr[i] << " ";
+    }
+}
+
+2. Напишите программу, в которой в одномерном массиве целых чисел (заполненный
+случайными числами в диапазоне от 0 до 10) нужно удалить элемент массива, указанный
+пользователем, сдвинуть оставшиеся элементы, а оставшийся пустой приравнять нулю.
+Вывести на экран оставшиеся элементы массива без учета последнего нулевого.
+
+#include <iostream>
+#include <ctime>
+using namespace std;
+
+int main()
+{
+    srand(time(0)); 
+    const int size = 10, suze = size - 1;
+    int max = 10, min = 0;
+    int arr[size]{};
+    int brr[suze];
+    int x;
+    for (int i = 0; i < size; i++)
+    {
+        arr[i] = rand() % (max - min) + min; 
+        cout << arr[i] << " ";
+    }
+    cout << "\nEnter index of element whcih you would like to delete : ";
+    cin >> x;
+    for (int i = 0; i < suze; i++)
+    {
+        if (i >= x)
+        {
+            brr[i] = arr[i + 1];
+        }
+        else
+            brr[i] = arr[i];
+    }
+
+    cout << "\n\nModified massive : " << endl;
+    for (int i = 0; i < suze; i++)
+    {
+        cout << brr[i] << " ";
+    }
+}
+
+
+3. Напишите программу, в которой создается одномерный массив натуральных чисел A 1 ,A 2 ,
+...,A n (заполненный случайными числами в диапазоне от -9 до 10). He создавая
+дополнительные массивы, определить, какой из элементов повторяется в
+последовательности A 1 ,A 2 , ...,A n наибольшее число раз.
+
+#include <iostream>
+#include <ctime>
+using namespace std;
+
+int main()
+{
+    srand(time(0));
+    const int size = 10;
+    int max = 10, min = -9;
+    int arr[size]{};
+    int buf = 0, count = 0, num = 0;
+    for (int i = 0; i < size; i++)
+    {
+        arr[i] = rand() % (max - min) + min;
+        cout << arr[i] << " ";
+    }
+    for (int i = 0; i < size; i++)
+    {
+        buf = 0;
+        for (int j = 0; j < size; j++)
+        {
+            if (arr[i] == arr[j])
+            {
+                buf++;
+            }
+        }
+        if (buf > count)
+        {
+            count = buf;
+            num = arr[i];
+        }
+    }
+
+    cout << "\n\nMost common nummber is  : " << num << " its repeats " << count << " times." << endl;
+}
+
+
+4. Напишите программу, в которой создается одномерный массив (заполненный случайными
+числами в диапазоне от 1 до 10) целых чисел А. Нужно сдвинуть массив А циклически на т
+элементов вправо. При циклическом сдвиге вправо выталкиваемые элементы с конца
+массива заполняют освобождающиеся места в начале массива.
+
+#include <iostream>
+#include <ctime>
+using namespace std;
+
+int main()
+{
+    srand(time(0));
+    const int size = 10;
+    int max = 10, min = 1;
+    int arr[size]{}, brr[size]{};
+    int x;
+    for (int i = 0; i < size; i++)
+    {
+        arr[i] = rand() % (max - min) + min;
+        cout << arr[i] << " ";
+    }
+    cout << "\nEnter step for pushing --> ";
+    cin >> x;
+    for (int i = 0; x >= size; i++)
+    {
+        (x >= size) ? x -= size : x = x;
+    }
+    for (int i = x; i < size; i++)
+    {
+        brr[i - x] = arr[i];
+    }
+    for (int i = size - x, j = 0; i < size; i++, j++)
+    {
+        brr[i] = arr[j];
+    }
+    cout << "\nModified massive : " << endl;
+    for (int i = 0; i < size; i++)
+    {
+        cout << brr[i] << " ";
+    }
+}
+
+

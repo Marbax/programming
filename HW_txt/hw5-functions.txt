@@ -1,0 +1,198 @@
+Домашнее задание: функции.
+
+//---------------------------------------START-------------------------------------------------------
+
+#include <iostream>
+using namespace std;
+// 1.Написать функцию, которая возвращает произведение двух целых чисел,
+// полученных в качестве аргумента.
+int Prod(int a, int b)
+{
+    if (a && b != 0)
+    {
+        return a * b;
+    }
+    return 0;
+}
+
+int main()
+{
+    int a = 0, b = 0, res = 0;
+    cout << "Enter two numbers ti product ==> ";
+    cin >> a >> b;
+    res = Prod(a, b);
+    cout << res;
+}
+
+//---------------------------------------------------------------------------------------------------
+
+#include <iostream>
+using namespace std;
+// 2. Написать функцию, которая возвращает количество цифр в целом числе,
+// полученном в качестве аргумента.
+int Counter(int num)
+{
+    int res = 0;
+    for (int i = num; i > 0; i = i / 10)
+    {
+        res++;
+    }
+    return res;
+}
+
+int main()
+{
+    int num = 0, res = 0;
+    cout << "Enter number ==> ";
+    cin >> num;
+    res = Counter(num);
+    cout << "There are(is) " << res << " digits";
+}
+
+//---------------------------------------------------------------------------------------------------
+
+#include <iostream>
+using namespace std;
+// 3. Написать функцию, которая возвращает максимальное из двух целых чисел,
+// полученных в качестве аргумента.
+int Find_bigger(int a, int b)
+{
+    int res = 0;
+    (a > b) ? res = a : res = b;
+    return res;
+}
+
+int main()
+{
+    int a = 0, b = 0, res = 0;
+    cout << "Enter two numbers to find bigger one ==> ";
+    cin >> a >> b;
+    res = Find_bigger(a, b);
+    cout << res << " bigger";
+}
+
+//---------------------------------------------------------------------------------------------------
+
+#include <iostream>
+using namespace std;
+// 4. Написать функцию, которая сравнивает два целых числа и возвращает результат
+// сравнения в виде одного из знаков: >, < или =.
+int Comparison(int a, int b)
+{
+    char res;
+    (a > b) ? res = '>' : (a < b) ? res = '<' : res = '=';
+    return res;
+}
+
+int main()
+{
+    int a = 0, b = 0;
+    char res;
+    cout << "Enter two numbers to find bigger one ==> ";
+    cin >> a >> b;
+    res = Comparison(a, b);
+    cout << a << res << b;
+}
+
+//---------------------------------------------------------------------------------------------------
+
+#include <iostream>
+using namespace std;
+// 5. Написать функцию Procent, которая возвращает процент от полученного в
+// качестве аргумента числа.
+float Procent(float a, float proc)
+{
+    float res = a / 100 * proc;
+    return res;
+}
+
+int main()
+{
+    float a = 0, proc = 0, res;
+    cout << "Enter number ==> ";
+    cin >> a;
+    cout << "Enter procent ==> ";
+    cin >> proc;
+    res = Procent(a, proc);
+    cout << proc << "% of " << a << " is " << res;
+}
+
+//---------------------------------------------------------------------------------------------------
+
+
+#include <iostream>
+using namespace std;
+// 6. Написать функцию, которая, в зависимости от выбора пользователя вызывает
+// функцию сложения, произведения, вычитания и деления 2-х чисел.
+float Sum(float a, float b)
+{
+    float res = a + b;
+    return res;
+}
+float Prod(float a, float b)
+{
+    float res = a * b;
+    return res;
+}
+float Sub(float a, float b)
+{
+    float res = a - b;
+    return res;
+}
+float Division(float a, float b)
+{
+    char err = 'Error.Division by zero';
+    if (b != 0)
+    {
+        float res = a / b;
+        return res;
+    }
+
+    return err;
+}
+
+float Calc(int num)
+{
+    char err = 'Error.Wrong input';
+    float a = 0, b = 0, res;
+    cout << "Enter number ==> ";
+    cin >> a;
+    cout << "Enter procent ==> ";
+    cin >> b;
+    switch (num)
+    {
+    case 1:
+        return res = Sum(a, b);
+        break;
+
+    case 2:
+        return res = Prod(a, b);
+        break;
+
+    case 3:
+        return res = Sub(a, b);
+        break;
+
+    case 4:
+        return res = Division(a, b);
+        break;
+
+    default:
+        return err;
+        break;
+    }
+}
+
+int main()
+{
+    float res = 0;
+    int num = 0;
+    cout << "What you want to do ? \n1 - To find digits sum\n2 - To find digits product\n3 - To find digits subtraction\n4 - To find digits division" << endl;
+    cin >> num;
+    res = Calc(num);
+    cout << res;
+}
+
+
+
+//---------------------------------------------END--------------------------------------------------
