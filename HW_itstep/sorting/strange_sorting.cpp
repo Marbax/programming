@@ -16,83 +16,81 @@ using namespace std;
 void Fill_Array(int arr[], int size)
 {
     srand(time(0));
-    int max = 20, min = 1;
     for (int i = 0; i < size; i++)
     {
-        arr[i] = i+1; // формула диапазона
+        arr[i] = i + 1;
     }
 }
 void Shuffle(int arr[], int size)
 {
     srand(time(0));
     int x, y;
-    int temp;
     for (int i = 0; i < size; i++)
     {
         x = rand() % size;
         y = rand() % size;
-        temp = arr[x];
-        arr[x] = arr[y];
-        arr[y] = temp;
+        swap(arr[x], arr[y]);
     }
 }
-int Find_index(int arr[], int size)
+int Find_index(int arr[], int size, int num)
 {
-    int min_min = arr[0], min_index = 0;
-
+    int index = arr[0];
     for (int i = 0; i < size; i++)
     {
-        if (arr[i] < 0)
+        if (arr[i] == num)
         {
-            if (arr[i] < min_min)
-            {
-                min_min = arr[i];
-                min_index = i;
-            }
+            index = i;
         }
     }
-    return min_index;
+    return index;
 }
 
-void Sorted_Array(int arr[], int size, int min_index, int max_index)
+void Sort_Array(int arr[], int size, int index)
 {
-    int start, end;
-    (min_index < max_index) ? start = min_index : start = max_index;
-    (min_index < max_index) ? end = max_index : end = min_index;
-    cout << "\n\nSorted array\n";
-    for (int i = start; i < end; i++)
+    for (int i = index + 1; i < size; i++)
     {
-        for (int j = end - 1; j > i; j--)
+        for (int j = size - 1; j > i; j--)
         {
             if (arr[j] < arr[j - 1])
             {
                 swap(arr[j], arr[j - 1]); // своп меняет местами елеменеты
             }
         }
-        cout << setw(5) << arr[i];
+    }
+    for (int i = 0; i < index - 1; i++)
+    {
+        for (int j = index - 1; j > i; j--)
+        {
+            if (arr[j] > arr[j - 1])
+            {
+                swap(arr[j], arr[j - 1]); // своп меняет местами елеменеты
+            }
+        }
     }
 }
 
 void Print_Array(int arr[], int size)
 {
-    cout << "\nDeffault array\n";
     for (int i = 0; i < size; i++)
     {
         cout << setw(5) << arr[i];
     }
+    cout << endl;
 }
 
 int main()
 {
     const int size = 20;
-    int num;
+    int index, num;
     int arr[size]{};
     Fill_Array(arr, size);
-    Shuffle(arr,size);
+    Shuffle(arr, size);
     Print_Array(arr, size);
-    cout<<"Enter an number from which sort ==> ";
-    cin>> num;
-    cout << "\n\n";
-    //Sliced_Array(arr, size, min_index, max_index);
-    //Sort_minimum(arr, size, min_index, max_index);
+    cout << "\n\nEnter an number from which sort ==> ";
+    cin >> num;
+    cout << "\n";
+    index = Find_index(arr, size, num);
+    cout << "\nSorted array :" << endl;
+    Sort_Array(arr, size, index);
+    Print_Array(arr, size);
 }

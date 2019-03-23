@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <iostream>
-#include <ctime>
 #include <iomanip> //форматирование вывода
+#include <ctime>
 using namespace std;
 
 // Написать игру «Пятнашки». Программа должна содержать следующие функции:
@@ -11,103 +11,181 @@ using namespace std;
 // ➢ перестановки элементов(Left, Right, Up, Down);
 // ➢ проверки окончания игры.
 
+typedef enum Direction
+{
+    Up,
+    Down,
+    Right,
+    Left
+} Direction;
+short CurX, CurY;
+
 //Создание игровой площадки
-void Create_array(short arr[][4], short row, short col)
+
+void Fill_Array(short Field[][4], short row, short col)
+{
+    short n = 0;
+    for (int i = 0; i < row; i++)
+    {
+        for (int j = 0; j < col; j++)
+        {
+            n++;
+            Field[i][j] = n;
+        }
+    }
+}
+
+void Shuffle(short Field[][4], short row, short col)
 {
     srand(time(0));
-    short max = 17, min = 0;
-
-    for (short i = 0; i < row; i++)
+    int x, y;
+    for (int i = 0; i < row; i++)
     {
-        for (short j = 0; j < col; j++)
+        for (int j = 0; j < col; j++)
         {
-            arr[i][j] = rand() % (max - min) + min; // формула диапазона
+            x = rand() % col;
+            y = rand() % col;
+            swap(Field[i][x], Field[i][y]);
         }
     }
-}
-
-void Create_Field(short arr[][4], short row, short col)
-{
-    short n = row * col, arr[n], i, buf, k = 0;
-    bool flag = false;
-    srand(time(NULL));
-    for (n = 0; n < 16;)
+    for (int i = 0; i < row; i++)
     {
-        flag = false;
-        buf = rand() % n + 1;
-        for (i = 0; i < n; i++)
+        for (int j = 0; j < col; j++)
         {
-            if (arr[i] == buf)
+            if (Field[i][j] == 16)
             {
-                flag = true;
-                break;
+                Field[i][j] = 0;
+                CurX = i;
+                CurY = j;
             }
         }
-        if (!flag)
-        {
-            arr[n] = buf;
-            n++;
-        }
     }
-    for (n = 0; n < 4; n++)
-    {
-        for (i = 0; i < 4; i++)
-        {
-            Field[n][i] = arr[k];
-            k++;
-        }
-    }
-    Field[3][3] = 0;
-    CurX = 3;
-    CurY = 3;
-    return;
 }
-//ВЫВОД ПОЛЯ
-void Print_array(short arr[][4], short row, short col)
+
+// Организация перемещений
+void Move(Direction dir, short Field[][4])
 {
-    for (short i = 0; i < row; i++)
+    switch (dir)
     {
-        for (short j = 0; j < col; j++)
+    case Up:
+        if (CurY > 0)
         {
-            cout << setw(3) << arr[i][j] << " ";
+            swap(Field[CurY][CurX], Field[CurY - 1][CurX]);
+            CurY--;
         }
-        cout << endl;
+        else
+        {
+            cout << "ERROR OUT FROM BEYOND THE PLAYING FIELD \n\n";
+            system("sleep 1");
+        }
+        break;
+    case Down:
+        if (CurY < 3)
+        {
+            swap(Field[CurY][CurX], Field[CurY + 1][CurX]);
+            CurY++;
+        }
+        else
+        {
+            cout << "ERROR OUT FROM BEYOND THE PLAYING FIELD \n\n";
+            system("sleep 1");
+        }
+        break;
+    case Right:
+        if (CurX < 3)
+        {
+            swap(Field[CurY][CurX], Field[CurY][CurX + 1]);
+            CurX++;
+        }
+        else
+        {
+            cout << "ERROR OUT FROM BEYOND THE PLAYING FIELD \n\n";
+            system("sleep 1");
+        }
+        break;
+    case Left:
+        if (CurX > 0)
+        {
+            swap(Field[CurY][CurX], Field[CurY][CurX - 1]);
+            CurX--;
+        }
+        else
+        {
+            cout << "ERROR OUT FROM BEYOND THE PLAYING FIELD \n\n";
+            system("sleep 1");
+        }
+        break;
+    }
+}
+
+//ВЫВОД ПОЛЯ
+void Cout_Arr(short Field[][4], short row, short col)
+{
+    system("clear");
+    for (int i = 0; i < row; i++)
+    {
+        for (int j = 0; j < col; j++)
+        {
+            cout << setw(6) << Field[i][j];
+        }
+        cout << "\n\n";
     }
 }
 
 //Проверка на выигрыш
+bool total(short Field[][4], short row, short col)
+{
+    short n = 0;
+    bool flag = true;
+    for (short i = 0; i < row; i++)
+    {
+        for (short j = 0; j < col; i++)
+        {
+            n++;
+            if (Field[i][j] == n || Field[i][j] == n - 1)
+                flag = true;
+            else
+            {
+                flag = false;
+                break;
+            }
+        }
+    }
+    return flag;
+}
 
 int main()
 {
-    short const row = 3, col = 4;
-    short arr[row][col];
-    Create_array(arr, row, col);
-    Print_array(arr, row, col);
-    /*     printf("Choose a direction 'w,a,s,d'\n");
-    while (!total())
+    const short row = 4, col = 4;
+    short Field[row][col]{};
+    Fill_Array(Field, row, col);
+    Shuffle(Field, row, col);
+    Cout_Arr(Field, row, col);
+    cout << "Choose a direction 'w,a,s,d' or 'exit'/arrows for exit\n";
+    while (!total(Field, row, col))
     {
         char key = getchar();
         switch (key)
         {
         case 119:
-            Move(up);
+            Move(Up, Field);
             break;
         case 115:
-            Move(down);
+            Move(Down, Field);
             break;
         case 100:
-            Move(right);
+            Move(Right, Field);
             break;
         case 97:
-            Move(left);
+            Move(Left, Field);
             break;
         case 27:
-            cout << "NICE TRY\n";
+            cout << "Good bye\n";
             return 0;
             break;
         }
-        coutArr();
+        Cout_Arr(Field, row, col);
     }
     cout << " ====Congratulations! Press Esc to exit====  ";
-    return 0; */
+    return 0;
 }

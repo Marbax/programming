@@ -58,7 +58,6 @@ void Sliced_Array(int arr[], int size, int min_index, int max_index)
     int start, end;
     (min_index < max_index) ? start = min_index : start = max_index;
     (min_index < max_index) ? end = max_index : end = min_index;
-    cout << "\nSliced array\n";
     for (int i = start; i < end; i++)
     {
         cout << setw(5) << arr[i];
@@ -70,7 +69,6 @@ void Sort_minimum(int arr[], int size, int min_index, int max_index)
     int start, end;
     (min_index < max_index) ? start = min_index : start = max_index;
     (min_index < max_index) ? end = max_index : end = min_index;
-    cout << "\n\nSorted array\n";
     for (int i = start; i < end; i++)
     {
         for (int j = end - 1; j > i; j--)
@@ -80,13 +78,11 @@ void Sort_minimum(int arr[], int size, int min_index, int max_index)
                 swap(arr[j], arr[j - 1]); // своп меняет местами елеменеты
             }
         }
-        cout << setw(5) << arr[i];
     }
 }
 
 void Print_Array(int arr[], int size)
 {
-    cout << "\nDeffault array\n";
     for (int i = 0; i < size; i++)
     {
         cout << setw(5) << arr[i];
@@ -99,10 +95,14 @@ int main()
     int min_index, max_index;
     int arr[size]{};
     Fill_Array(arr, size);
+    cout << "\nDeffault array\n";
     Print_Array(arr, size);
     min_index = Find_min_index(arr, size);
     max_index = Find_max_index(arr, size, min_index);
     cout << "\n\n";
+    cout << "\nSliced array by minimum negaative postion ==> " << min_index << " ,maximum negative position ==> " << max_index << endl;
     Sliced_Array(arr, size, min_index, max_index);
+    cout << "\n\nSorted array\n";
     Sort_minimum(arr, size, min_index, max_index);
+    Print_Array(arr, size);
 }
