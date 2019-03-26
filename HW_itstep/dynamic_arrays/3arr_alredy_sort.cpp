@@ -43,7 +43,7 @@ void Sort_Array(int *arr, int size)
     }
 }
 
-void Fill_dinamyc_array(int *res, int *mas1, int *mas2, int size)
+void Fill_dinamyc_array(int *res, int *mas1, int *mas2, int size) // ПОХОДУ,ПРОЛЕТАЮТ ИНДЕКСЫ ,ИБО КОНЧАЮТСЯ ЭЛЛЕМЕНТЫ МАССИВА ,ПАААААЧИМУ????
 {
     for (int i = 0, j = 0, n = 0; n < size; n++)
     {
@@ -52,12 +52,12 @@ void Fill_dinamyc_array(int *res, int *mas1, int *mas2, int size)
             res[n] = mas1[i];
             i++;
         }
-        else if (mas2[j] < mas1[i])
+        else if (mas2[j] <= mas1[i])
         {
             res[n] = mas2[j];
             j++;
         }
-        else if (mas2[j] = mas1[i])
+        else if (mas2[j] == mas1[i])
         {
             res[n] = mas2[j];
             n++;
