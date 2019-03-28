@@ -43,35 +43,35 @@ void Sort_Array(int *arr, int size)
     }
 }
 
-void Fill_dinamyc_array(int *res, int *mas1, int *mas2, int size) // ПОХОДУ,ПРОЛЕТАЮТ ИНДЕКСЫ ,ИБО КОНЧАЮТСЯ ЭЛЛЕМЕНТЫ МАССИВА ,ПАААААЧИМУ????
+void Fill_dinamyc_array(int *res, int *mas1, int *mas2, int size, int s_size)
 {
     for (int i = 0, j = 0, n = 0; n < size; n++)
     {
-        if (mas1[i] < mas2[j])
+        if (i >= s_size || j >= s_size)
         {
-            res[n] = mas1[i];
-            i++;
+            if (i >= s_size)
+            {
+                res[n] = mas2[j];
+                j++;
+            }
+            else
+            {
+                res[n] = mas1[i];
+                i++;
+            }
         }
-        else if (mas2[j] <= mas1[i])
+        else
         {
-            res[n] = mas2[j];
-            j++;
-        }
-        else if (mas2[j] == mas1[i])
-        {
-            res[n] = mas2[j];
-            n++;
-            j++;
-            res[n] = mas1[i];
-            i++;
-        }
-        else if (mas2[j] == 0 && mas1[i] == 0)
-        {
-            res[n] = 0;
-            n++;
-            j++;
-            res[n] = 0;
-            i++;
+            if (mas1[i] < mas2[j])
+            {
+                res[n] = mas1[i];
+                i++;
+            }
+            else
+            {
+                res[n] = mas2[j];
+                j++;
+            }
         }
     }
 }
@@ -90,7 +90,7 @@ int main()
     Print_array(mas2, s_size);
     int size = s_size * 2;
     int *res = new int[size];
-    Fill_dinamyc_array(res, mas1, mas2, size);
+    Fill_dinamyc_array(res, mas1, mas2, size, s_size);
     Print_array(res, size);
     delete[] res;
 }
