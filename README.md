@@ -95,5 +95,12 @@ void Add_to_array(int *&arr, int &size, int value)
 
 </p></details>
 
+- Чтоб узнать код символа
+
+```
+char key = getchar();
+cout << int (key);
+```
+
 </p></details>
 
