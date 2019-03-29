@@ -73,6 +73,7 @@ void Fill_dinamyc_array(int *res, int *mas1, int *mas2, int size) // ПОХОД�
             res[n] = 0;
             i++;
         }
+        cout << " i = " << i <<" mas1[i] = "<<mas1[i]<< "  j = " << j <<" mas2[j] = "<<mas2[j]<< endl;
     }
 }
 
