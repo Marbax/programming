@@ -183,7 +183,7 @@ void Second_obj(House *&arr, int &size, House &penthouse) // создание з
     size++;
 }
 
-void Edit_object(House *&arr, int size, int pos) // нужно допилить!!! частичное и полное редактирование
+void Edit_object(House *&arr, int size, int pos) // частичное и полное редактирование
 {
     if (pos > 0 && pos <= size)
     {
