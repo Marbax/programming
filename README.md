@@ -1,6 +1,7 @@
 ...
 ...
 ...
+
 <details><summary>Урок 7. Указатели</summary><p>
 
 - Указатель это переменная ,которая может хранить в себе адрес другой переменной 
@@ -174,3 +175,87 @@ cout << int (key);
 </p></details>
 
 
+<details><summary> Урок 10.Препроцессор. </summary><p>
+
+```
+#if/#ifdef/#ifndef <константное_выражение
+                    или идентификатор>
+          <текст_1>
+#else// необязательная директива
+          <текст_2>
+#endif
+```
+
+- Оператор # превращает аргумент, которому он пред-шествует, в строку, заключенную в кавычки.
+
+```
+#include <iostream>
+using namespace std;
+# define mkstr(s) #s
+void main()
+{
+    cout<<mkstr(I love C);
+    // Для компилятора cout<<"I love C";
+}
+```
+
+- Оператор ## используется для конкатенации (объе-динения) двух лексем
+
+```
+#include <iostream>
+using namespace std;
+# define concat(a,b) a##b
+void main()
+{
+    int xy=10;
+    cout<<concat(x,y);
+    // Для компилятора cout<<xy;
+}
+```
+
+```#include <имя_файла>``` поиск в системных дирректориях
+```#include "имя_файла"``` относительный путь, потом поиск в системных дирректориях
+
+### Работа с файлами 
+
+ - 3 основных класса (библиотека fstream)
+    - fstream   - общий класс, и для чтения и для записи 
+    - ifstream  - для чтения 
+    - ofstream  - для записи
+
+<details><summary> Пример чтения из файла </summary><p>
+
+```
+void Load()
+{
+    string path = "Videostore_state.txt";
+    ifstream file_in;
+    file_in.open(path);
+    if (!file_in.is_open())
+    {
+        cout << "Error , while try to open file!" << endl;
+    }
+    else
+    {
+        /* char ch;
+        while(file_in.get(ch)) // посимвольное чтение из файла
+        {
+            cout << ch;
+        } */
+
+        //string str;
+        char ch[500];
+        while (file_in.eof())
+        {
+            //str = "";
+            //getline(file_in,str); // считывает строку
+            file_in.getline(ch, 500); // считывает массив чаров
+        }
+    }
+    file_in.close();
+}
+```
+</p></details>
+
+
+</p></details>
