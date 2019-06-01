@@ -43,21 +43,22 @@ void Print_Director(Director director);
 void Save(Movie *&videostore, int &size)//хз как структуру сохранять правиль
 {
     string path_sctruct = "Videostore_struct.dat";
-    ofstream file_out(path_sctruct, ios::binary);
-    if (!file_out.is_open())
+    // FILE* f = fopen(path_sctruct,"wb")
+    ofstream fout(path_sctruct, ios::binary);
+    if (!fout.is_open())
     {
         cout << "Error , while try to open file!" << endl;
     }
     else
     {
-        file_out.write((char *)&size, sizeof(size));
+        fout.write((char *)&size, sizeof(size));
         /* for (int i = 0; i < size; i++)
         {
-            file_out.write((char *)(&videostore[i]), sizeof(Movie));
+            fout.write((char *)(&videostore[i]), sizeof(Movie));
         } */
-        file_out.write((char *)(&videostore), sizeof(Movie) * size);
+        fout.write((char *)(&videostore), sizeof(Movie) * size);
     }
-    file_out.close();
+    fout.close();
 }
 
 void Load(Movie *&videostore, int &size) // хз как загружать структуру правильно
