@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string.h>
-#include <fstream>
+//#include <fstream>
 using namespace std;
 
 // 1. Создать структуру Movie со следующими полями:
@@ -40,168 +40,34 @@ void Print_Movie(Movie film);
 
 void Print_Director(Director director);
 
-void Save(Movie *&videostore, int &size) //хз как структуру сохранять правиль
-{
-    char path[20] = "Videostore.dat";
-    FILE *fout = fopen(path, "wb");
-    fclose(fout);
-}
+void Set_object(Movie &film);
 
-void Load(Movie *&videostore, int &size) // хз как загружать структуру правильно
-{
-    char path[20] = "Videostore.dat";
-    FILE *fin;
-    if ((fin = fopen(path, "rb")) == NULL)
-    {
-        cout << "Errpr! Can't find file!" << endl;
-    }
-    else
-    {
-        fin = fopen(path, "rb");
-        fclose(fin);
-    }
-    
+void Add_object(Movie *&videostore, int &size);
 
-    
-}
-void Print_Director(Director director) // вывод инфы о владельце
-{
-    cout << "Director : " << director.surname << " " << director.name << " " << director.middle_name << endl;
-}
+void Remove_object(Movie *&videostore, int &size, int pos);
 
-void Print_Movie(Movie film) // вывод полной инфы о фильме
-{
-    cout << "Id : " << film.Id << "\nMovie name : " << film.name << endl;
-    Print_Director(film.director);
-    cout << "Genres : " << film.genre << " \nRating : " << film.rating << " \nMovie cost : " << film.cost << " uah" << endl;
-}
+void First_obj(Movie *&videostore, int &size, Movie &film);
 
-void Set_object(Movie &film) // создание обьекта
-{
-    //    cout << "\nId of the Movie ==> "; // добавляется при инициализации
-    //    cin >> film.Id;
-    //    cin.ignore();
-    cout << "\nName of the Movie ==> ";
-    cin.getline(film.name, 100);
-    cout << "\ndirector's name ==> ";
-    cin.getline(film.director.name, 20);
-    cout << "\ndirector's Surname ==> ";
-    cin.getline(film.director.surname, 20);
-    cout << "\ndirector's Middle name ==> ";
-    cin.getline(film.director.middle_name, 20);
-    cout << "\nGenres of the Movie ==> ";
-    cin.getline(film.genre, 100);
-    cout << "\nMovie's rating ==> ";
-    cin >> film.rating;
-    if (film.rating > 10.0)
-    {
-        do
-        {
-            system("clear");
-            cout << "Rating cant be more than 10 !";
-            cout << "\nMovie's rating ==> ";
-            cin >> film.rating;
-        } while (film.rating > 10.0);
-    }
+void Second_obj(Movie *&videostore, int &size, Movie &film);
 
-    cin.ignore();
-    cout << "\nMovie's cost ==> ";
-    cin >> film.cost;
-    cin.ignore();
-}
+void Save(Movie *&videostore, int &size);
 
-void Add_object(Movie *&videostore, int &size) // пересбор массива с новым обьектом , переопределяет айдишники при каждом добавлении обекта
-{
-    if (size == 0) //если пусто ,просто создать один пункт
-    {
-        videostore = new Movie[1];
-    }
-    else // если не пусто ресайз и добавление
-    {
-        Movie *tmp = new Movie[size + 1];
-        for (int i = 0; i < size; i++)
-        {
-            tmp[i] = videostore[i];
-            tmp[i].Id = i;
-        }
-        tmp[size].Id = size;
-        delete[] videostore;
-        videostore = tmp;
-    }
-    Set_object(videostore[size]);
-    size++;
-}
-
-void Remove_object(Movie *&videostore, int &size, int pos) // удаление обьекта целиком
-{
-    if (pos < 0 || pos >= size) // эксепшн , если позиция за пределами ,защита от вылетов
-    {
-        return;
-    }
-    Movie *tmp = new Movie[--size];
-    for (int i = 0, j = 0; i < size; j++, i++) //пересоздает массив исключая ненужный обьект
-    {
-        if (i == pos)
-        {
-            j++;
-        }
-        tmp[i] = videostore[j];
-    }
-    delete[] videostore;
-    videostore = tmp;
-}
-
-void First_obj(Movie *&videostore, int &size, Movie &film) // создание записей ,чтоб меньше кликать
-{
-    videostore = new Movie[1];
-    strcpy(film.name, "December");
-    film.Id = size;
-    strcpy(film.director.name, "Petr");
-    strcpy(film.director.surname, "Petrov");
-    strcpy(film.director.middle_name, "Petrovich");
-    strcpy(film.genre, "Horror , comedy , melodrame");
-    film.rating = 8.1;
-    film.cost = 111;
-    videostore[size] = film;
-    size++;
-}
-
-void Second_obj(Movie *&videostore, int &size, Movie &film) // создание записей ,чтоб меньше кликать
-{
-    Movie *tmp = new Movie[size + 1];
-    for (int i = 0; i < size; i++)
-    {
-        tmp[i] = videostore[i];
-    }
-    delete[] videostore;
-    videostore = tmp;
-    strcpy(film.name, "Picachu");
-    film.Id = size;
-    strcpy(film.director.name, "Jim");
-    strcpy(film.director.surname, "Cerry");
-    strcpy(film.director.middle_name, "Petrovich");
-    strcpy(film.genre, "Fantasy , comedy , melodrame");
-    film.rating = 5.51;
-    film.cost = 1111;
-    videostore[size] = film;
-    size++;
-}
+void Load(Movie *&videostore, int &size);
 
 int main()
 {
     int size = 0;
     bool flag = true;
-    Movie *videostore = nullptr; // создание пустого массива
-    //Load(videostore, size);
-
-    /* 
-    Movie one;
-    First_obj(videostore, size, one);
-    Movie two;
-    Second_obj(videostore, size, two);
-    Movie three;
-    Second_obj(videostore, size, three);
- */
+    Movie *videostore = nullptr; // создание пустого массива в никуда
+    cout << "Would you like to load saved info?" << endl;
+    cout << "NO/I haven't saved info/It's my first time =>> press 'a'" << endl;
+    cout << "Yes i'd like =>> press 'b'" << endl;
+    char tmp = getchar();
+    cin.ignore();
+    if (tmp == 98)
+    {
+        Load(videostore, size);
+    }
 
     while (flag)
     {
@@ -317,9 +183,126 @@ int main()
 
     if (size) //если массив не пустой - очистить память
     {
-        //Save(videostore, size);
-        //cout << "SAVED\n";
+        Save(videostore, size);
         delete[] videostore;
     }
     cout << "END OF PROGRAM\n";
+}
+
+void Save(Movie *&videostore, int &size) // сохранение данных в файл (кол-во структур -> структуры)
+{
+    char path[20] = "Videostore.dat";
+    FILE *fout = fopen(path, "wb");
+    fwrite(&size, sizeof(size), 1, fout);
+    for (int i = 0; i < size; i++)
+    {
+        fwrite(&videostore[i], sizeof(Movie), 1, fout);
+    }
+    fclose(fout);
+    cout << "SAVED to " << path << endl;
+}
+
+void Load(Movie *&videostore, int &size) // загрузка данных из файла (кол-во структур -> структуры)
+{
+    char path[20] = "Videostore.dat";
+    FILE *fin;
+    if ((fin = fopen(path, "rb")) == NULL)
+    {
+        cout << "Errpr! Can't find file!" << path << " isn't exist!" << endl;
+    }
+    fread(&size, sizeof(size), 1, fin);
+    videostore = new Movie[size];
+    for (int i = 0; i < size; i++)
+    {
+        fread(&videostore[i], sizeof(Movie), 1, fin);
+    }
+    fclose(fin);
+    cout << "LOADED from " << path << endl;
+}
+
+void Print_Director(Director director) // вывод инфы о владельце
+{
+    cout << "Director : " << director.surname << " " << director.name << " " << director.middle_name << endl;
+}
+
+void Print_Movie(Movie film) // вывод полной инфы о фильме
+{
+    cout << "Id : " << film.Id << "\nMovie name : " << film.name << endl;
+    Print_Director(film.director);
+    cout << "Genres : " << film.genre << " \nRating : " << film.rating << " \nMovie cost : " << film.cost << " uah" << endl;
+}
+
+void Set_object(Movie &film) // создание обьекта
+{
+    //    cout << "\nId of the Movie ==> "; // добавляется при инициализации
+    //    cin >> film.Id;
+    //    cin.ignore();
+    cout << "\nName of the Movie ==> ";
+    cin.getline(film.name, 100);
+    cout << "\ndirector's name ==> ";
+    cin.getline(film.director.name, 20);
+    cout << "\ndirector's Surname ==> ";
+    cin.getline(film.director.surname, 20);
+    cout << "\ndirector's Middle name ==> ";
+    cin.getline(film.director.middle_name, 20);
+    cout << "\nGenres of the Movie ==> ";
+    cin.getline(film.genre, 100);
+    cout << "\nMovie's rating ==> ";
+    cin >> film.rating;
+    if (film.rating > 10.0)
+    {
+        do
+        {
+            system("clear");
+            cout << "Rating cant be more than 10 or less than 0!";
+            cout << "\nMovie's rating ==> ";
+            cin >> film.rating;
+        } while (film.rating > 10.0 || film.rating < 0);
+    }
+
+    cin.ignore();
+    cout << "\nMovie's cost ==> ";
+    cin >> film.cost;
+    cin.ignore();
+}
+
+void Add_object(Movie *&videostore, int &size) // пересбор массива с новым обьектом , переопределяет айдишники при каждом добавлении обекта
+{
+    if (size == 0) //если пусто ,просто создать один пункт
+    {
+        videostore = new Movie[1];
+    }
+    else // если не пусто ресайз и добавление
+    {
+        Movie *tmp = new Movie[size + 1];
+        for (int i = 0; i < size; i++)
+        {
+            tmp[i] = videostore[i];
+            tmp[i].Id = i;
+        }
+        tmp[size].Id = size;
+        delete[] videostore;
+        videostore = tmp;
+    }
+    Set_object(videostore[size]);
+    size++;
+}
+
+void Remove_object(Movie *&videostore, int &size, int pos) // удаление обьекта целиком
+{
+    if (pos < 0 || pos >= size) // эксепшн , если позиция за пределами ,защита от вылетов
+    {
+        return;
+    }
+    Movie *tmp = new Movie[--size];
+    for (int i = 0, j = 0; i < size; j++, i++) //пересоздает массив исключая ненужный обьект
+    {
+        if (i == pos)
+        {
+            j++;
+        }
+        tmp[i] = videostore[j];
+    }
+    delete[] videostore;
+    videostore = tmp;
 }
