@@ -18,6 +18,8 @@ void Edit_book(Books *&book, int &books_count); //Редактирование �
 
 void Print_book(Books book); // Вывод конекретной книги
 
+int comp (const int *i, const int *j);
+
 void Print_sort_book(Books *&book, int &books_count); //Поиск и сортировка по автору, названию, жанру, популярности.
 
 void Print_sort_book_by_genre(Books *&book, int &books_count); //Поиск по жанру, но сортировка по рейтингу.
