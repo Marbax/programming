@@ -13,8 +13,6 @@ struct Users
     char pssport_num[8];         // Номер паспорта.
     unsigned int books_read;     // Количество прочитанных книг.
     char hand_books[200];        // Список книг находящихся на руках у читателя
-    unsigned int fine_day = 0;   // Текущее кол-во просроченых дней
-    unsigned int fine_money = 0; // Текущий денежный долг
 };
 
 #endif // !_USER_H
