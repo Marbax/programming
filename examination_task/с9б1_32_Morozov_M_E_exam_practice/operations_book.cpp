@@ -268,8 +268,15 @@ void Print_book(Books book) // Вывод конкретной книги
     cout << "Rating : " << book.rating << "/10" << endl;
     cout << "==================================================================" << endl;
 }
-void Print_sort_book(Books *&book, int books_count); //Поиск и сортировка по автору, названию, жанру, популярности.
-
+void Print_sort_book(Books *&book, int books_count) //Поиск и сортировка по автору, названию, жанру, популярности.
+{
+    //qsort(book, books_count, sizeof(Books), (int (*)(const void *, const void *))comp_auth_name);
+    qsort(book, books_count, sizeof(Books), comp_auth_name);
+}
+int comp_auth_name(const void *i, const void *j)
+{
+    return strcmp(((Books *)i)->author_surname, ((Books *)j)->author_surname);
+}
 void Print_sort_book_by_genre(Books *&book, int &books_count); //Поиск по жанру, но сортировка по рейтингу.
 
 void Print_book_by_owner(Books *&book, int &books_count); //Вывод информации о книгах находящихся на руках у читателей (сравнивает поле owner елси не Library значит на руках)
