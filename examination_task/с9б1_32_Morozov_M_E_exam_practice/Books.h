@@ -10,7 +10,7 @@ struct Books
     char author_surname[20];            // Автор.Фамилия
     char author_middle_name[20];        // Автор.Отчество
     char genres[50];                    // Жанр.
-    double price;                       // Стоимость.(за месяц оренды (29 дней))
+    float price;                       // Стоимость.(за день оренды)
     float rating;                       // Рейтинг.
     unsigned int id_book;               // ID номер книги.
     bool status = true;                 // статус книги ,на руках = фолс ,в библиотеке = тру

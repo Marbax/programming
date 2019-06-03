@@ -10,9 +10,13 @@ void Add_book(Books *&book, int &books_count); //Добавление книги
 
 void Set_book(Books &book); // Описание книги
 
-void Remove_book(Books *&book, int &books_count, int pos); //Удаление книги.
+int Position_choose(const int books_count); // Выбор книги
 
-void Edit_book(Books *&book, int &books_count, int pos); //Редактирование полное и частичное
+void Remove_book(Books *&book, int &books_count); //Удаление книги.
+
+void Edit_book(Books *&book, int &books_count); //Редактирование полное и частичное
+
+void Print_book(Books book); // Вывод конекретной книги
 
 void Print_sort_book(Books *&book, int &books_count); //Поиск и сортировка по автору, названию, жанру, популярности.
 
