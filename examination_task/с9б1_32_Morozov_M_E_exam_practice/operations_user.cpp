@@ -3,6 +3,23 @@
 
 using namespace std;
 
+int Position_choose_user(const int users_count) // Просит ввести позицию желаемого эллемента, пока не будет введен существующий
+{
+    int pos = NULL, tmp = NULL;
+    cout << "\nEnter id of the user ==> ";
+    cin >> tmp;
+    cin.ignore();
+    cout << endl;
+    while (tmp < 0 || tmp >= users_count)
+    {
+        system("clear");
+        cout << "\n\t\tError! Wrong id !\nEnter id of the user ==> ";
+        cin >> tmp;
+        cin.ignore();
+    }
+    pos = tmp;
+    return pos;
+}
 void Add_user(Users *&user, int &users_count); // Добавление.
 
 void Remove_user(Users *&user, int &users_count, int pos); // Удаление.

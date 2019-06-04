@@ -96,11 +96,15 @@ void Set_book(Books &book) // Описание книги.
     strcpy(book.owner, "Library"); // book.owner = "Library";
     book.fine_days = 0;            // Текущее кол-во просроченых дней по книге
     book.fine_money = 0;           // Текущий денежный долг по книге
+    book.take_date_day = 0;        // Дата взятия.День
+    book.take_date_month = 0;      // Дата взятия.Месяц
+    book.take_date_year = 0;       // Дата взятия.Год
     book.return_date_day = 0;      // Дата сдачи.День
     book.return_date_month = 0;    // Дата сдачи.Месяц
     book.return_date_year = 0;     // Дата сдачи.Год
+    book.popularity = 0;           // Популярность(количество взятий книги)
 }
-int Position_choose(const int books_count) // Просит ввести позицию желаемого эллемента, пока не будет введен существующий
+int Position_choose_book(const int books_count) // Просит ввести позицию желаемого эллемента, пока не будет введен существующий
 {
     int pos = NULL, tmp = NULL;
     cout << "\nEnter id of the book ==> ";
@@ -119,7 +123,7 @@ int Position_choose(const int books_count) // Просит ввести пози
 }
 void Remove_book(Books *&book, int &books_count) //Удаление книги.
 {
-    int pos = Position_choose(books_count);
+    int pos = Position_choose_book(books_count);
     if (pos < 0 || pos >= books_count) // эксепшн , если позиция за пределами ,защита от вылетов
     {
         return;
@@ -138,14 +142,15 @@ void Remove_book(Books *&book, int &books_count) //Удаление книги.
 }
 void Edit_book(Books *&book, int &books_count) //Редактирование полное и частичное.
 {
-    int pos = Position_choose(books_count); // выбор книги для редактирования
-    bool flag = true;                       // проверка выхода из цикла
+    int pos = Position_choose_book(books_count); // выбор книги для редактирования
+    bool flag = true;                            // проверка выхода из цикла
     while (flag)
     {
         int tmp = 0;         // промежуточная переменная для битовых полей
         float tmp_float = 0; // промежуточная переменная для проверки дробных полей
         system("clear");
         Print_book(book[pos]);
+        cout << "==================================================================" << endl;
         cout << "\n\t\tWhat would you want to do ?" << endl;
         cout << "\na) Fully edit information about the book;" << endl;
         cout << "b) Edit the publication date;" << endl;
@@ -266,30 +271,394 @@ void Print_book(Books book) // Вывод конкретной книги
     cout << "Genres : " << book.genres << endl;
     cout << "Cost : " << book.price << " (per day)" << endl;
     cout << "Rating : " << book.rating << "/10" << endl;
-    cout << "==================================================================" << endl;
+    //cout << "==================================================================" << endl;
 }
-void Print_sort_book(Books *&book, int books_count) //Поиск и сортировка по автору, названию, жанру, популярности.
-{
-    //qsort(book, books_count, sizeof(Books), (int (*)(const void *, const void *))comp_auth_name);
-    qsort(book, books_count, sizeof(Books), comp_auth_name);
-}
-int comp_auth_name(const void *i, const void *j)
+int comp_auth_surname(const void *i, const void *j) // сравнение по ФАМИЛИИ автора для сортировки
 {
     return strcmp(((Books *)i)->author_surname, ((Books *)j)->author_surname);
 }
-void Print_sort_book_by_genre(Books *&book, int &books_count); //Поиск по жанру, но сортировка по рейтингу.
+int comp_title_book(const void *i, const void *j) // сравнение по НАЗВАНИЮ книги для сортировки
+{
+    return strcmp(((Books *)i)->title_book, ((Books *)j)->title_book);
+}
+int comp_genres(const void *i, const void *j) // сравнение по ЖАНРУ книги для сортировки
+{
+    return strcmp(((Books *)i)->genres, ((Books *)j)->genres);
+}
+int comp_owner(const void *i, const void *j) // сравнение по ВЛАДЕЛЬЦУ книги для сортировки
+{
+    return strcmp(((Books *)i)->owner, ((Books *)j)->owner);
+}
+int comp_popularity(const void *i, const void *j) // сравнение по ПОПУЛЯРНОСТИ книги для сортировки
+{
+    return (((Books *)i)->popularity) - (((Books *)j)->popularity);
+}
+int comp_rating(const void *i, const void *j) // сравнение по РЕЙТИНГУ книги для сортировки
+{
+    return (((Books *)i)->rating) - (((Books *)j)->rating);
+}
+void Print_sort_book(Books *&book, int books_count) //Поиск и сортировка по автору, названию, жанру, популярности(кол-во взятий ??!). !!СОРТИРОВКУ ПРОВЕРИТЬ!!
+{
+    char search[30];      // буфер для поиска
+    float tmp_rating = 0; // для поиска по рейтингу
+    bool flag = true;     // выход из цикла
+    while (flag)
+    {
+        bool found = true; // проверка нахождения чего либо
+        cout << "\t\tWhat would you want to do :" << endl;
+        cout << "\n\n";
+        cout << "a) Search by author;" << endl;
+        cout << "b) Search by title;" << endl;
+        cout << "c) Search by genre;" << endl;
+        cout << "d) Search by popularity;\nESC - выход" << endl;
 
-void Print_book_by_owner(Books *&book, int &books_count); //Вывод информации о книгах находящихся на руках у читателей (сравнивает поле owner елси не Library значит на руках)
+        char key = getchar();
+        cin.ignore();
+        switch (key)
+        {
+        case 97: // a) Поиск и сортировка по автору.
+            system("clear");
+            qsort(book, books_count, sizeof(Books), comp_auth_surname); // быстрая сортировка по автору
+            cout << "Enter autor of the movie ==> ";
+            cin.getline(search, 30);
+            for (int i = 0; i < books_count; i++)
+            {
+                if (strstr(book[i].author_surname, search))
+                {
+                    found = false;
+                    Print_book(book[i]);
+                    cout << "==================================================================" << endl;
+                }
+            }
+            if (found)
+            {
+                cout << "\nNothing found :C" << endl;
+            }
+            break;
+        case 98: // b) Поиск и сортировка по названию
+            system("clear");
+            qsort(book, books_count, sizeof(Books), comp_title_book); // быстрая сортировка по названию
+            cout << "Enter title of the movie ==> ";
+            cin.getline(search, 30);
+            for (int i = 0; i < books_count; i++)
+            {
+                if (strstr(book[i].title_book, search))
+                {
+                    found = false;
+                    Print_book(book[i]);
+                    cout << "==================================================================" << endl;
+                }
+            }
+            if (found)
+            {
+                cout << "\nNothing found :C" << endl;
+            }
+            break;
+        case 99: // c) Поиск и сортировка по жанру.
+            system("clear");
+            qsort(book, books_count, sizeof(Books), comp_genres); // быстрая сортировка по жанру
+            cout << "Enter genre of the movie ==> ";
+            cin.getline(search, 30);
+            for (int i = 0; i < books_count; i++)
+            {
+                if (strstr(book[i].genres, search))
+                {
+                    found = false;
+                    Print_book(book[i]);
+                    cout << "==================================================================" << endl;
+                }
+            }
+            if (found)
+            {
+                cout << "\nNothing found :C" << endl;
+            }
+            break;
+        case 100: // d) Поиск и сортировка по популярности
+            system("clear");
+            qsort(book, books_count, sizeof(Books), comp_popularity); // быстрая сортировка по популярности
+            cout << "Enter minimum rating of the movie ==> ";
+            cin >> tmp_rating;
+            cin.ignore();
+            while (tmp_rating < 0 || tmp_rating > 10)
+            {
+                cout << "\n\t\tError! Rating can't be more than 10 or less than 0!" << endl;
+                cout << "Enter minimum rating of the movie ==> ";
+                cin >> tmp_rating;
+                cin.ignore();
+            }
+            for (int i = 0; i < books_count; i++)
+            {
+                if (book[i].rating >= tmp_rating)
+                {
+                    found = false;
+                    Print_book(book[i]);
+                    cout << "==================================================================" << endl;
+                }
+            }
+            if (found)
+            {
+                cout << "\nNothing found :C" << endl;
+            }
+            break;
+        case 27:
+            system("clear");
+            flag = false;
+            break;
+        default:
+            cout << "\n\t\tUnknown choice! Try again." << endl;
+            break;
+        }
+    }
+}
+void Print_sort_book_by_genre(Books *&book, int &books_count) //Поиск по жанру, но сортировка по рейтингу. !!СОРТИРОВКНУЖНО ПРОВЕРИТЬ!!
+{
+    char search[30];   // буфер для поиска
+    bool found = true; // проверка нахождения чего либо
+    system("clear");
+    qsort(book, books_count, sizeof(Books), comp_genres); // быстрая сортировка по жанрам
+    cout << "Enter genre of the movie ==> ";
+    cin.getline(search, 30);
+    for (int i = 0; i < books_count; i++)
+    {
+        if (strstr(book[i].genres, search))
+        {
+            found = false;
+            Print_book(book[i]);
+            cout << "==================================================================" << endl;
+        }
+    }
+    if (found)
+    {
+        cout << "\nNothing found :C" << endl;
+    }
+}
+void Print_book_by_owner(Books *&book, int &books_count) /* Вывод информации о книгах находящихся на руках у читателей(сортировка по владельцу)
+ !!СОРТИРОВКУ ПРОВЕРИТЬ!! (сравнивает поле статуса книги ,если фолс - на руках  ЛИБО сравнивает поле owner если не Library значит на руках) */
+{
+    char search[30];   // буфер для поиска
+    bool found = true; // проверка нахождения чего либо
+    system("clear");
+    qsort(book, books_count, sizeof(Books), comp_owner); // быстрая сортировка по владельцу
+    for (int i = 0; i < books_count; i++)
+    {
+        if (!book[i].status) //если статус книги фолс ,значиит на руках  //(!(strcmp(book[i].owner, "Library"))) // если в поле владельца книги не библиотека
+        {
+            found = false;
+            Print_book(book[i]);
+            cout << "Current owner: " << book[i].owner << "\nLease expiration date : ";
+            cout << book[i].return_date_day << "." << book[i].return_date_month << "." << book[i].return_date_year << endl;
+            cout << "==================================================================" << endl;
+        }
+    }
+    if (found)
+    {
+        cout << "\nAll books in library" << endl;
+    }
+}
+void Take_book(Books *&book, int &books_count, Users *&user, int &users_count) /* Выдача книги.(выбирает книгу , выбирает пользователя ,
+копирует ФИО юзера в овнера книги и меняет статус, ставит дату взятия и сдачи)!! НУЖНО СДЕЛАТЬ ЮЗЕРА !! */
+{
+    system("clear");
 
-void Take_book(Books *&book, int &books_count, int pos); // Выдача книги.(копирует ФИО юзера в овнера книги)
+    int tmp;
 
-void Return_book(Books *&book, int &books_count, int pos); // Возврат книги.(возвращает Library в овнера книги)
-// При возврате книги читателем, учитывать, что если есть просроченные дни, то выводить на экран сумму начисленной пени.
+    int pos_book = Position_choose_book(books_count);
+    if (book[pos_book].status)
+    {
 
-void Print_promiser(Books *&book, int &books_count); /* 
+        int pos_user = Position_choose_user(users_count); // вызывает ф-ю пользователя(не книги)
+
+        strcpy(book[pos_book].owner, user[pos_user].user_surname);
+        strcat(book[pos_book].owner, " ");
+        strcat(book[pos_book].owner, user[pos_user].user_name);
+        strcat(book[pos_book].owner, " ");
+        strcat(book[pos_book].owner, user[pos_user].user_middle_name);
+
+        book[pos_book].status = false;
+
+        if (strlen(user[pos_user].hand_books) > 1)
+        {
+            strcat(user[pos_user].hand_books, " , \"");
+            strcat(user[pos_user].hand_books, book[pos_book].title_book);
+            strcat(user[pos_user].hand_books, "\"");
+        }
+        strcat(user[pos_user].hand_books, "\"");
+        strcpy(user[pos_user].hand_books, book[pos_book].title_book);
+        strcat(user[pos_user].hand_books, "\"");
+
+        //================== дата взятия ========================
+
+        cout << "\nThe day the book was taken ==> ";
+        cin >> tmp;
+        cin.ignore();
+        while (tmp < 1 || tmp > 31)
+        {
+            system("clear");
+            cout << "\n\t\tError!Wrong day!\nThe day the book was taken ==> ";
+            cin >> tmp;
+        }
+        book[pos_book].take_date_day = tmp; // Дата взятия.День
+        cout << "\nThe month the book was taken ==> ";
+        cin >> tmp;
+        cin.ignore();
+        while (tmp < 1 || tmp > 12)
+        {
+            system("clear");
+            cout << "\n\t\tError!Wrong month!\nThe month the book was taken ==> ";
+            cin >> tmp;
+        }
+        book[pos_book].take_date_month = tmp; // Дата взятия.Месяц
+        cout << "\nThe year the book was taken ==> ";
+        cin >> tmp;
+        cin.ignore();
+        while (tmp < 1 || tmp > 2048)
+        {
+            system("clear");
+            cout << "\n\t\tError!Wrong year!\nThe year the book was taken ==> ";
+            cin >> tmp;
+        }
+        book[pos_book].take_date_year = tmp; // Дата взятия.Год
+
+        //================== дата сдачи ========================
+        cout << "\nThe year when the rent ends ==> ";
+        cin >> tmp;
+        cin.ignore();
+        while (tmp < 1 || tmp > 2048 || tmp < book[pos_book].take_date_year)
+        {
+            system("clear");
+            cout << "\n\t\tError!Wrong year!\nThe year when the book were published ==> ";
+            cin >> tmp;
+        }
+        book[pos_book].return_date_year = tmp; // Дата возврата.Год
+
+        cout << "\nThe month when the rent ends ==> ";
+        cin >> tmp;
+        cin.ignore();
+        while (tmp < 1 || tmp > 12 || (book[pos_book].return_date_year == book[pos_book].take_date_year && tmp < book[pos_book].take_date_month))
+        {
+            system("clear");
+            cout << "\n\t\tError!Wrong month!\nThe month when the book were published ==> ";
+            cin >> tmp;
+        }
+        book[pos_book].return_date_month = tmp; // Дата возврата.Месяц
+
+        cout << "\nThe day when the rent ends ==> ";
+        cin >> tmp;
+        cin.ignore();
+        while (tmp < 1 || tmp > 31 || (book[pos_book].return_date_year == book[pos_book].take_date_year && book[pos_book].return_date_month == book[pos_book].take_date_month && tmp < book[pos_book].take_date_day))
+        {
+            system("clear");
+            cout << "\n\t\tError!Wrong day!\nThe day when the book were published ==> ";
+            cin >> tmp;
+        }
+        book[pos_book].return_date_day = tmp; // Дата возврата.День
+    }
+    else
+    {
+        cout << "\nError! Books isn't in library!" << endl;
+    }
+}
+void Return_book(Books *&book, int &books_count, Users *&user, int &users_count) // Возврат книги.(возвращает Library в овнера книги)
+// При возврате книги читателем, учитывать, что если есть просроченные дни, то выводить на экран сумму начисленной пени. !! ТРЕШАК !!
+{
+    int pos_book = Position_choose_book(books_count);
+    if (!book[pos_book].status)
+    {
+
+        int tmp = 0, day, month, year; // временная переменная и переменные даты ,когда пользователь сдал книгу
+        char tmp_title_v1[54];         // временное хранение книги
+        char tmp_title_v2[54];         // временное хранение книги
+
+        //================== дата сдачи ========================
+        cout << "\nThe year the user passed the book to back ==> ";
+        cin >> tmp;
+        cin.ignore();
+        while (tmp < 1 || tmp > 2048 || tmp < book[pos_book].take_date_year)
+        {
+            system("clear");
+            cout << "\n\t\tError!Wrong year!\nThe year the user passed the book to back ==> ";
+            cin >> tmp;
+        }
+        year = tmp; // Дата возврата.Год
+
+        cout << "\nThe month the user passed the book to back ==> ";
+        cin >> tmp;
+        cin.ignore();
+        while (tmp < 1 || tmp > 12 || (year == book[pos_book].take_date_year && tmp < book[pos_book].take_date_month))
+        {
+            system("clear");
+            cout << "\n\t\tError!Wrong month!\nThe month the user passed the book to back ==> ";
+            cin >> tmp;
+        }
+        month = tmp; // Дата возврата.Месяц
+
+        cout << "\nThe day the user passed the book to back  ==> ";
+        cin >> tmp;
+        cin.ignore();
+        while (tmp < 1 || tmp > 31 || (year == book[pos_book].take_date_year && month == book[pos_book].take_date_month && tmp < book[pos_book].take_date_day))
+        {
+            system("clear");
+            cout << "\n\t\tError!Wrong day!\nThe day the user passed the book to back ==> ";
+            cin >> tmp;
+        }
+        day = tmp; // Дата возврата.День
+
+        //=========================== считает пеню =============================================
+
+        if (year <= book[pos_book].return_date_year && month <= book[pos_book].return_date_month && day < book[pos_book].return_date_day) // если просрочено
+        {
+            book[pos_book].fine_days = (book[pos_book].return_date_year - year) * 365 + (book[pos_book].return_date_month - month) * 29 + book[pos_book].return_date_day - day;
+            book[pos_book].fine_money = book[pos_book].fine_days * book[pos_book].price;
+            cout << "\n\t\tEttention!Deadline expired" << endl;
+            cout << "Overdue by " << book[pos_book].fine_days << " days " << endl;
+            cout << "Fine accrued " << book[pos_book].fine_money << endl;
+        }
+
+        //==================== удаление из книг на руках у юзера =====================================
+
+        strcpy(tmp_title_v1, ", \"");
+        strcat(tmp_title_v1, book[pos_book].title_book);
+        strcat(tmp_title_v1, "\"");
+        for (int i = 0; i < users_count; i++)
+        {
+            if (strstr(user[i].hand_books, tmp_title_v1) && strstr(book[pos_book].owner, user[i].user_surname) && strstr(book[pos_book].owner, user[i].user_name) && strstr(book[pos_book].owner, user[i].user_middle_name))
+            {
+                strtok(user[i].hand_books, tmp_title_v1); // небось сломает все
+            }
+            if (strstr(user[i].hand_books, tmp_title_v2) && strstr(book[pos_book].owner, user[i].user_surname) && strstr(book[pos_book].owner, user[i].user_name) && strstr(book[pos_book].owner, user[i].user_middle_name))
+            {
+                strtok(user[i].hand_books, tmp_title_v2); // небось сломает все
+            }
+        }
+        //==========================================================================================
+        strcpy(book[pos_book].owner, "Library"); // возможно она и не нужна (переменная)
+        book[pos_book].status = true;
+        book[pos_book].take_date_day = 0;
+        book[pos_book].take_date_month = 0;
+        book[pos_book].take_date_year = 0;
+        book[pos_book].return_date_day = 0;
+        book[pos_book].return_date_month = 0;
+        book[pos_book].return_date_year = 0;
+    }
+    else
+    {
+        cout << "\nError!Book alreary in library!" << endl;
+    }
+}
+void Print_promiser(Books *&book, int &books_count, Users *&user, int &users_count) /* 
  Вывод информации о читателях с просроченной датой возврата книги,
  обязательно выводить при этом количество просроченных дней и начисленной пени.
  получает массив книг, если  return_date_* меньше текущей даты , то считать fine_days и fine_money и выводить владельца */
+{
+    if (year <= book[pos_book].return_date_year && month <= book[pos_book].return_date_month && day < book[pos_book].return_date_day) // если просрочено
+    {
+        book[pos_book].fine_days = (book[pos_book].return_date_year - year) * 365 + (book[pos_book].return_date_month - month) * 29 + book[pos_book].return_date_day - day;
+        book[pos_book].fine_money = book[pos_book].fine_days * book[pos_book].price;
+        cout << "\n\t\tEttention!Deadline expired" << endl;
+        cout << "Overdue by " << book[pos_book].fine_days << " days" << endl;
+        cout << "Fine accrued " << book[pos_book].fine_money << endl;
+    }
+}
 
 void Save(Books *&book, int &books_count, Users *&user, int &users_count); // сохранение базы
 

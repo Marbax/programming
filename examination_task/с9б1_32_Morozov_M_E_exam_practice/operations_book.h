@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <string.h>
+#include "operations_user.h"
 #include "Books.h"
 #include "Users.h"
 
@@ -10,7 +11,7 @@ void Add_book(Books *&book, int &books_count); //Добавление книги
 
 void Set_book(Books &book); // Описание книги
 
-int Position_choose(const int books_count); // Выбор книги
+int Position_choose_book(const int books_count); // Выбор книги
 
 void Remove_book(Books *&book, int &books_count); //Удаление книги.
 
@@ -18,7 +19,12 @@ void Edit_book(Books *&book, int &books_count); //Редактирование �
 
 void Print_book(Books book); // Вывод конекретной книги
 
-int comp (const int *i, const int *j);
+int comp_auth_surname(const void *i, const void *j); // сравнение по ФАМИЛИИ автора для сортировки
+int comp_title_book(const void *i, const void *j);   // сравнение по НАЗВАНИЮ книги для сортировки
+int comp_genres(const void *i, const void *j);       // сравнение по ЖАНРУ книги для сортировки
+int comp_owner(const void *i, const void *j);        // сравнение по ВЛАДЕЛЬЦУ книги для сортировки
+int comp_popularity(const void *i, const void *j);   // сравнение по ПОПУЛЯРНОСТИ книги для сортировки
+int comp_rating(const void *i, const void *j);       // сравнение по РЕЙТИНГУ книги для сортировки
 
 void Print_sort_book(Books *&book, int &books_count); //Поиск и сортировка по автору, названию, жанру, популярности.
 
@@ -26,9 +32,10 @@ void Print_sort_book_by_genre(Books *&book, int &books_count); //Поиск по
 
 void Print_book_by_owner(Books *&book, int &books_count); //Вывод информации о книгах находящихся на руках у читателей (сравнивает поле owner елси не Library значит на руках)
 
-void Take_book(Books *&book, int &books_count, int pos); // Выдача книги.(копирует ФИО юзера в овнера книги)
+void Take_book(Books *&book, int &books_count, Users *&user, int &users_count); /* Выдача книги.(выбирает книгу , выбирает пользователя ,копирует ФИО юзера в овнера книги и меняет статус,
+ставит дату взятия и сдачи)!! НУЖНО СДЕЛАТЬ ЮЗЕРА !! */
 
-void Return_book(Books *&book, int &books_count, int pos); // Возврат книги.(возвращает Library в овнера книги)
+void Return_book(Books *&book, int &books_count, Users *&user, int &users_count); // Возврат книги.(возвращает Library в овнера книги)
 // При возврате книги читателем, учитывать, что если есть просроченные дни, то выводить на экран сумму начисленной пени.
 
 void Print_promiser(Books *&book, int &books_count); /* 

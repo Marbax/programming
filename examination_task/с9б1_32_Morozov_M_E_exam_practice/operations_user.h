@@ -1,9 +1,12 @@
 #pragma once
 #include <iostream>
 #include <string.h>
+#include "operations_book.h"
 #include "Users.h"
+#include "Books.h"
 
 using namespace std;
+int Position_choose_user(const int users_count); // Просит ввести позицию желаемого эллемента, пока не будет введен существующий
 
 void Add_user(Users *&user, int &users_count); // Добавление.
 
