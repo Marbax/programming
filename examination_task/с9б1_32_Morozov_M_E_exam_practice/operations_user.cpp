@@ -33,7 +33,7 @@ void Print_user(Users user) // Вывод конкретного пользов�
     //cout << "==================================================================" << endl;
 }
 
-void Add_user(Users *&user, int &users_count) // Добавление.
+void Add_user(Users *&user, unsigned int &users_count) // Добавление.
 {
     if (users_count == 0) //если пусто ,просто создать один пункт
     {
@@ -111,7 +111,7 @@ void Set_user(Users &user) // Описание пользователя.
     strcpy(user.hand_books, ""); // Список книг находящихся на руках у читателя
 }
 
-void Remove_user(Users *&user, int &users_count) // Удаление.
+void Remove_user(Users *&user, unsigned int &users_count) // Удаление.
 {
     int pos = Position_choose_user(users_count);
     if (pos < 0 || pos >= users_count) // эксепшн , если позиция за пределами ,защита от вылетов
@@ -131,7 +131,7 @@ void Remove_user(Users *&user, int &users_count) // Удаление.
     user = tmp;
 }
 
-void Edit_user(Users *&user, int &users_count) // Редактирование полное и частичное
+void Edit_user(Users *&user, unsigned int &users_count) // Редактирование полное и частичное
 {
     int user_fn_size = 20;                       // размер масивов ФИО юзера
     int passport_size = 8;                       // размер масива пасспорта
@@ -222,10 +222,212 @@ void Edit_user(Users *&user, int &users_count) // Редактирование �
     }
 }
 
-// !! IN PROGRESS !!
+void Work_with_user(Users *&user, unsigned int &users_count) // Работа с пользователем 3в1(Добавление.Удаление.Редактирование полное и частичное.)
+{
+    char key;
+    bool flag = true;
+    while (flag)
+    {
+        system("clear");
+        cout << "\t\t\tWhat would you want to do with user?\n";
+        cout << "\n\n";
+        cout << "\ta) Add the user;\n";                     // Добавление.пользователя
+        cout << "\tb) Remove the user;\n";                  // Удаление.пользователя
+        cout << "\tc) Edit the user;\nESC - return back\n"; // Редактирование полное и частичное.пользователя
 
-void Print_sort_user(Users *&user, int &users_count); // Поиск и сортировка по ФИО, количеству прочитанных книг, ID, номеру паспорта.
+        key = getchar();
+        cin.ignore();
+        switch (key)
+        {
+        case 97: // a) Добавление.пользователя
+            system("clear");
+            Add_user(user, users_count);
+            break;
+        case 98: // b) Удаление.пользователя
+            system("clear");
+            Remove_user(user, users_count);
+            break;
+        case 99: // c) Редактирование полное и частичное.пользователя
+            system("clear");
+            Edit_user(user, users_count);
+            break;
+        case 27:
+            system("clear");
+            flag = false;
+            break;
+        default:
+            cout << "\n\t\tUnknown choice! Try again." << endl;
+            break;
+        }
+    }
+}
 
-void Print_most_active_users(Users *&user, int &users_count); // Вывод информации на экран о самых активных читателях.
+void User_info(Books *&book, unsigned int &books_count, Users *&user, unsigned int &users_count) // Информация о пользователе 3в1
+{
+    char key;
+    bool flag = true;
+    while (flag)
+    {
+        system("clear");
+        cout << "\t\t\tWhat would you show about user?\n";
+        cout << "\n\n";
+        cout << "\ta) Serch the user by...;\n";                                                // Поиск и сортировка по ФИО, количеству прочитанных книг, ID, номеру паспорта.
+        cout << "\tb) Show information about the most active readers.;\n";                     // Вывод информации на экран о самых активных читателях.
+        cout << "\tc) Show information about the readers with the expired book return date.;"; // Вывод информации о читателях с просроченной датой возврата книги,
+                                                                                               // обязательно выводить при этом количество просроченных дней и начисленной пени.
+        cout << "\nESC - return back\n";
+        key = getchar();
+        cin.ignore();
+        switch (key)
+        {
+        case 97: // a) Поиск и сортировка по ФИО, количеству прочитанных книг, ID, номеру паспорта.
+            system("clear");
+            Print_sort_user(user, users_count);
+            break;
+        case 98: // b) Вывод информации на экран о самых активных читателях.
+            system("clear");
+            Print_most_active_users(user, users_count);
+            break;
+        case 99: // c) Вывод информации о читателях с просроченной датой возврата книги
+            system("clear");
+            Print_promiser(book, books_count, user, users_count);
+            break;
+        case 27:
+            system("clear");
+            flag = false;
+            break;
+        default:
+            cout << "\n\t\tUnknown choice! Try again." << endl;
+            break;
+        }
+    }
+}
 
-// Вывод информации о читателях с просроченной датой возврата книги, - в операциях по книге !
+int comp_user_surname(const void *i, const void *j) // сравнение по ФАМИЛИИ пользователя для сортировки
+{
+    return strcmp(((Users *)i)->user_surname, ((Users *)j)->user_surname);
+}
+int comp_passport(const void *i, const void *j) // сравнение по ПАССПОРТУ пользователя для сортировки
+{
+    return strcmp(((Users *)i)->passport_num, ((Users *)j)->passport_num);
+}
+int comp_books_read(const void *i, const void *j) // сравнение по РЕЙТИНГУ книги для сортировки
+{
+    return (((Users *)i)->books_read) - (((Users *)j)->books_read);
+}
+
+void Print_sort_user(Users *&user, unsigned int &users_count) // Поиск и сортировка по ФИО, количеству прочитанных книг, ID, номеру паспорта.!!СОРТИРОВКУ ПРОВЕРИТЬ!!
+{
+    int search_size = 30;     // размер массива поиска ФИО
+    int tmp = 0;              // переменная для интового поиска
+    char search[search_size]; // буфер для поиска
+    bool flag = true;         // выход из цикла
+
+    while (flag)
+    {
+        bool found = true; // проверка нахождения чего либо
+        cout << "\t\tWhat would you want to do :" << endl;
+        cout << "\n\n";
+        cout << "a) Search and sort by user;" << endl;                        // Поиск и сортировка по ФИО
+        cout << "b) Search by number of read books;" << endl;                 // Поиск по количеству прочитанных книг ,сортировка по ФИО
+        cout << "c) Search by id;" << endl;                                   // Поиск по ID (сортировать безсмысленно ,т.к он уникальный )
+        cout << "d) Search  and sort by passport code;\nESC - выход" << endl; // Поиск и сортировка по коду пасспорта
+
+        char key = getchar();
+        cin.ignore();
+        switch (key)
+        {
+        case 97: // a) Поиск и сортировка по ФИО
+            system("clear");
+            qsort(user, users_count, sizeof(Users), comp_user_surname); // быстрая сортировка по ФИО
+            cout << "Enter user surname ==> ";
+            cin.getline(search, search_size);
+            for (int i = 0; i < users_count; i++)
+            {
+                if (strstr(user[i].user_surname, search))
+                {
+                    found = false;
+                    Print_user(user[i]);
+                    cout << "==================================================================" << endl;
+                }
+            }
+            if (found)
+            {
+                cout << "\nNothing found :C" << endl;
+            }
+            break;
+
+        case 98: // b) Поиск по количеству прочитанных книг ,сортировка по ФИО
+            system("clear");
+            qsort(user, users_count, sizeof(Users), comp_user_surname); // быстрая сортировка по ФИО
+            cout << "Enter the number of read books ==> ";
+            cin >> tmp;
+            while (tmp < 0)
+            {
+                cout << "\n\t\tError!Can't be less than 0!\nEnter the number of read books ==> ";
+                cin >> tmp;
+            }
+            for (int i = 0; i < users_count; i++)
+            {
+                if (user[i].books_read = tmp)
+                {
+                    found = false;
+                    Print_user(user[i]);
+                    cout << "==================================================================" << endl;
+                }
+            }
+            if (found)
+            {
+                cout << "\nNothing found :C" << endl;
+            }
+            break;
+
+        case 99: // c) Поиск по ID (сортировать безсмысленно ,т.к он уникальный )
+            system("clear");
+            int pos = Position_choose_user(users_count);
+            Print_user(user[pos]);
+            break;
+
+        case 100: // d)  Поиск и сортировка по коду пасспорта
+            system("clear");
+            qsort(user, users_count, sizeof(Users), comp_passport); // быстрая сортировка по коду пасспорта
+            cout << "Enter passport code ==> ";
+            cin.getline(search, 8);
+
+            for (int i = 0; i < users_count; i++)
+            {
+                if (strstr(user[i].passport_num, search))
+                {
+                    found = false;
+                    Print_user(user[i]);
+                    cout << "==================================================================" << endl;
+                }
+            }
+            if (found)
+            {
+                cout << "\nNothing found :C" << endl;
+            }
+            break;
+        case 27:
+            system("clear");
+            flag = false;
+            break;
+        default:
+            cout << "\n\t\tUnknown choice! Try again." << endl;
+            break;
+        }
+    }
+}
+
+void Print_most_active_users(Users *&user, unsigned int &users_count) // Вывод информации на экран о самых активных читателях.(кол-ву прочитаных книг)!!СОРТИРОВКУ ПРОВЕРИТЬ!!
+{
+    system("clear");
+    qsort(user, users_count, sizeof(Users), comp_books_read); // быстрая сортировка по кол-ву прочитаных книг
+    for (int i = 0; i < users_count; i++)
+    {
+        Print_user(user[i]);
+        cout << "==================================================================" << endl;
+    }
+}
+
+// !! Вывод информации о читателях с просроченной датой возврата книги, - в операциях по книге !

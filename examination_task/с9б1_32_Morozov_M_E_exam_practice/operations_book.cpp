@@ -2,7 +2,7 @@
 
 using namespace std;
 
-void Add_book(Books *&book, int &books_count) //Добавление книги.
+void Add_book(Books *&book, unsigned int &books_count) //Добавление книги.(вызывает описание книги)
 {
     if (books_count == 0) //если пусто ,просто создать один пункт
     {
@@ -121,13 +121,13 @@ int Position_choose_book(const int books_count) // Просит ввести п�
     pos = tmp;
     return pos;
 }
-void Remove_book(Books *&book, int &books_count) //Удаление книги.
+void Remove_book(Books *&book, unsigned int &books_count) //Удаление книги.
 {
     int pos = Position_choose_book(books_count);
-    if (pos < 0 || pos >= books_count) // эксепшн , если позиция за пределами ,защита от вылетов
+    /* if (pos < 0 || pos >= books_count) // эксепшн , если позиция за пределами ,защита от вылетов
     {
         return;
-    }
+    } */
     Books *tmp = new Books[--books_count];
     for (int i = 0, j = 0; i < books_count; j++, i++) //пересоздает массив исключая ненужный обьект
     {
@@ -140,7 +140,7 @@ void Remove_book(Books *&book, int &books_count) //Удаление книги.
     delete[] book;
     book = tmp;
 }
-void Edit_book(Books *&book, int &books_count) //Редактирование полное и частичное.
+void Edit_book(Books *&book, unsigned int &books_count) //Редактирование полное и частичное.
 {
     int pos = Position_choose_book(books_count); // выбор книги для редактирования
     bool flag = true;                            // проверка выхода из цикла
@@ -274,6 +274,86 @@ void Print_book(Books book) // Вывод конкретной книги
     cout << "Rating : " << book.rating << "/10" << endl;
     //cout << "==================================================================" << endl;
 }
+void Work_with_book(Books *&book, unsigned int &books_count) // Редактирование книги 3в1(Добавление.Удаление.Редактирование полное и частичное.Книги)
+{
+    char key;
+    bool flag = true;
+    while (flag)
+    {
+        system("clear");
+        cout << "\t\t\tWhat would you want to do with book?\n";
+        cout << "\n\n";
+        cout << "\ta) Add the book;\n";                     // Добавление.Книги
+        cout << "\tb) Remove the book;\n";                  // Удаление.Книги
+        cout << "\tc) Edit the book;\nESC - return back\n"; // Редактирование полное и частичное.Книги
+
+        key = getchar();
+        cin.ignore();
+        switch (key)
+        {
+        case 97: // a) Добавление.Книги
+            system("clear");
+            Add_book(book, books_count);
+            break;
+        case 98: // b) Удаление.Книги
+            system("clear");
+            Remove_book(book, books_count);
+            break;
+        case 99: // c) Редактирование полное и частичное.Книги
+            system("clear");
+            Edit_book(book, books_count);
+            break;
+        case 27:
+            system("clear");
+            flag = false;
+            break;
+        default:
+            cout << "\n\t\tUnknown choice! Try again." << endl;
+            break;
+        }
+    }
+}
+void Book_info(Books *&book, unsigned int &books_count) /* Информация о книге 3в1(Поиск и сортировка по автору, названию, жанру, популярности.
+                 Вывод информации на экран о самых популярных книгах в своем жанре.Вывод информации о книгах находящихся на руках у читателей.) */
+{
+    char key;
+    bool flag = true;
+    while (flag)
+    {
+        system("clear");
+        cout << "\t\t\tWhat would you show about book?\n";
+        cout << "\n\n";
+        cout << "\ta) Serch the book by...;\n";                                          // Поиск и сортировка по автору, названию, жанру, популярности.
+        cout << "\tb) Find the most popular books by the genre;\n";                      // Вывод информации на экран о самых популярных книгах в своем жанре.
+        cout << "\tc) Show books that users have in their hands.;\nESC - return back\n"; // Вывод информации о книгах находящихся на руках у читателей.
+
+        key = getchar();
+        cin.ignore();
+        switch (key)
+        {
+        case 97: // a) Поиск и сортировка по автору, названию, жанру, популярности.
+            system("clear");
+            Print_sort_book(book, books_count);
+            break;
+        case 98: // b) Вывод информации на экран о самых популярных книгах в своем жанре.
+            system("clear");
+            Print_sort_book_by_genre(book, books_count);
+            break;
+        case 99: // c) Вывод информации о книгах находящихся на руках у читателей.
+            system("clear");
+            Print_book_by_owner(book, books_count);
+            break;
+        case 27:
+            system("clear");
+            flag = false;
+            break;
+        default:
+            cout << "\n\t\tUnknown choice! Try again." << endl;
+            break;
+        }
+    }
+}
+
 int comp_auth_surname(const void *i, const void *j) // сравнение по ФАМИЛИИ автора для сортировки
 {
     return strcmp(((Books *)i)->author_surname, ((Books *)j)->author_surname);
@@ -411,7 +491,7 @@ void Print_sort_book(Books *&book, int books_count) //Поиск и сортир
         }
     }
 }
-void Print_sort_book_by_genre(Books *&book, int &books_count) //Поиск по жанру, но сортировка по рейтингу. !!СОРТИРОВКНУЖНО ПРОВЕРИТЬ!!
+void Print_sort_book_by_genre(Books *&book, unsigned int &books_count) //Поиск по жанру, но сортировка по рейтингу. !!СОРТИРОВКУ НУЖНО ПРОВЕРИТЬ!!
 {
     char search[30];   // буфер для поиска
     bool found = true; // проверка нахождения чего либо
@@ -433,7 +513,7 @@ void Print_sort_book_by_genre(Books *&book, int &books_count) //Поиск по 
         cout << "\nNothing found :C" << endl;
     }
 }
-void Print_book_by_owner(Books *&book, int &books_count) /* Вывод информации о книгах находящихся на руках у читателей(сортировка по владельцу)
+void Print_book_by_owner(Books *&book, unsigned int &books_count) /* Вывод информации о книгах находящихся на руках у читателей(сортировка по владельцу)
  !!СОРТИРОВКУ ПРОВЕРИТЬ!! (сравнивает поле статуса книги ,если фолс - на руках  ЛИБО сравнивает поле owner если не Library значит на руках) */
 {
     char search[30];   // буфер для поиска
@@ -456,7 +536,7 @@ void Print_book_by_owner(Books *&book, int &books_count) /* Вывод инфо�
         cout << "\nAll books in library" << endl;
     }
 }
-void Take_book(Books *&book, int &books_count, Users *&user, int &users_count) /* Выдача книги.(выбирает книгу , выбирает пользователя ,
+void Take_book(Books *&book, unsigned int &books_count, Users *&user, unsigned int &users_count) /* Выдача книги.(выбирает книгу , выбирает пользователя ,
 копирует ФИО юзера в овнера книги и меняет статус, ставит дату взятия и сдачи)!! НУЖНО СДЕЛАТЬ ЮЗЕРА !! */
 {
     system("clear");
@@ -469,13 +549,18 @@ void Take_book(Books *&book, int &books_count, Users *&user, int &users_count) /
 
         int pos_user = Position_choose_user(users_count); // вызывает ф-ю пользователя(не книги)
 
+        //==================== копирует пользователя во владельца книги ========================
+
         strcpy(book[pos_book].owner, user[pos_user].user_surname);
         strcat(book[pos_book].owner, " ");
         strcat(book[pos_book].owner, user[pos_user].user_name);
         strcat(book[pos_book].owner, " ");
         strcat(book[pos_book].owner, user[pos_user].user_middle_name);
 
-        book[pos_book].status = false;
+        book[pos_book].status = false; // меняет статус книги
+        book[pos_book].popularity++;   // увеличивает количество использования книги (популярность)
+
+        //============= добавляет книгу в книги на руках у пользователя ==========================
 
         if (strlen(user[pos_user].hand_books) > 1)
         {
@@ -487,7 +572,7 @@ void Take_book(Books *&book, int &books_count, Users *&user, int &users_count) /
         strcpy(user[pos_user].hand_books, book[pos_book].title_book);
         strcat(user[pos_user].hand_books, "\"");
 
-        //================== дата взятия ========================
+        //================== ввод даты ,когда книгу  взяли =======================================
 
         cout << "\nThe day the book was taken ==> ";
         cin >> tmp;
@@ -520,7 +605,8 @@ void Take_book(Books *&book, int &books_count, Users *&user, int &users_count) /
         }
         book[pos_book].take_date_year = tmp; // Дата взятия.Год
 
-        //================== дата сдачи ========================
+        //================== ввод даты ,когда книгу должны сдать ============================
+
         cout << "\nThe year when the rent ends ==> ";
         cin >> tmp;
         cin.ignore();
@@ -559,7 +645,7 @@ void Take_book(Books *&book, int &books_count, Users *&user, int &users_count) /
         cout << "\nError! Books isn't in library!" << endl;
     }
 }
-void Return_book(Books *&book, int &books_count, Users *&user, int &users_count) /*  Возврат книги.(возвращает Library в овнера книги)
+void Return_book(Books *&book, unsigned int &books_count, Users *&user, unsigned int &users_count) /*  Возврат книги.(возвращает Library в овнера книги)
  При возврате книги читателем, учитывать, что если есть просроченные дни, то выводить на экран сумму начисленной пени.
 увеличивает еол-во прочитанных книг пользователем !! ТРЕШАК !! */
 {
@@ -653,7 +739,7 @@ void Return_book(Books *&book, int &books_count, Users *&user, int &users_count)
         cout << "\nError!Book alreary in library!" << endl;
     }
 }
-void Print_promiser(Books *&book, int &books_count, Users *&user, int &users_count) /* 
+void Print_promiser(Books *&book, unsigned int &books_count, Users *&user, unsigned int &users_count) /* 
  Вывод информации о читателях с просроченной датой возврата книги,
  обязательно выводить при этом количество просроченных дней и начисленной пени. */
 {
@@ -719,7 +805,7 @@ void Print_promiser(Books *&book, int &books_count, Users *&user, int &users_cou
     }
 }
 
-void Save(Books *&book, int &books_count, Users *&user, int &users_count) // сохранение базы
+void Save(Books *&book, unsigned int &books_count, Users *&user, unsigned int &users_count) // сохранение базы
 {
     int path_size = 20;
     char path[path_size];
@@ -761,7 +847,7 @@ void Save(Books *&book, int &books_count, Users *&user, int &users_count) // с�
     cout << "SAVED to " << path << endl;
 }
 
-void Load(Books *&book, int &books_count, Users *&user, int &users_count) // загрузка базы
+void Load(Books *&book, unsigned int &books_count, Users *&user, unsigned int &users_count) // загрузка базы
 {
     int path_size = 20;
     char path[path_size];
