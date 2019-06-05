@@ -8,13 +8,17 @@
 using namespace std;
 int Position_choose_user(const int users_count); // Просит ввести позицию желаемого эллемента, пока не будет введен существующий
 
+void Print_user(Users user); // Вывод конкретного пользователя
+
 void Add_user(Users *&user, int &users_count); // Добавление.
 
-void Remove_user(Users *&user, int &users_count, int pos); // Удаление.
+void Set_user(Users &user); // Описание пользователя.
 
-void Edit_user_fully(Users *&user, int &users_count, int pos); // Редактирование полное
+void Remove_user(Users *&user, int &users_count); // Удаление.
 
-void Edit_user_field(Users *&user, int &users_count, int pos); // Редактирование частичное
+void Edit_user(Users *&user, int &users_count); // Редактирование полное и частичное
+
+// !! IN PROGRESS !!
 
 void Print_sort_user(Users *&user, int &users_count); // Поиск и сортировка по ФИО, количеству прочитанных книг, ID, номеру паспорта.
 

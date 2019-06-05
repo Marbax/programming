@@ -10,7 +10,7 @@ struct Users
     char user_surname[20];       // Фамилия.
     char user_middle_name[20];   // Отчество.
     unsigned int id_user;        // ID номер читателя.
-    char pssport_num[8];         // Номер паспорта.
+    char passport_num[8];        // Номер паспорта.
     unsigned int books_read;     // Количество прочитанных книг.
     char hand_books[200];        // Список книг находящихся на руках у читателя
 };

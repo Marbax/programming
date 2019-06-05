@@ -197,6 +197,7 @@ void Edit_book(Books *&book, int &books_count) //Редактирование п
                 cout << "\n\t\tError!Wrong year!\nThe year when the book were published ==> ";
                 cin >> tmp;
             }
+            book[pos].publ_date_year = tmp; // Дата издания.Год
         }
         if (int(key) == 97 || int(key) == 99) // полное или 'c' (редактирование названия книги)
         {
@@ -558,8 +559,9 @@ void Take_book(Books *&book, int &books_count, Users *&user, int &users_count) /
         cout << "\nError! Books isn't in library!" << endl;
     }
 }
-void Return_book(Books *&book, int &books_count, Users *&user, int &users_count) // Возврат книги.(возвращает Library в овнера книги)
-// При возврате книги читателем, учитывать, что если есть просроченные дни, то выводить на экран сумму начисленной пени. !! ТРЕШАК !!
+void Return_book(Books *&book, int &books_count, Users *&user, int &users_count) /*  Возврат книги.(возвращает Library в овнера книги)
+ При возврате книги читателем, учитывать, что если есть просроченные дни, то выводить на экран сумму начисленной пени.
+увеличивает еол-во прочитанных книг пользователем !! ТРЕШАК !! */
 {
     int pos_book = Position_choose_book(books_count);
     if (!book[pos_book].status)
@@ -619,15 +621,21 @@ void Return_book(Books *&book, int &books_count, Users *&user, int &users_count)
         strcpy(tmp_title_v1, ", \"");
         strcat(tmp_title_v1, book[pos_book].title_book);
         strcat(tmp_title_v1, "\"");
+        strcpy(tmp_title_v2, "\"");
+        strcat(tmp_title_v2, book[pos_book].title_book);
+        strcat(tmp_title_v2, "\"");
+
         for (int i = 0; i < users_count; i++)
         {
             if (strstr(user[i].hand_books, tmp_title_v1) && strstr(book[pos_book].owner, user[i].user_surname) && strstr(book[pos_book].owner, user[i].user_name) && strstr(book[pos_book].owner, user[i].user_middle_name))
             {
                 strtok(user[i].hand_books, tmp_title_v1); // небось сломает все
+                user[i].books_read++;                     // увеличивает кол-во прочитанных книг
             }
             if (strstr(user[i].hand_books, tmp_title_v2) && strstr(book[pos_book].owner, user[i].user_surname) && strstr(book[pos_book].owner, user[i].user_name) && strstr(book[pos_book].owner, user[i].user_middle_name))
             {
                 strtok(user[i].hand_books, tmp_title_v2); // небось сломает все
+                user[i].books_read++;                     // увеличивает кол-во прочитанных книг
             }
         }
         //==========================================================================================
@@ -647,19 +655,159 @@ void Return_book(Books *&book, int &books_count, Users *&user, int &users_count)
 }
 void Print_promiser(Books *&book, int &books_count, Users *&user, int &users_count) /* 
  Вывод информации о читателях с просроченной датой возврата книги,
- обязательно выводить при этом количество просроченных дней и начисленной пени.
- получает массив книг, если  return_date_* меньше текущей даты , то считать fine_days и fine_money и выводить владельца */
+ обязательно выводить при этом количество просроченных дней и начисленной пени. */
 {
-    if (year <= book[pos_book].return_date_year && month <= book[pos_book].return_date_month && day < book[pos_book].return_date_day) // если просрочено
+    int tmp = 0, day, month, year; // временная переменная и переменные даты ,когда пользователь сдал книгу
+
+    //================== дата текущая ========================
+
+    cout << "\nCurrent year ==> ";
+    cin >> tmp;
+    cin.ignore();
+    while (tmp < 1 || tmp > 2048)
     {
-        book[pos_book].fine_days = (book[pos_book].return_date_year - year) * 365 + (book[pos_book].return_date_month - month) * 29 + book[pos_book].return_date_day - day;
-        book[pos_book].fine_money = book[pos_book].fine_days * book[pos_book].price;
-        cout << "\n\t\tEttention!Deadline expired" << endl;
-        cout << "Overdue by " << book[pos_book].fine_days << " days" << endl;
-        cout << "Fine accrued " << book[pos_book].fine_money << endl;
+        system("clear");
+        cout << "\n\t\tError!Wrong year!\nCurrent year ==> ";
+        cin >> tmp;
+    }
+    year = tmp;
+
+    cout << "\nCurrent month ==> ";
+    cin >> tmp;
+    cin.ignore();
+    while (tmp < 1 || tmp > 12)
+    {
+        system("clear");
+        cout << "\n\t\tError!Wrong month!\nCurrent month ==> ";
+        cin >> tmp;
+    }
+    month = tmp;
+
+    cout << "\nCurrent day  ==> ";
+    cin >> tmp;
+    cin.ignore();
+    while (tmp < 1 || tmp > 31)
+    {
+        system("clear");
+        cout << "\n\t\tError!Wrong day!\nCurrent day ==> ";
+        cin >> tmp;
+    }
+    day = tmp;
+
+    for (int i = 0; i < books_count; i++) // считает всем книгам пеню
+    {
+
+        if (book[i].status == 0 && year <= book[i].return_date_year && month <= book[i].return_date_month && day < book[i].return_date_day) // если просрочено - считает сколько
+        {
+            book[i].fine_days = (book[i].return_date_year - year) * 365 + (book[i].return_date_month - month) * 29 + book[i].return_date_day - day;
+            book[i].fine_money = book[i].fine_days * book[i].price;
+        }
+    }
+    for (int i = 0; i < books_count; i++) // перебирает книги
+    {
+        for (int j = 0; j < users_count; j++) // ищет по названию книги в книгах на руках у пользователя и совпадению овнера книги и фио пользователя
+        {
+            if (strstr(user[j].hand_books, book[i].title_book) && strstr(book[i].owner, user[j].user_surname) && strstr(book[i].owner, user[j].user_name) && strstr(book[i].owner, user[j].user_middle_name))
+            {
+                Print_user(user[j]);
+                cout << "\n\t\tEttention!Deadline expired" << endl;
+                cout << "Overdue by " << book[i].fine_days << " days" << endl;
+                cout << "Fine accrued " << book[i].fine_money << endl;
+                cout << "==================================================================" << endl;
+            }
+        }
     }
 }
 
-void Save(Books *&book, int &books_count, Users *&user, int &users_count); // сохранение базы
+void Save(Books *&book, int &books_count, Users *&user, int &users_count) // сохранение базы
+{
+    int path_size = 20;
+    char path[path_size];
+    char buf[path_size];
 
-void Load(Books *&book, int &books_count, Users *&user, int &users_count); // загрузка базы
+    cout << "Save to custom file ?(by deffault it's NO)\n a) YES \n b) NO" << endl;
+    char key = getchar();
+    cin.ignore();
+
+    switch (key)
+    {
+    case 97: // a) Сохранить по дэфолту
+        system("clear");
+        cout << "Enter file name ==> " << endl;
+        cin.getline(buf, path_size);
+        strcpy(path, buf);
+        if (!strstr(path, ".dat"))
+        {
+            strcat(path, ".dat");
+        }
+        break;
+    default:
+        strcpy(path, "Library.dat");
+        break;
+    }
+
+    FILE *fout = fopen(path, "wb");
+    fwrite(&books_count, sizeof(books_count), 1, fout);
+    fwrite(&users_count, sizeof(users_count), 1, fout);
+    for (int i = 0; i < books_count; i++)
+    {
+        fwrite(&book[i], sizeof(Books), 1, fout);
+    }
+    for (int j = 0; j < users_count; j++)
+    {
+        fwrite(&user[j], sizeof(Users), 1, fout);
+    }
+    fclose(fout);
+    cout << "SAVED to " << path << endl;
+}
+
+void Load(Books *&book, int &books_count, Users *&user, int &users_count) // загрузка базы
+{
+    int path_size = 20;
+    char path[path_size];
+    char buf[path_size];
+
+    cout << "Load from custom file ?(by deffault it's NO)\n a) YES \n b) NO" << endl;
+    char key = getchar();
+    cin.ignore();
+
+    switch (key)
+    {
+    case 97: // a) Загрузить из введеннго
+        system("clear");
+        cout << "Enter file name ==> " << endl;
+        cin.getline(buf, path_size);
+        strcpy(path, buf);
+        if (!strstr(path, ".dat"))
+        {
+            strcat(path, ".dat");
+        }
+        break;
+    default:
+        strcpy(path, "Library.dat");
+        break;
+    }
+
+    FILE *fin;
+    if ((fin = fopen(path, "rb")) == NULL)
+    {
+        cout << "Errpr! Can't find file!" << path << " isn't exist!" << endl;
+    }
+    fread(&books_count, sizeof(books_count), 1, fin);
+    fread(&users_count, sizeof(users_count), 1, fin);
+
+    book = new Books[books_count];
+    for (int i = 0; i < books_count; i++)
+    {
+        fread(&book[i], sizeof(Books), 1, fin);
+    }
+
+    user = new Users[users_count];
+    for (int j = 0; j < users_count; j++)
+    {
+        fread(&user[j], sizeof(Users), 1, fin);
+    }
+
+    fclose(fin);
+    cout << "LOADED from " << path << endl;
+}
