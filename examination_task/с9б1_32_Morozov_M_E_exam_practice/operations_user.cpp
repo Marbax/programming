@@ -1,24 +1,31 @@
-#pragma once
 #include "operations_user.h"
 
 using namespace std;
 
 int Position_choose_user(const int users_count) // Просит ввести позицию желаемого эллемента, пока не будет введен существующий
 {
-    int pos = NULL, tmp = NULL;
-    cout << "\nEnter id of the user ==> ";
-    cin >> tmp;
-    cin.ignore();
-    cout << endl;
-    while (tmp < 0 || tmp >= users_count)
+    if (users_count > 0)
     {
-        system("clear");
-        cout << "\n\t\tError! Wrong id !\nEnter id of the user ==> ";
+        int pos = 0, tmp = 0;
+        cout << "\nEnter id of the user ==> ";
         cin >> tmp;
         cin.ignore();
+        cout << endl;
+        while (tmp < 0 || tmp >= users_count)
+        {
+            system("clear");
+            cout << "\n\t\tError! Wrong id !\nEnter id of the user ==> ";
+            cin >> tmp;
+            cin.ignore();
+        }
+        pos = tmp;
+        return pos;
     }
-    pos = tmp;
-    return pos;
+    else
+    {
+        cout << "\t\t\tError!There no users!" << endl;
+        return 0;
+    }
 }
 
 void Print_user(Users user) // Вывод конкретного пользователя
@@ -229,11 +236,11 @@ void Work_with_user(Users *&user, unsigned int &users_count) // Работа с 
     while (flag)
     {
         system("clear");
-        cout << "\t\t\tWhat would you want to do with user?\n";
+        cout << "\t\tWhat would you want to do with user?\n";
         cout << "\n\n";
-        cout << "\ta) Add the user;\n";                     // Добавление.пользователя
-        cout << "\tb) Remove the user;\n";                  // Удаление.пользователя
-        cout << "\tc) Edit the user;\nESC - return back\n"; // Редактирование полное и частичное.пользователя
+        cout << "\ta) Add the user;\n";                             // Добавление.пользователя
+        cout << "\tb) Remove the user;\n";                          // Удаление.пользователя
+        cout << "\tc) Edit the user;\n\n\t\t\tESC - return back\n"; // Редактирование полное и частичное.пользователя
 
         key = getchar();
         cin.ignore();
@@ -269,13 +276,13 @@ void User_info(Books *&book, unsigned int &books_count, Users *&user, unsigned i
     while (flag)
     {
         system("clear");
-        cout << "\t\t\tWhat would you show about user?\n";
+        cout << "\t\tWhat would you show about user?\n";
         cout << "\n\n";
         cout << "\ta) Serch the user by...;\n";                                                // Поиск и сортировка по ФИО, количеству прочитанных книг, ID, номеру паспорта.
         cout << "\tb) Show information about the most active readers.;\n";                     // Вывод информации на экран о самых активных читателях.
         cout << "\tc) Show information about the readers with the expired book return date.;"; // Вывод информации о читателях с просроченной датой возврата книги,
                                                                                                // обязательно выводить при этом количество просроченных дней и начисленной пени.
-        cout << "\nESC - return back\n";
+        cout << "\n\n\t\t\tESC - return back\n";
         key = getchar();
         cin.ignore();
         switch (key)
@@ -318,6 +325,7 @@ int comp_books_read(const void *i, const void *j) // сравнение по Р�
 
 void Print_sort_user(Users *&user, unsigned int &users_count) // Поиск и сортировка по ФИО, количеству прочитанных книг, ID, номеру паспорта.!!СОРТИРОВКУ ПРОВЕРИТЬ!!
 {
+    int pos;                  // позиция приннимается из ф-и
     int search_size = 30;     // размер массива поиска ФИО
     int tmp = 0;              // переменная для интового поиска
     char search[search_size]; // буфер для поиска
@@ -328,10 +336,10 @@ void Print_sort_user(Users *&user, unsigned int &users_count) // Поиск и �
         bool found = true; // проверка нахождения чего либо
         cout << "\t\tWhat would you want to do :" << endl;
         cout << "\n\n";
-        cout << "a) Search and sort by user;" << endl;                        // Поиск и сортировка по ФИО
-        cout << "b) Search by number of read books;" << endl;                 // Поиск по количеству прочитанных книг ,сортировка по ФИО
-        cout << "c) Search by id;" << endl;                                   // Поиск по ID (сортировать безсмысленно ,т.к он уникальный )
-        cout << "d) Search  and sort by passport code;\nESC - выход" << endl; // Поиск и сортировка по коду пасспорта
+        cout << "\ta) Search and sort by user;" << endl;                                // Поиск и сортировка по ФИО
+        cout << "\tb) Search by number of read books;" << endl;                         // Поиск по количеству прочитанных книг ,сортировка по ФИО
+        cout << "\tc) Search by id;" << endl;                                           // Поиск по ID (сортировать безсмысленно ,т.к он уникальный )
+        cout << "\td) Search  and sort by passport code;\n\n\t\t\tESC - выход" << endl; // Поиск и сортировка по коду пасспорта
 
         char key = getchar();
         cin.ignore();
@@ -384,7 +392,7 @@ void Print_sort_user(Users *&user, unsigned int &users_count) // Поиск и �
 
         case 99: // c) Поиск по ID (сортировать безсмысленно ,т.к он уникальный )
             system("clear");
-            int pos = Position_choose_user(users_count);
+            pos = Position_choose_user(users_count);
             Print_user(user[pos]);
             break;
 

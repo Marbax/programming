@@ -17,22 +17,27 @@ int main()
     while (flag)
     {
         system("clear");
-        cout << "Welcome th Library\n\n\t\t\tWhat would you want to do :\n";
+        cout << "Welcome th Library\n\n\t\tWhat would you want to do :\n";
         cout << "\n\n";
         cout << "\ta) Add ,remove or edit the book;\n"; // Добавление.Удаление.Редактирование полное и частичное.Книги
         cout << "\tb) Add ,remove or edit the user;\n"; // Добавление.Удаление.Редактирование полное и частичное.Пользователя
-        cout << "\tc) Information about the book;\n";   // Поиск и сортировка по автору, названию, жанру, популярности.
-                                                        // Вывод информации на экран о самых популярных книгах в своем жанре.
-                                                        // Вывод информации о книгах находящихся на руках у читателей.
+
+        cout << "\tc) Information about the book;\n"; // Поиск и сортировка по автору, названию, жанру, популярности.
+                                                      // Вывод информации на экран о самых популярных книгах в своем жанре.
+                                                      // Вывод информации о книгах находящихся на руках у читателей.
 
         cout << "\td) Information about the user;\n"; // Поиск и сортировка по ФИО, количеству прочитанных книг, ID, номеру паспорта.
                                                       // Вывод информации на экран о самых активных читателях.
                                                       // Вывод информации о читателях с просроченной датой возврата книги,
                                                       // обязательно выводить при этом количество просроченных дней и начисленной пени.
 
-        cout << "\te) ;\n"; //
-        cout << "\tf) ;\n"; //
-        cout << "\tg) \nESC - exit program\n";
+        cout << "\te) Take book;\n"; // Выдача книги.
+
+        cout << "\tf) Return book;\n"; // Возврат книги.При возврате книги читателем, учитывать, что если есть просроченные дни,
+                                       // то выводить на экран сумму начисленной пени.
+
+        cout << "\tg) Save\n";                           // Сохранение
+        cout << "\th) Load\n\t\t\tESC - exit program\n"; // Загрузка
 
         key = getchar();
         cin.ignore();
@@ -62,6 +67,26 @@ int main()
             User_info(book, books_count, user, users_count);
             break;
 
+        case 101: // e) Выдача книги.
+            system("clear");
+            Take_book(book, books_count, user, users_count);
+            break;
+
+        case 102: // f) Возврат книги.При возврате книги читателем, учитывать, что если есть просроченные дни, то выводить на экран сумму начисленной пени.
+            system("clear");
+            Return_book(book, books_count, user, users_count);
+            break;
+
+        case 103: // f) Сохранение
+            system("clear");
+            Save(book, books_count, user, users_count);
+            break;
+
+        case 104: // f) Загрузка
+            system("clear");
+            Load(book, books_count, user, users_count);
+            break;
+
         case 27:
             system("clear");
             flag = false;
@@ -73,13 +98,3 @@ int main()
         }
     }
 }
-/* 
-BOOK
-
-Выдача книги.
-Возврат книги.При возврате книги читателем, учитывать, что если есть просроченные дни, то выводить на экран сумму начисленной пени.
-
-
-USER
-
- */

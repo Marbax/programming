@@ -104,22 +104,30 @@ void Set_book(Books &book) // Описание книги.
     book.return_date_year = 0;     // Дата сдачи.Год
     book.popularity = 0;           // Популярность(количество взятий книги)
 }
-int Position_choose_book(const int books_count) // Просит ввести позицию желаемого эллемента, пока не будет введен существующий
+int Position_choose_book(const unsigned int &books_count) // Просит ввести позицию желаемого эллемента, пока не будет введен существующий
 {
-    int pos = NULL, tmp = NULL;
-    cout << "\nEnter id of the book ==> ";
-    cin >> tmp;
-    cin.ignore();
-    cout << endl;
-    while (tmp < 0 || tmp >= books_count)
+    if (books_count > 0)
     {
-        system("clear");
-        cout << "\n\t\tError! Wrong id !\nEnter id of the book ==> ";
+        int pos = 0, tmp = 0;
+        cout << "\nEnter id of the book ==> ";
         cin >> tmp;
         cin.ignore();
+        cout << endl;
+        while (tmp < 0 || tmp >= books_count)
+        {
+            system("clear");
+            cout << "\n\t\tError! Wrong id !\nEnter id of the book ==> ";
+            cin >> tmp;
+            cin.ignore();
+        }
+        pos = tmp;
+        return pos;
     }
-    pos = tmp;
-    return pos;
+    else
+    {
+        cout << "\n\t\tError!No books!" << endl;
+        return 0;
+    }
 }
 void Remove_book(Books *&book, unsigned int &books_count) //Удаление книги.
 {
@@ -274,85 +282,6 @@ void Print_book(Books book) // Вывод конкретной книги
     cout << "Rating : " << book.rating << "/10" << endl;
     //cout << "==================================================================" << endl;
 }
-void Work_with_book(Books *&book, unsigned int &books_count) // Редактирование книги 3в1(Добавление.Удаление.Редактирование полное и частичное.Книги)
-{
-    char key;
-    bool flag = true;
-    while (flag)
-    {
-        system("clear");
-        cout << "\t\t\tWhat would you want to do with book?\n";
-        cout << "\n\n";
-        cout << "\ta) Add the book;\n";                     // Добавление.Книги
-        cout << "\tb) Remove the book;\n";                  // Удаление.Книги
-        cout << "\tc) Edit the book;\nESC - return back\n"; // Редактирование полное и частичное.Книги
-
-        key = getchar();
-        cin.ignore();
-        switch (key)
-        {
-        case 97: // a) Добавление.Книги
-            system("clear");
-            Add_book(book, books_count);
-            break;
-        case 98: // b) Удаление.Книги
-            system("clear");
-            Remove_book(book, books_count);
-            break;
-        case 99: // c) Редактирование полное и частичное.Книги
-            system("clear");
-            Edit_book(book, books_count);
-            break;
-        case 27:
-            system("clear");
-            flag = false;
-            break;
-        default:
-            cout << "\n\t\tUnknown choice! Try again." << endl;
-            break;
-        }
-    }
-}
-void Book_info(Books *&book, unsigned int &books_count) /* Информация о книге 3в1(Поиск и сортировка по автору, названию, жанру, популярности.
-                 Вывод информации на экран о самых популярных книгах в своем жанре.Вывод информации о книгах находящихся на руках у читателей.) */
-{
-    char key;
-    bool flag = true;
-    while (flag)
-    {
-        system("clear");
-        cout << "\t\t\tWhat would you show about book?\n";
-        cout << "\n\n";
-        cout << "\ta) Serch the book by...;\n";                                          // Поиск и сортировка по автору, названию, жанру, популярности.
-        cout << "\tb) Find the most popular books by the genre;\n";                      // Вывод информации на экран о самых популярных книгах в своем жанре.
-        cout << "\tc) Show books that users have in their hands.;\nESC - return back\n"; // Вывод информации о книгах находящихся на руках у читателей.
-
-        key = getchar();
-        cin.ignore();
-        switch (key)
-        {
-        case 97: // a) Поиск и сортировка по автору, названию, жанру, популярности.
-            system("clear");
-            Print_sort_book(book, books_count);
-            break;
-        case 98: // b) Вывод информации на экран о самых популярных книгах в своем жанре.
-            system("clear");
-            Print_sort_book_by_genre(book, books_count);
-            break;
-        case 99: // c) Вывод информации о книгах находящихся на руках у читателей.
-            system("clear");
-            Print_book_by_owner(book, books_count);
-            break;
-        case 27:
-            system("clear");
-            flag = false;
-            break;
-        default:
-            cout << "\n\t\tUnknown choice! Try again." << endl;
-            break;
-        }
-    }
-}
 
 int comp_auth_surname(const void *i, const void *j) // сравнение по ФАМИЛИИ автора для сортировки
 {
@@ -378,7 +307,7 @@ int comp_rating(const void *i, const void *j) // сравнение по РЕЙ�
 {
     return (((Books *)i)->rating) - (((Books *)j)->rating);
 }
-void Print_sort_book(Books *&book, int books_count) //Поиск и сортировка по автору, названию, жанру, популярности(кол-во взятий ??!). !!СОРТИРОВКУ ПРОВЕРИТЬ!!
+void Print_sort_book(Books *&book, unsigned int &books_count) //Поиск и сортировка по автору, названию, жанру, популярности(кол-во взятий ??!). !!СОРТИРОВКУ ПРОВЕРИТЬ!!
 {
     char search[30];      // буфер для поиска
     float tmp_rating = 0; // для поиска по рейтингу
@@ -391,7 +320,7 @@ void Print_sort_book(Books *&book, int books_count) //Поиск и сортир
         cout << "a) Search by author;" << endl;
         cout << "b) Search by title;" << endl;
         cout << "c) Search by genre;" << endl;
-        cout << "d) Search by popularity;\nESC - выход" << endl;
+        cout << "d) Search by popularity;\n\n\t\t\tESC - выход" << endl;
 
         char key = getchar();
         cin.ignore();
@@ -801,6 +730,85 @@ void Print_promiser(Books *&book, unsigned int &books_count, Users *&user, unsig
                 cout << "Fine accrued " << book[i].fine_money << endl;
                 cout << "==================================================================" << endl;
             }
+        }
+    }
+}
+void Work_with_book(Books *&book, unsigned int &books_count) // Редактирование книги 3в1(Добавление.Удаление.Редактирование полное и частичное.Книги)
+{
+    char key;
+    bool flag = true;
+    while (flag)
+    {
+        system("clear");
+        cout << "\t\tWhat would you want to do with book?\n";
+        cout << "\n\n";
+        cout << "\ta) Add the book;\n";                             // Добавление.Книги
+        cout << "\tb) Remove the book;\n";                          // Удаление.Книги
+        cout << "\tc) Edit the book;\n\n\t\t\tESC - return back\n"; // Редактирование полное и частичное.Книги
+
+        key = getchar();
+        cin.ignore();
+        switch (key)
+        {
+        case 97: // a) Добавление.Книги
+            system("clear");
+            Add_book(book, books_count);
+            break;
+        case 98: // b) Удаление.Книги
+            system("clear");
+            Remove_book(book, books_count);
+            break;
+        case 99: // c) Редактирование полное и частичное.Книги
+            system("clear");
+            Edit_book(book, books_count);
+            break;
+        case 27:
+            system("clear");
+            flag = false;
+            break;
+        default:
+            cout << "\n\t\tUnknown choice! Try again." << endl;
+            break;
+        }
+    }
+}
+void Book_info(Books *&book, unsigned int &books_count) /* Информация о книге 3в1(Поиск и сортировка по автору, названию, жанру, популярности.
+                 Вывод информации на экран о самых популярных книгах в своем жанре.Вывод информации о книгах находящихся на руках у читателей.) */
+{
+    char key;
+    bool flag = true;
+    while (flag)
+    {
+        system("clear");
+        cout << "\t\tWhat would you show about book?\n";
+        cout << "\n\n";
+        cout << "\ta) Serch the book by...;\n";                                                  // Поиск и сортировка по автору, названию, жанру, популярности.
+        cout << "\tb) Find the most popular books by the genre;\n";                              // Вывод информации на экран о самых популярных книгах в своем жанре.
+        cout << "\tc) Show books that users have in their hands.;\n\n\t\t\tESC - return back\n"; // Вывод информации о книгах находящихся на руках у читателей.
+
+        key = getchar();
+        cin.ignore();
+        switch (key)
+        {
+        case 97: // a) Поиск и сортировка по автору, названию, жанру, популярности.
+            system("clear");
+            Print_sort_book(book, books_count);
+            break;
+        case 98: // b) Вывод информации на экран о самых популярных книгах в своем жанре.
+            system("clear");
+            Print_sort_book_by_genre(book, books_count);
+            break;
+        case 99: // c) Вывод информации о книгах находящихся на руках у читателей.
+            system("clear");
+            Print_book_by_owner(book, books_count);
+            break;
+        case 27:
+            system("clear");
+            flag = false;
+            break;
+        default:
+            cout << "\n\t\tUnknown choice! Try again." << endl;
+            break;
         }
     }
 }

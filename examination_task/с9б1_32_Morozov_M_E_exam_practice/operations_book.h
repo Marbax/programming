@@ -19,9 +19,6 @@ void Edit_book(Books *&book, unsigned int &books_count); //Редактиров�
 
 void Print_book(Books book); // Вывод конекретной книги
 
-void Work_with_book(Books *&book, unsigned int &books_count); // Редактирование книги 3в1
-
-void Book_info(Books *&book, unsigned int &books_count); // Информация о книге 3в1
 
 int comp_auth_surname(const void *i, const void *j); // сравнение по ФАМИЛИИ автора для сортировки
 int comp_title_book(const void *i, const void *j);   // сравнение по НАЗВАНИЮ книги для сортировки
@@ -46,6 +43,10 @@ void Print_promiser(Books *&book, unsigned int &books_count, Users *&user, unsig
  Вывод информации о читателях с просроченной датой возврата книги,
  обязательно выводить при этом количество просроченных дней и начисленной пени.
  получает массив книг, если  return_date_* меньше текущей даты , то считать fine_days и fine_money и выводить владельца */
+
+void Work_with_book(Books *&book, unsigned int &books_count); // Редактирование книги 3в1
+
+void Book_info(Books *&book, unsigned int &books_count); // Информация о книге 3в1
 
 void Save(Books *&book, unsigned int &books_count, Users *&user, unsigned int &users_count); // сохранение базы
 
