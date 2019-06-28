@@ -34,11 +34,30 @@ public:
 
     void setDenominator(const int denominator) { this->denominator = denominator; }
 
-    void Fractions_reduction() // сокращение дроби; алгоритм Эвклида
+    Fraction Fractions_reduction() // сокращение дроби; алгоритм Эвклида
     {
+        int tmp_den = denominator, tmp_num = numerator, mod;
+        while (tmp_num != 0 && tmp_den != 0)
+        {
+            if (tmp_num > tmp_den)
+            {
+                tmp_num = tmp_num % tmp_den;
+            }
+            else
+            {
+                tmp_den = tmp_den % tmp_num;
+            }
+        }
+        int nod = (tmp_num + tmp_den);
+        Fraction result;
+        result.numerator = numerator / nod;
+        result.denominator = denominator / nod;
+        return result;
+        /* 
         if (numerator != 0)
         {
-            int tmp_den = denominator, tmp_num = numerator, mod = tmp_den % tmp_num;
+            int tmp_den = denominator, tmp_num = numerator, mod;
+            mod = tmp_den % tmp_num;
             while (mod != 0)
             {
                 tmp_den = tmp_num;
@@ -48,10 +67,13 @@ public:
             int nod = tmp_num;
             if (nod != 1)
             {
-                numerator /= nod;
-                denominator /= nod;
+                Fraction result;
+                result.numerator = numerator / nod;
+                result.denominator = denominator / nod;
+                return result;
             }
         }
+        */
     }
 
     void Show() { cout << numerator << "\\" << denominator << endl; }
@@ -59,15 +81,15 @@ public:
     Fraction operator+(Fraction &obj)
     {
         Fraction result;
-        result.numerator = (denominator + numerator) * obj.denominator + (obj.denominator + obj.numerator) * denominator;
+        result.numerator = numerator * obj.denominator + obj.numerator * denominator;
         result.denominator = denominator * obj.denominator;
         return result;
     }
 
-    Fraction operator-(Fraction &obj) // НУЖНО ПРОВЕРИТЬ
+    Fraction operator-(Fraction &obj)
     {
         Fraction result;
-        result.numerator = (denominator + numerator) * obj.denominator - (obj.denominator + obj.numerator) * denominator;
+        result.numerator = numerator * obj.denominator - obj.numerator * denominator;
         result.denominator = denominator * obj.denominator;
         return result;
     }
@@ -88,31 +110,102 @@ public:
         return result;
     }
 
-    bool operator<(Fraction &obj) { return double(*this) < double(obj); }
+    bool operator<(Fraction &obj)
+    {
+        /*         
+        if (denominator == obj.denominator)
+        {
+            return numerator < obj.numerator;
+        }
+        if (numerator == obj.numerator)
+        {
+            return denominator > obj.denominator;
+        }
+        Fraction left;
+        left.numerator = numerator * obj.denominator;
+        left.denominator = denominator * obj.denominator;
+        Fraction right;
+        right.numerator = obj.numerator * denominator;
+        right.denominator = denominator * obj.denominator;
+        return left.numerator < right.numerator;
+        */
+        return numerator * obj.denominator < denominator * obj.numerator;
+    }
 
-    bool operator>(Fraction &obj) { return double(*this) > double(obj); }
+    bool operator>(Fraction &obj)
+    {
+        return numerator * obj.denominator > denominator * obj.numerator;
+    }
 
-    bool operator<=(Fraction &obj) { return double(*this) <= double(obj); }
+    bool operator<=(Fraction &obj)
+    {
+        return numerator * obj.denominator <= denominator * obj.numerator;
+    }
 
-    bool operator>=(Fraction &obj) { return double(*this) >= double(obj); }
+    bool operator>=(Fraction &obj)
+    {
+        return numerator * obj.denominator >= denominator * obj.numerator;
+    }
 
     bool operator==(Fraction &obj)
     {
         return numerator * obj.denominator == denominator * obj.numerator;
     }
 
-    bool
-    operator!=(Fraction &obj)
+    bool operator!=(Fraction &obj)
     {
         return !(*this == obj);
-    }
-    operator double()
-    {
-        double result = (denominator + numerator) / denominator;
-        return result;
     }
 };
 
 int main()
 {
+    Fraction first(8, 9);
+    Fraction second(5, 6);
+    (first - second).Show();
+    Fraction third(first - second);
+    (third.Fractions_reduction()).Show();
+    cout << endl;
+    (first + second).Show();
+    ((first + second).Fractions_reduction()).Show();
+    cout << endl;
+    (first * second).Show();
+    ((first * second).Fractions_reduction()).Show();
+    cout << endl;
+    (first / second).Show();
+    ((first / second).Fractions_reduction()).Show();
+
+    cout << endl;
+
+    if (first > second)
+    {
+        cout << first.getNumerator() << "\\" << first.getDenominator() << " > ";
+        cout << second.getNumerator() << "\\" << second.getDenominator() << endl;
+    }
+    if (first < second)
+    {
+        cout << first.getNumerator() << "\\" << first.getDenominator() << " < ";
+        cout << second.getNumerator() << "\\" << second.getDenominator() << endl;
+    }
+    if (first >= second)
+    {
+        cout << first.getNumerator() << "\\" << first.getDenominator() << " >= ";
+        cout << second.getNumerator() << "\\" << second.getDenominator() << endl;
+    }
+    if (first <= second)
+    {
+        cout << first.getNumerator() << "\\" << first.getDenominator() << " <= ";
+        cout << second.getNumerator() << "\\" << second.getDenominator() << endl;
+    }
+    if (first == second)
+    {
+        cout << first.getNumerator() << "\\" << first.getDenominator() << " == ";
+        cout << second.getNumerator() << "\\" << second.getDenominator() << endl;
+    }
+    if (first != second)
+    {
+        cout << first.getNumerator() << "\\" << first.getDenominator() << " != ";
+        cout << second.getNumerator() << "\\" << second.getDenominator() << endl;
+    }
+    cout << "\nEND_OF_PROGRAM" << endl;
 }
