@@ -5,6 +5,7 @@ using namespace std;
 // Для класса MyString, из предыдущего задания, перегрузить операторы:
 // • «+» - объединяет две строки в одну;
 // • «-» - удаляет подстроку в строке.
+// ищите "_HOME_WORK_PART_" в коде 
 
 class MyString
 {
@@ -14,7 +15,7 @@ private:
 
 public:
     //=========================================================================================================
-    //=======================================_МЕТОДЫ_==========================================================
+    //=======================================_КОНСТРУКТОРЫ_И_МЕТОДЫ_===========================================
     //=========================================================================================================
 
     MyString() // стандартный конструктор
@@ -106,22 +107,30 @@ public:
 
     friend MyString operator+(char t, const MyString &obj); // прототип дружественной ф-и ( если первый операнд литерал)
 
-    MyString operator+(const char *new_str) const // перегрузка оператор плюсования(добавления) строки к строке
+    MyString operator+(const char *new_str) const // «+» - объединяет две строки в одну; _HOME_WORK_PART_
     {
         MyString tmp(getSize() + strlen(new_str) + 1);
         strcpy(tmp.str, str);
         strcat(tmp.str, new_str);
         return tmp;
     }
+    friend MyString operator+(const char *new_str, const MyString &obj); // «+» - объединяет две строки в одну; _HOME_WORK_PART_
 
-    MyString operator-(const char *new_str) const // «-» - удаляет подстроку в строке.
+    MyString operator-(const char *new_str) const // «-» - удаляет подстроку в строке. _HOME_WORK_PART_
     {
-        // НЕ ДОПИСАН
-
         if (strstr(str, new_str))
         {
-            MyString tmp(getSize() - strlen(new_str) + 1);
-            tmp.str = strtok(str, new_str);
+            int new_size = getSize() - strlen(new_str) + 1;
+            MyString tmp(new_size);
+            for (size_t i = 0, j = 0; i < new_size; i++, j++)
+            {
+                if (&str[j] == strstr(str, new_str))
+                {
+                    j = j + strlen(new_str);
+                }
+                tmp.str[i] = str[j];
+            }
+
             return tmp;
         }
         else
@@ -209,12 +218,32 @@ int main()
     (z + "ololo").Print();
     cout << "\nThere we replace one string with another : " << endl;
     (z = "Replace").Print();
+    ('q' + z).Print();
+
+    //======================================================================================
+    //=======================================_HOME_WORK_PART_===============================
+    //======================================================================================
+
+    cout << "\n\t\t_HOME_WORK_PART_" << endl;
+    MyString HW("Home_work_bad");
+    HW.Print();
+    (HW + "_more_home_work").Print();
+    (HW - "work").Print();
+    ("difficult_" + HW - "_bad" + "_not_bad" + "_but_need_more_time").Print();
 }
 
 MyString operator+(char t, const MyString &obj) // дружественная ф-я , для случаев ,когда СНАЧАЛА литерал
 {
     MyString tmp(obj.getSize() + 2);
     tmp.str[0] = t;
+    strcat(tmp.str, obj.str);
+    return tmp;
+}
+
+MyString operator+(const char *new_str, const MyString &obj) //_HOME_WORK_PART_
+{
+    MyString tmp(obj.getSize() + strlen(new_str) + 1);
+    strcpy(tmp.str, new_str);
     strcat(tmp.str, obj.str);
     return tmp;
 }
