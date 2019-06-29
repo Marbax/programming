@@ -30,7 +30,7 @@ class Student
 private:
     char *student_name = nullptr;
     size_t bday_year : 11;
-    friend Group;
+    friend Group; // НУЖНО БЫЛО ЧЕРЕЗ СЕТТЕРЫ И ГЕТТЕРЫ , ДАННЫЙ СПОСОБ НАРУШАЕТ ИНКАПСУЛЯЦИЮ
 
 public:
     Student(char *student_name, size_t bday_year) : bday_year(bday_year)
@@ -84,10 +84,13 @@ public:
     ~Group()
     {
         delete[] faculty;
-        delete[] students;
+        if (students_count > 0) // ТАК, КАК ЕСТЬ УДАЛЕНИЕ СТУДЕНТОВ ,МОЖЕТ БЫТЬ ПУСТОЙ МАССИВ
+        {
+            delete[] students;
+        }
     }
 
-    void Add_student_to_group()
+    void Add_student_to_group() // ДОЛЖНЫ БЫЛИ ПРИНИМАТЬ ПАРАМЕТРЫ ,А НЕ ПРЕДЛАГАТЬ ВВОД
     {
         size_t bday_year;
         char buf[100];
@@ -116,28 +119,32 @@ public:
         students[students_count] = new_student;
         students_count++;
     }
-    void Remove_student_from_group()
+    void Remove_student_from_group() // ДОЛЖНЫ БЫЛИ ПРИНИМАТЬ ПАРАМЕТРЫ ,А НЕ ПРЕДЛААТЬ ВВОД
     {
-        int pos;
-        cout << "Enter student position => " << endl;
-        cin >> pos;
-        cin.ignore();
 
-        if (pos < 0 || pos >= students_count) // эксепшн , если позиция за пределами ,защита от вылетов
+        if (students_count > 0)
         {
-            return;
-        }
-        Student *tmp = new Student[--students_count];
-        for (int i = 0, j = 0; i < students_count; j++, i++) //пересоздает массив исключая ненужный обьект
-        {
-            if (i == pos)
+            int pos;
+            cout << "Enter student position => " << endl;
+            cin >> pos;
+            cin.ignore();
+
+            if (pos < 0 || pos >= students_count) // эксепшн , если позиция за пределами ,защита от вылетов
             {
-                j++;
+                return;
             }
-            tmp[i] = students[j];
+            Student *tmp = new Student[--students_count];
+            for (int i = 0, j = 0; i < students_count; j++, i++) //пересоздает массив исключая ненужный обьект
+            {
+                if (i == pos)
+                {
+                    j++;
+                }
+                tmp[i] = students[j];
+            }
+            delete[] students;
+            students = tmp;
         }
-        delete[] students;
-        students = tmp;
     }
     void Show_all_students_in_group()
     {
