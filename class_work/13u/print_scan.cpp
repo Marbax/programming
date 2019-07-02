@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string.h>
-#include <stdarg.h> // библиотека с макросами позвольющими доставать данные из ...
+#include <stdarg.h> // библиотека с макросами для работы с  ...
 
 using namespace std;
 
@@ -36,6 +36,7 @@ int Sum(int size, ...) // кол-во еллементов и эти парам�
     va_end(list);
     return sum;
 }
+
 /* 
 void MyTestPrintF(const char *format, ...)
 {

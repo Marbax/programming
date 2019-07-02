@@ -23,13 +23,11 @@ public:
 
     MyString() // стандартный конструктор
     {
-        cout << "\nDef constr" << endl;
         str = new char[capacity]{}; // инициализация нулями , не мусором
     }
 
     MyString(int new_capacity) // конструктор с параметрами (размера строки)
     {
-        cout << "\nRecap constr" << endl;
         if (new_capacity > 0)
             capacity = new_capacity;
         str = new char[capacity]{};
@@ -37,14 +35,12 @@ public:
 
     MyString(const char *s) // конструктор с параметрами (строка) (чтобы принять литерал нужно через const)
     {
-        cout << "\nWith string constr" << endl;
         str = strdup(s);
         capacity = strlen(str) + 1;
     }
 
     MyString(const MyString &obj) // конструктор копирования (второй обьект константный т.к. не меняется)
     {
-        cout << "\nCopy constr" << endl;
         capacity = obj.capacity;
         str = new char[capacity];
         strcpy(str, obj.str);
@@ -117,24 +113,123 @@ public:
         strcat(tmp.str, new_str);
         return tmp;
     }
+    MyString operator+(MyString &obj) const // «+» - объединяет две строки в одну; _HOME_WORK_PART_
+    {
+        MyString tmp(getSize() + strlen(obj.str) + 1);
+        strcpy(tmp.str, str);
+        strcat(tmp.str, obj.str);
+        return tmp;
+    }
     friend MyString operator+(const char *new_str, const MyString &obj); // «+» - объединяет две строки в одну; _HOME_WORK_PART_
+
+    /* 
+    MyString operator-(const char *new_str) const // не совсем понятный и баганый метод
+    {
+        if (strstr(str, new_str))
+        {
+            MyString tmp(*this);
+
+            char *t = nullptr;
+            do
+            {
+                t = strstr(tmp.str, new_str);
+                if (t != NULL)
+                {
+                    char *t_ = t + strlen(new_str);
+                    strcpy(t, t_);
+                }
+                else
+                    break;
+            } while (true);
+
+            return tmp;
+        }
+        else
+        {
+            return *this;
+        }
+    }
+    */
 
     MyString operator-(const char *new_str) const // «-» - удаляет подстроку в строке. _HOME_WORK_PART_
     {
         if (strstr(str, new_str))
         {
-            int new_size = getSize() - strlen(new_str) + 1;
-            MyString tmp(new_size);
-            for (size_t i = 0, j = 0; i < new_size; i++, j++)
+            MyString tmp(strlen(str));
+
+            for (size_t i = 0, j = 0; i < strlen(str); i++, j++)
             {
-                if (&str[j] == strstr(str, new_str))
+                if (str[j] == new_str[0])
                 {
-                    j = j + strlen(new_str);
+                    size_t counter = 0;
+
+                    for (size_t l = 0; l < strlen(new_str) + 1; l++)
+                    {
+                        if (str[j + l] == new_str[l])
+                        {
+                            ++counter;
+                        }
+                        else
+                        {
+                            break;
+                        }
+
+                        if (counter == strlen(new_str))
+                        {
+                            j += counter;
+                        }
+                    }
                 }
                 tmp.str[i] = str[j];
             }
 
-            return tmp;
+            MyString resized_tmp(strlen(tmp.str));
+            strcpy(resized_tmp.str, tmp.str);
+
+            return resized_tmp;
+        }
+        else
+        {
+            return *this;
+        }
+    }
+
+    MyString operator-(MyString &obj) const // «-» - удаляет подстроку в строке. _HOME_WORK_PART_
+    {
+        if (strstr(str, obj.str))
+        {
+            MyString tmp(strlen(str));
+
+            for (size_t i = 0, j = 0; i < strlen(str); i++, j++)
+            {
+                if (str[j] == obj.str[0])
+                {
+                    size_t counter = 0;
+
+                    for (size_t l = 0; l < strlen(obj.str) + 1; l++)
+                    {
+                        if (str[j + l] == obj.str[l])
+                        {
+                            ++counter;
+                        }
+                        else
+                        {
+                            break;
+                        }
+
+                        if (counter == strlen(obj.str))
+                        {
+                            j += counter;
+                        }
+                    }
+                }
+                tmp.str[i] = str[j];
+            }
+
+            MyString resized_tmp(strlen(tmp.str));
+            strcpy(resized_tmp.str, tmp.str);
+
+            return resized_tmp;
         }
         else
         {
@@ -228,11 +323,12 @@ int main()
     //======================================================================================
 
     cout << "\n\t\t_HOME_WORK_PART_" << endl;
-    MyString HW("Home_work_bad");
+    MyString HW("Home_wowork_is_work_baaad_work_only_for_ork");
+    MyString HW2("work");
     HW.Print();
     (HW + "_more_home_work").Print();
-    (HW - "work").Print();
-    ("difficult_" + HW - "_bad" + "_not_bad" + "_but_need_more_time").Print();
+    (HW - HW2).Print();
+    ("difficult_" + HW - "_bad_bad_bad_baaad" + "_not_baaad" + "_but_need_more_time"-"bad").Print();
 }
 
 MyString operator+(char t, const MyString &obj) // дружественная ф-я , для случаев ,когда СНАЧАЛА литерал
