@@ -1,25 +1,25 @@
-Первый проект [MVP](https://github.com/Marbax/-9-1_32_Morozov_M_E_exam_practice "Link to another my repo")
+Первый проект [MVP](https://github.com/Marbax/-9-1_32_Morozov_M_E_exam_practice "Link to another my repo")  
 
 ---
 
-[MyVector class](HW_itstep/overload_operators/Vector.cpp "Link to current repo file")\
-[MyString class](HW_itstep/overload_operators/string_+_-_.cpp "Link to current repo file")\
-[MyFraction class](HW_itstep/overload_operators/fraction.cpp "Link to current repo file")
+[MyVector class](HW_itstep/overload_operators/Vector.cpp "Link to current repo file")  
+[MyString class](HW_itstep/overload_operators/string_+_-_.cpp "Link to current repo file")  
+[MyFraction class](HW_itstep/overload_operators/fraction.cpp "Link to current repo file")  
 
 ---
 
 <details><summary> My cheatsheet </summary><p>
 
-[Markdown-Cheatsheet](https://github.com/sandino/Markdown-Cheatsheet "Link to another repo")\
-[Offical GitHub markdown guide](https://guides.github.com/features/mastering-markdown/ "Link to GitHub site")
+[Markdown-Cheatsheet](https://github.com/sandino/Markdown-Cheatsheet "Link to another repo")  
+[Offical GitHub markdown guide](https://guides.github.com/features/mastering-markdown/ "Link to GitHub site")  
 
 </p></details>
 
 ---
 
-.\
-.\
-.
+.  
+.  
+.  
 
 <details><summary>Урок 7. Указатели</summary><p>
 
@@ -410,7 +410,7 @@ MyString(MyString &&obj) // r-value ссылка ,конструктор пер�
 >
 >- deployment diagram - топология взаимодействия , сервисы и тд **(наверное)**
 
-[Сайт](http://draw.io) для рисования UML диаграм
+[Сайт](http://draw.io) для рисования UML диаграм  
 [Сайт](https://creately.com/blog/diagrams/uml-diagram-types-examples/) с примерами UML диаграм и возможностью их делать
 
 ---
