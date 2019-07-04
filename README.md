@@ -1,9 +1,9 @@
-[MyVector class](HW_itstep/overload_operators/Vector.cpp)
-
-.
-\
-.
-\
+Первый проект [MVP](https://github.com/Marbax/-9-1_32_Morozov_M_E_exam_practice)\
+[MyVector class](HW_itstep/overload_operators/Vector.cpp)\
+[MyString class](HW_itstep/overload_operators/string_+_-_.cpp)\
+[MyFraction class](HW_itstep/overload_operators/fraction.cpp)\
+.\
+.\
 .
 
 <details><summary>Урок 7. Указатели</summary><p>
@@ -361,7 +361,7 @@ MyString(MyString &&obj) // r-value ссылка ,конструктор пер�
 </p></details>
 
 
-<details><summary> 13. Переггрузка []  </summary><p>
+<details><summary> 13. Переггрузка []. UML   </summary><p>
 
 ### Если принимаемые параметры перегруженого оператора могут быть константными(не изменяются) ,то лучше перегружать как френдли ф-ю
 
