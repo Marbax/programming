@@ -113,5 +113,5 @@ int main()
 
     cout << endl;
     Point point(3, 5);
-    MyPrintF("Today is %d %s %d\n%f and %p", day, month, year, 3.14, &point);
+    MyPrintF("Today is %d %s %d\n%f and %p %%", day, month, year, 3.14, &point);
 }
