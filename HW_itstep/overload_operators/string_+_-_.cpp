@@ -2,6 +2,7 @@
 #include <string.h>
 using namespace std;
 
+
 /* 
  Для класса MyString, из предыдущих заданий, перегрузить операторы:
  - S1++ (добавление пробелов между символами, (при каждым вызове
@@ -211,6 +212,20 @@ public:
         }
     }
 
+    MyString operator-(const MyString &obj) // вариант преподователя
+    {
+        MyString tmp(this->capacity);
+        char *pt = str;
+        char *start = str;
+        while (pt = strstr(pt, obj.str))
+        {
+            strncat(tmp.str, start, pt - start);
+            start = pt = pt + strlen(obj.str);
+        }
+        strcat(tmp.str, start);
+        return tmp;
+    }
+
     bool operator==(const MyString &obj) { return strcmp(str, obj.str) == 0; } // сравнивание строк на идентичность
 
     bool operator>(const MyString &obj) { return strcmp(str, obj.str) > 0; } // сравнивание строк ,больше ли левая
@@ -274,6 +289,7 @@ public:
 
         delete[] str;
         str = tmp;
+        return *this;
     }
 
     MyString &operator++(int) // S1++ (добавление пробелов между символами, (при каждым вызове увеличивается)); постфикс
@@ -290,14 +306,15 @@ public:
 
         delete[] str;
         str = tmp;
+        return *this;
     }
 
-    MyString &operator--() // S1-- (удаление пробелов между символами, (при каждым вызове уменьшается)); префикс
+    MyString &operator--() // S1-- (удаление пробелов между символами(пробел тоже символ), (при каждым вызове уменьшается)); префикс
     {
         if (strchr(str, ' ')) // проверяем или есть пробелы
         {
-
-            char buf[capacity]{}; // создаем временный массив,такого же размера ,т.к. не знаем сколько пробелов
+            const char buf_capacity = capacity;
+            char buf[buf_capacity]{}; // создаем временный массив,такого же размера ,т.к. не знаем сколько пробелов
             for (size_t i = 0, j = 0; i < capacity; i++, j++)
             {
                 if (i < capacity - 2 && str[i - 1] == ' ' && str[i] == ' ' && str[i + 1] == ' ') // когда пробел между пробелами , i+=2 ,чтобы избежать повторного сравнения
@@ -319,16 +336,16 @@ public:
             delete[] str;                   //удаляем память под старый массив
             str = tmp;                      // меняем указатель на новый массив
         }
-        else
-            return *this; // если проблелов нет ,возвращаем копию того же обьекта
+        return *this;
     }
 
-    MyString &operator--(int) // S1-- (удаление пробелов между символами, (при каждым вызове уменьшается)); постфикс
+    MyString &operator--(int) // S1-- (удаление пробелов между символами(пробел тоже символ), (при каждым вызове уменьшается)); постфикс
     {
         if (strchr(str, ' ')) // проверяем или есть пробелы
         {
 
-            char buf[capacity]{}; // создаем временный массив,такого же размера ,т.к. не знаем сколько пробелов
+            const char buf_capacity = capacity;
+            char buf[buf_capacity]{}; // создаем временный массив,такого же размера ,т.к. не знаем сколько пробелов
             for (size_t i = 0, j = 0; i < capacity; i++, j++)
             {
                 if (i < capacity - 2 && str[i - 1] == ' ' && str[i] == ' ' && str[i + 1] == ' ') // когда пробел между пробелами , i+=2 ,чтобы избежать повторного сравнения
@@ -350,8 +367,7 @@ public:
             delete[] str;                   //удаляем память под старый массив
             str = tmp;                      // меняем указатель на новый массив
         }
-        else
-            return *this; // если проблелов нет ,возвращаем копию того же обьекта
+        return *this;
     }
 
     friend ostream &operator<<(ostream &os, const MyString &obj) // добавление острима(cout) как френндли вывода  ,для работы с классом
@@ -360,11 +376,11 @@ public:
         return os;
     }
 
-    friend istream &operator>>(istream &is, MyString &obj) // добавление истрима(cin) как френндли ввода  ,для работы с классом !!ДИЧЬ КАКАЯ-ТО!!
+    friend istream &operator>>(istream &is, MyString &obj) // добавление истрима(cin) как френндли ввода  ,для работы с классом
     {
-        is.getline(obj.str, 255); // для считывания пробелов !!ОТКУДА ОН БЕРЕТ ПАМЯТЬ И РАЗМЕР ,ЕСЛИ ОН МЕНЬШЕ БЫЛ!!!
-        //is >> obj.str;
-        obj.capacity = strlen(obj.str) + 1;
+        char buf[1000];
+        is.getline(buf, 1000);
+        obj = buf; // использование перегруеного "="
         return is;
     }
 };
@@ -372,18 +388,17 @@ public:
 int main()
 {
 
-    cout << "\n\t\t_HOME_WORK_PART_" << endl;
     MyString HW("Home");
     MyString HW2("work");
     cin >> HW;
     cout << HW << " & " << HW2 << endl;
     ++HW;
     HW.Print();
-    ++HW;
+    HW++;
     HW.Print();
     --HW;
     HW.Print();
-    --HW;
+    HW--;
     HW.Print();
     --HW;
     HW.Print();
