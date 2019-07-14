@@ -461,4 +461,9 @@ MyString(MyString &&obj) // r-value ссылка ,конструктор пер�
 </p></details>
 
 
+<details><summary> 15.  </summary><p>
+
+</p></details>
+
+
 ---
