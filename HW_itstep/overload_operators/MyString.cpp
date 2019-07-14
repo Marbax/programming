@@ -211,7 +211,7 @@ public:
             return *this;
         }
     }
-
+/* 
     MyString operator-(const MyString &obj) // вариант преподователя
     {
         MyString tmp(this->capacity);
@@ -224,7 +224,7 @@ public:
         }
         strcat(tmp.str, start);
         return tmp;
-    }
+    } */
 
     bool operator==(const MyString &obj) { return strcmp(str, obj.str) == 0; } // сравнивание строк на идентичность
 
@@ -380,7 +380,7 @@ public:
     {
         char buf[1000];
         is.getline(buf, 1000);
-        obj = buf; // использование перегруеного "="
+        obj = buf; // использование перегруженого "="
         return is;
     }
 };
