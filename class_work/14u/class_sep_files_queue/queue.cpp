@@ -75,6 +75,7 @@ Queue &Queue::operator=(Queue &&obj)
     size = obj.size;
     obj.arr = nullptr;
     obj.capacity = 0;
+    obj.size = 0;
     return *this;
 }
 
@@ -91,6 +92,6 @@ int Queue::Pop() // вытаскивает первый эллемент (воз
 
     return tmp;
 }
-int Queue::Peek() { return arr[size]; }
+int Queue::Peek() { return arr[0]; }
 bool Queue::Is_Empty() { return size <= 0; }
 bool Queue::Is_Full() { return size == capacity; }
