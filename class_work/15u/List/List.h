@@ -3,12 +3,13 @@
 #include <iostream>
 #include "Node.h"
 
-template<class T>
+template <class T>
 class List
 {
     Node<T> *head = nullptr;
     Node<T> *tail = nullptr;
     int size = 0;
+
 public:
     List() = default;
 
@@ -18,9 +19,9 @@ public:
 
     ~List();
 
-    void pushBack(T);
+    void pushBack(T val);
 
-    void pushFront(T);
+    void pushFront(T val);
 
     void popFront();
 
@@ -29,7 +30,7 @@ public:
     void print();
 };
 
-template<class T>
+template <class T>
 void List<T>::pushBack(T val)
 {
     auto tmp = new Node<T>(val);
@@ -43,7 +44,7 @@ void List<T>::pushBack(T val)
     size++;
 }
 
-template<class T>
+template <class T>
 void List<T>::pushFront(T val)
 {
     auto tmp = new Node<T>(val);
@@ -57,19 +58,19 @@ void List<T>::pushFront(T val)
     size++;
 }
 
-template<class T>
+template <class T>
 void List<T>::print()
 {
-    Node<T> *cur = head;
-    while (cur)
+    Node<T> *current = head;
+    while (current)
     {
-        std::cout << cur->getData() << " ";
-        cur = cur->getNext();
+        std::cout << current->getData() << " ";
+        current = current->getNext();
     }
     std::cout << std::endl;
 }
 
-template<class T>
+template <class T>
 void List<T>::popFront()
 {
     if (size == 0)
@@ -87,7 +88,7 @@ void List<T>::popFront()
     size--;
 }
 
-template<class T>
+template <class T>
 void List<T>::popBack()
 {
     if (size == 0)
@@ -100,38 +101,38 @@ void List<T>::popBack()
         return;
     }
 
-    Node<T> *cur = head;
-    while (cur->getNext() != tail)
+    Node<T> *current = head;
+    while (current->getNext() != tail)
     {
-        cur = cur->getNext();
+        current = current->getNext();
     }
     delete tail;
-    tail = cur;
+    tail = current;
     tail->setNext(nullptr);
     size--;
 }
 
-template<class T>
+template <class T>
 List<T>::~List()
 {
     while (size)
         popFront();
 }
 
-template<class T>
+template <class T>
 List<T>::List(const List &obj)
 {
-    Node<T> *cur = obj.head;
-    while (cur)
+    Node<T> *current = obj.head;
+    while (current)
     {
-        pushBack(cur->getData());
-        cur = cur->getNext();
+        pushBack(current->getData());
+        current = current->getNext();
     }
 }
-template<class T>
+template <class T>
 List<T>::List(List &&obj)
 {
-    std::swap(head,obj.head);
-    std::swap(tail,obj.tail);
-    std::swap(size,obj.size);
+    std::swap(head, obj.head);
+    std::swap(tail, obj.tail);
+    std::swap(size, obj.size);
 }
