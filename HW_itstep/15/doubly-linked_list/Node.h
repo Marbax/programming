@@ -18,66 +18,69 @@ public:
 
     Node *getPrev() const;
 
+    Node *findNode(int pos); // поиск ноды по позиции с головы
+
+    Node *findNode(int pos, int size); // поиск ноды по позиции с хвоста
+
     void setNext(Node *next);
 
     void setPrev(Node *prev);
 
-    void swap(Node *second);
-
     void swap_data(Node *second);
+
+    Node<T> &operator=(const Node<T> &obj); // не используется
 };
 
 template <class T>
-Node<T>::Node(T val)
+Node<T>::Node(T val) : data(val) {}
+
+template <class T>
+T Node<T>::getData() const { return data; }
+
+template <class T>
+void Node<T>::setData(T data) { this->data = data; }
+
+template <class T>
+Node<T> *Node<T>::getNext() const { return next; }
+
+template <class T>
+Node<T> *Node<T>::getPrev() const { return prev; }
+
+template <class T>
+Node<T> *Node<T>::findNode(int pos)
 {
-    data = val;
+    Node<T> *current = this;
+    for (int i = 0; i < pos - 1; i++)
+    {
+        current = current->getNext();
+    }
+    return current;
 }
 
 template <class T>
-T Node<T>::getData() const
+Node<T> *Node<T>::findNode(int pos, int size)
 {
-    return data;
+    Node<T> *current = this;
+    for (int i = 0; i < size - pos; i++)
+    {
+        current = current->getPrev();
+    }
+    return current;
 }
 
 template <class T>
-void Node<T>::setData(T data)
-{
-    this->data = data;
-}
+void Node<T>::setNext(Node *next) { this->next = next; }
 
 template <class T>
-Node<T> *Node<T>::getNext() const
-{
-    return next;
-}
+void Node<T>::setPrev(Node *prev) { this->prev = prev; }
 
 template <class T>
-Node<T> *Node<T>::getPrev() const
-{
-    return prev;
-}
+void Node<T>::swap_data(Node *second) { std::swap(this->data, second->data); }
 
 template <class T>
-void Node<T>::setNext(Node *next)
+Node<T> &Node<T>::operator=(const Node &obj)
 {
-    this->next = next;
-}
-
-template <class T>
-void Node<T>::setPrev(Node *prev)
-{
-    this->prev = prev;
-}
-
-template <class T>
-void Node<T>::swap(Node *second)
-{
-    std::swap(this->next, next);
-    std::swap(this->prev, prev);
-}
-
-template <class T>
-void Node<T>::swap_data(Node *second)
-{
-    std::swap(this->data, data);
+    data = obj.data;
+    next = obj.next;
+    prev = obj.prev;
 }

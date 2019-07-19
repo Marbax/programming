@@ -12,8 +12,11 @@
 ▪ вывод на экран содержимого списка; +
 ▪ перегрузить оператор присваивания(&); +
 ▪ перегрузить оператор присваивания(&&); +
-▪ сортировка списка по возрастанию(убыванию). ----
+▪ сортировка списка по возрастанию(убыванию). +
  */
+
+// почему "auto" при выделении памяти под новую ноду ?
+// как сделать свап эллементов списка по указателям ,для сортировки ?
 
 #include <iostream>
 #include "List.h"
@@ -22,7 +25,7 @@ int main()
 {
     List<int> l;
     std::cout << "Created empty \'l\' list" << std::endl;
-    l.pushBack(123);
+
     l.pushBack(34);
     l.pushBack(567);
     l.pushBack(84);
@@ -72,10 +75,19 @@ int main()
     l.print();
     l.reversePrint();
 
-    std::cout << "\n Move constr : " << std::endl;
+    std::cout << "\n Move operator from \'q\' to empty \'f\' : " << std::endl;
     f = std::move(q);
-    f.sort();
     f.print();
-    //f.sort();
+    std::cout << "\n Increment sort : " << std::endl;
+    f.increment_sort();
+    f.print();
     f.reversePrint();
+    std::cout << "\n Insert elem : " << std::endl;
+    f.insert(1666, 2);
+    f.print();
+    std::cout << "\n Decremet sort : " << std::endl;
+    f.decrement_sort();
+    f.print();
+    f.reversePrint();
+
 }
