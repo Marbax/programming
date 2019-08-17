@@ -2,26 +2,18 @@
 #include "Node.h"
 #include <iostream>
 
-/* 
-гет сайз через рекурсивную ф-ю, т.к. нельзя добавлять параметр сайз(сумма всех левых + сумма всех правых + 1) -
-▪ конструктор перемещения;-+ check it
-▪ деструктор;-+ check it
-▪ перегрузка присвоения;-+ check it
- */
-
 template <class T>
 class Tree
 {
 private:
     Node<T> *root = nullptr;
-    int size = 0;
 
 public:
     Tree() = default;
 
     Tree(const Tree &obj); // конструктор копирования
 
-    Tree(const Tree &&obj); // конструктор перемещения
+    Tree(Tree &&obj); // конструктор перемещения
 
     ~Tree();
 
@@ -31,23 +23,29 @@ public:
 
     void insert(T val); //добавление эллемента в позицию
 
+    void print();
+
     void print(Node<T> *node); // выводит в отсортированом виде (инфиксная форма ,от меньшего к большему)
 
     void printDecr();
 
     void printDecr(Node<T> *node);
 
-    void print();
-
     void copy(Node<T> *node);
 
     int getSize();
+
+    int getSize(Node<T> *node);
 
     Node<T> *getRoot();
 
     Node<T> *getMin(Node<T> *node);
 
+    Node<T> *getMax(Node<T> *node);
+
     Node<T> *getNext(Node<T> *node);
+
+    Node<T> *getPrev(Node<T> *node);
 
     Node<T> *find(T val); // поиск элемента(find) ,по значению
 
@@ -62,15 +60,12 @@ template <class T>
 Tree<T>::Tree(const Tree &obj)
 {
     copy(obj.root);
-    size = obj.size;
 } // конструктор копирования
 
 template <class T>
-Tree<T>::Tree(const Tree &&obj)
+Tree<T>::Tree(Tree &&obj)
 {
     std::swap(root, obj.root);
-    size = obj.size;
-    obj.size = 0;
 } // конструктор перемещения
 
 template <class T>
@@ -86,37 +81,41 @@ void Tree<T>::clear()
 }
 
 template <class T>
-void Tree<T>::clear(Node<T> *node) // !!!НЕ РАБОТАЕТ !!! // можно удалять корень все время  // либо по аналогу принта ,только удалять
+void Tree<T>::clear(Node<T> *node)
 {
     if (node)
     {
-        Node<T> *tmp_left, *tmp_right;
-        if (node->getLeft())
-        {
-            tmp_left = node->getLeft();
-            clear(tmp_left);
-        }
-        if (node->getRight())
-        {
-            tmp_right = node->getRight();
-            clear(tmp_left);
-        }
-
-        if (node->getParrent())
-        {
-            if (node->getParrent()->getLeft() == node)
-                node->getParrent()->setLeft(nullptr);
-            else if (node->getParrent()->getRight() == node)
-                node->getParrent()->setRight(nullptr);
-        }
+        clear(node->getLeft());
+        clear(node->getRight());
 
         delete node;
-        size--;
+        root = nullptr;
     }
 }
 
 template <class T>
-int Tree<T>::getSize() { return size; } // возвращает размер
+int Tree<T>::getSize()
+{
+    int size = 0;
+    if (root)
+    {
+        size += getSize(root);
+    }
+    return size;
+}
+
+template <class T>
+int Tree<T>::getSize(Node<T> *node)
+{
+    int size = 0;
+    if (node)
+    {
+        size++;
+        size += getSize(node->getLeft());
+        size += getSize(node->getRight());
+    }
+    return size;
+}
 
 template <class T>
 Node<T> *Tree<T>::getRoot() { return root; } // возвращает корень
@@ -135,6 +134,19 @@ Node<T> *Tree<T>::getMin(Node<T> *node) // возвращает ноду с ми
 }
 
 template <class T>
+Node<T> *Tree<T>::getMax(Node<T> *node) // возвращает ноду с максимальным значением
+{
+    if (node == nullptr)
+        return nullptr;
+    while (node->getRight())
+    {
+        node = node->getRight();
+    }
+
+    return node;
+}
+
+template <class T>
 Node<T> *Tree<T>::getNext(Node<T> *node) // возвращает след ноду
 {
     if (node == nullptr)
@@ -143,6 +155,22 @@ Node<T> *Tree<T>::getNext(Node<T> *node) // возвращает след нод
         return getMin(node->getRight());
     Node<T> *tmp = node->getParrent();
     while (tmp && node == tmp->getRight())
+    {
+        node = tmp;
+        tmp = node->getParrent();
+    }
+    return tmp;
+}
+
+template <class T>
+Node<T> *Tree<T>::getPrev(Node<T> *node) // возвращает пред ноду
+{
+    if (node == nullptr)
+        return nullptr;
+    if (node->getLeft())
+        return getMax(node->getLeft());
+    Node<T> *tmp = node->getParrent();
+    while (tmp && node == tmp->getLeft())
     {
         node = tmp;
         tmp = node->getParrent();
@@ -202,7 +230,6 @@ void Tree<T>::del(Node<T> *node) // удаляет ноду , если нет н
     if (node != target)
         node->setData(target->getData());
     delete target;
-    size--;
 }
 
 template <class T>
@@ -210,7 +237,6 @@ void Tree<T>::insert(T val) //добавление эллемента в поз�
 {
     //Node<T> *node = new Node<T>(val); // то же что и ниже
     auto node = new Node<T>(val);
-    size++;
     if (root == nullptr)
     {
         root = node;
@@ -238,7 +264,7 @@ template <class T>
 void Tree<T>::print() { print(root); }
 
 template <class T>
-void Tree<T>::print(Node<T> *node) // выводит в отсортированом виде (инфиксная форма ,от меншего к большему)
+void Tree<T>::print(Node<T> *node) // выводит в отсортированом виде (инфиксная форма ,от меньшего к большему)
 {
     if (node == nullptr)
     {
@@ -284,7 +310,6 @@ template <class T>
 Tree<T> &Tree<T>::operator=(const Tree<T> &obj)
 {
     copy(obj.root);
-    size = obj.size;
 }
 
 template <class T>
@@ -292,6 +317,4 @@ Tree<T> &Tree<T>::operator=(Tree<T> &&obj)
 {
     root = obj.root;
     obj.root = nullptr;
-    size = obj.size;
-    obj.size = 0;
 }
