@@ -3,12 +3,10 @@
 #include <iostream>
 
 /* 
-▪ поиск элемента(find);-+ check it
+гет сайз через рекурсивную ф-ю, т.к. нельзя добавлять параметр сайз(сумма всех левых + сумма всех правых + 1) -
 ▪ конструктор перемещения;-+ check it
 ▪ деструктор;-+ check it
 ▪ перегрузка присвоения;-+ check it
-▪ вывод на экран содержимого дерева(print);+- check it
-▪ getSize.-+ check it
  */
 
 template <class T>
@@ -88,7 +86,7 @@ void Tree<T>::clear()
 }
 
 template <class T>
-void Tree<T>::clear(Node<T> *node)
+void Tree<T>::clear(Node<T> *node) // !!!НЕ РАБОТАЕТ !!! // можно удалять корень все время  // либо по аналогу принта ,только удалять
 {
     if (node)
     {
@@ -98,26 +96,25 @@ void Tree<T>::clear(Node<T> *node)
             tmp_left = node->getLeft();
             clear(tmp_left);
         }
-if (node->getRight())
+        if (node->getRight())
         {
-            tmp_right = node->getLeft();
+            tmp_right = node->getRight();
             clear(tmp_left);
         }
-        clear(node->getRight());
-        node->setLeft(nullptr);
-        node->setRight(nullptr);
-        /* if (node->getParrent())
+
+        if (node->getParrent())
         {
             if (node->getParrent()->getLeft() == node)
                 node->getParrent()->setLeft(nullptr);
             else if (node->getParrent()->getRight() == node)
                 node->getParrent()->setRight(nullptr);
-        } */
+        }
 
         delete node;
         size--;
     }
 }
+
 template <class T>
 int Tree<T>::getSize() { return size; } // возвращает размер
 

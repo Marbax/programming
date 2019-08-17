@@ -23,11 +23,14 @@ int main()
     std::cout << tmp.getData() << std::endl;
 
     Tree<int> tree;
+    std::cout << "\tSIZE = " << tree.getSize() << std::endl;
     tree.insert(300);
     tree.insert(50);
+    std::cout << "\tSIZE = " << tree.getSize() << std::endl;
     tree.insert(30);
     tree.insert(40);
     tree.insert(70);
+    std::cout << "\tSIZE = " << tree.getSize() << std::endl;
     tree.insert(10);
     tree.insert(75);
     tree.insert(15);
@@ -39,7 +42,7 @@ int main()
     tree.insert(335);
     tree.print();
     std::cout << std::endl;
-
+    
     auto node = tree.getMin(tree.getRoot());
     std::cout << "min = " << node->getData() << std::endl;
 
@@ -50,6 +53,7 @@ int main()
     tree.del(tree.getRoot());
     tree.print();
     std::cout << "\nroot = " << tree.getRoot()->getData() << " next = " << tree.getNext(tree.getRoot())->getData() << std::endl;
+    std::cout << "\tSIZE = " << tree.getSize() << std::endl;
 
     std::cout << "\nfind : \n";
     std::cout << tree.find(335)->getData();
@@ -60,6 +64,4 @@ int main()
     std::cout << "\nclear : \n";
     tree.clear();
     tree.print();
-
-
 }
