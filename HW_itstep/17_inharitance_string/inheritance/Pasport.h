@@ -12,18 +12,20 @@ private:
     string id = "";
     FIO fio;
     DATE date;
+    string country = "";
     string bday_loc = "";
 
 public:
     Pasport() = default;
-    Pasport(const string id, const FIO fio, const DATE date, const string bday_loc)
+    Pasport(const string id, const FIO fio, const DATE date, const string country, const string bday_loc)
     {
         this->id = id;
         this->fio = fio;
         this->date = date;
+        this->country = country;
         this->bday_loc = bday_loc;
     }
-    Pasport(const string id, const string name, const string last_name, const string middle_name, const int bday_day, const string bday_month, const int bday_year, const string bday_loc)
+    Pasport(const string id, const string name, const string last_name, const string middle_name, const int bday_day, const string bday_month, const int bday_year, const string country, const string bday_loc)
     {
         this->id = id;
         setFIO(name, last_name, middle_name);
@@ -34,6 +36,7 @@ public:
         //this->date.setBdayDay(bday_day);
         //this->date.setBdayMonth(bday_month);
         //this->date.setBdayMonth(bday_year);
+        this->country = country;
         this->bday_loc = bday_loc;
     }
     Pasport(const Pasport &obj)
@@ -41,6 +44,7 @@ public:
         id = obj.id;
         fio = obj.fio;
         date = obj.date;
+        country = obj.country;
         bday_loc = obj.bday_loc;
     }
     Pasport(Pasport &&obj)
@@ -48,6 +52,7 @@ public:
         id.swap(obj.id);
         fio = move(obj.fio);
         date = move(obj.date);
+        country.swap(obj.country);
         bday_loc.swap(obj.bday_loc);
     }
     string getId() const { return id; }
@@ -70,6 +75,8 @@ public:
         date.setBdayMonth(bday_month);
         date.setBdayYear(bday_year);
     }
+    string getCountry() const { return country; }
+    void setCountry(string country) { this->country = country; }
     void setDATE(DATE &obj)
     {
         date = obj;
@@ -79,11 +86,16 @@ public:
     void print()
     {
         cout << "\t" << id << endl;
-        fio.print();
-        cout << endl;
+        cout << "\t   \342\230\272" << endl;
+        cout << "Surname : \t" << fio.getLastName() << endl;
+        cout << "Name : \t\t" << fio.getName() << endl;
+        cout << "Middle name : \t" << fio.getMiddleName() << endl;
+        //fio.print();
+        cout << "Birth date : \t";
         date.print();
         cout << endl;
-        cout << bday_loc << " ";
+        cout << "Birth place : \t" << bday_loc << endl;
+        cout << "Country : \t" << country << " ";
     }
     Pasport &operator=(const Pasport &obj)
     {
@@ -95,6 +107,7 @@ public:
         id = obj.id;
         fio = obj.fio;
         date = obj.date;
+        country = obj.country;
         bday_loc = obj.bday_loc;
 
         return *this;
@@ -107,8 +120,9 @@ public:
         }
 
         id.swap(obj.id);
-        FIO fio(move(obj.fio));
-        DATE date(move(obj.date));
+        fio = move(obj.fio);
+        date = move(obj.date);
+        country.swap(obj.country);
         bday_loc.swap(obj.bday_loc);
 
         return *this;

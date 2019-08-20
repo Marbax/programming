@@ -196,7 +196,9 @@ Node<T> *Tree<T>::find(T val) // возвращает ноду с совпавш
             else
                 cur = cur->getRight();
         }
+        return nullptr;
     }
+    return nullptr;
 }
 template <class T>
 void Tree<T>::del(Node<T> *node) // удаляет ноду , если нет наследника то будет эррор

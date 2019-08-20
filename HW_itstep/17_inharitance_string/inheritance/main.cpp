@@ -21,7 +21,7 @@ int main()
     fio.print();
     cout << endl;
     cout << endl;
-    Pasport myne("CH56343", fio, date, "Khmelnytsky, the city");
+    Pasport myne("CH56343", fio, date, "Ukraine", "Khmelnytsky, the city");
     myne.print();
     cout << endl;
     cout << endl;
