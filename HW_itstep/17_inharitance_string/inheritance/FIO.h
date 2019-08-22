@@ -37,7 +37,7 @@ public:
     void setLastName(string last_name) { this->last_name = last_name; }
     string getMiddleName() const { return middle_name; }
     void setMiddleName(string middle_name) { this->middle_name = middle_name; }
-    void print() const { cout << last_name << " " << name << " " << middle_name << " "; }
+    void print() const { cout << last_name << " " << name << " " << middle_name; }
     FIO &operator=(const FIO &obj)
     {
         if (this == &obj)
@@ -60,5 +60,13 @@ public:
         last_name.swap(obj.last_name);
         middle_name.swap(obj.middle_name);
         return *this;
+    }
+
+    friend ostream &operator<<(ostream &os, const FIO &obj)
+    {
+        os << "Surname : \t" << obj.last_name << endl;
+        os << "Name : \t\t" << obj.name << endl;
+        os << "Middle name : \t" << obj.middle_name << endl;
+        return os;
     }
 };

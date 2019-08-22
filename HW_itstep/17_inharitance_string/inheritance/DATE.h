@@ -32,7 +32,7 @@ public:
     void setBdayMonth(string bday_month) { this->bday_month = bday_month; }
     int getBdayYear() const { return bday_year; }
     void setBdayYear(int bday_year) { this->bday_year = bday_year; }
-    void print() const { cout << bday_day << " " << bday_month << " " << bday_year << " "; }
+    void print() const { cout << bday_day << " " << bday_month << " " << bday_year; }
     DATE &operator=(const DATE &obj)
     {
         if (this == &obj)
@@ -59,5 +59,22 @@ public:
         swap(bday_year, obj.bday_year);
 
         return *this;
+    }
+
+    friend ostream &operator<<(ostream &os, const DATE &obj)
+    {
+        os << obj.bday_day << " " << obj.bday_month << " " << obj.bday_year;
+        return os;
+    }
+
+    friend istream &operator>>(istream &is, DATE &obj)
+    {
+        cout << "\nEnter day-> ";
+        is >> obj.bday_day;
+        cout << "\nEnter month-> ";
+        is >> obj.bday_month;
+        cout << "\nEnter year-> ";
+        is >> obj.bday_year;
+        return is;
     }
 };

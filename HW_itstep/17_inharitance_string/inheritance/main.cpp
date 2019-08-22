@@ -19,6 +19,8 @@ int main()
     FIO fio("Nikita", "Morozov", "Evgenevich");
     cout << endl;
     fio.print();
+    cout << "\n\n"
+         << fio;
     cout << endl;
     cout << endl;
     Pasport myne("CH56343", fio, date, "Ukraine", "Khmelnytsky, the city");
@@ -26,13 +28,17 @@ int main()
     cout << endl;
     cout << endl;
     Pasport another(myne);
-    another.setFIO("petuh", "kuka", "reka");
-    another.setBdayLoc("kuka zagon");
+    another.setFIO("Stepan", "Kuku", "Gotta");
+    another.setBdayLoc("Zhmerenka");
     another.print();
     cout << endl;
     cout << endl;
     Pasport third = move(another);
     third.print();
     cout << endl;
-    cout << endl;
+    cout << "==========================================" << endl;
+
+    DATE issued_date(15, "Marche", 2019);
+    ForeignPasport my_foreign("CH111111", fio, date, "Ukraine", "Kyev, the city", issued_date);
+    my_foreign.print();
 }

@@ -87,16 +87,18 @@ public:
     {
         cout << "\t" << id << endl;
         cout << "\t   \342\230\272" << endl;
-        cout << "Surname : \t" << fio.getLastName() << endl;
+        /* cout << "Surname : \t" << fio.getLastName() << endl;
         cout << "Name : \t\t" << fio.getName() << endl;
-        cout << "Middle name : \t" << fio.getMiddleName() << endl;
+        cout << "Middle name : \t" << fio.getMiddleName() << endl; */
+        cout << fio;
         //fio.print();
         cout << "Birth date : \t";
-        date.print();
-        cout << endl;
+        //date.print();
+        cout << date << endl;
         cout << "Birth place : \t" << bday_loc << endl;
         cout << "Country : \t" << country << " ";
     }
+
     Pasport &operator=(const Pasport &obj)
     {
         if (this == &obj)
