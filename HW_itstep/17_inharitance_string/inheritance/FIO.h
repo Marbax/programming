@@ -13,7 +13,7 @@ private:
 
 public:
     FIO() = default;
-    FIO(const string name, const string last_name, const string middle_name)
+    FIO(string name, string last_name, string middle_name)
     {
         this->name = name;
         this->last_name = last_name;

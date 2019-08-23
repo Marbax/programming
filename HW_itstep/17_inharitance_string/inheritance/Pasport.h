@@ -9,15 +9,15 @@ using namespace std;
 class Pasport
 {
 private:
-    string id = "";
+    string id = "NONE";
     FIO fio;
     DATE date;
-    string country = "";
-    string bday_loc = "";
+    string country = "NONE";
+    string bday_loc = "NONE";
 
 public:
     Pasport() = default;
-    Pasport(const string id, const FIO fio, const DATE date, const string country, const string bday_loc)
+    Pasport(string id, FIO fio, DATE date, string country, string bday_loc)
     {
         this->id = id;
         this->fio = fio;
@@ -25,7 +25,7 @@ public:
         this->country = country;
         this->bday_loc = bday_loc;
     }
-    Pasport(const string id, const string name, const string last_name, const string middle_name, const int bday_day, const string bday_month, const int bday_year, const string country, const string bday_loc)
+    Pasport(string id, string name, string last_name, string middle_name, int bday_day, string bday_month, int bday_year, string country, string bday_loc)
     {
         this->id = id;
         setFIO(name, last_name, middle_name);
@@ -64,10 +64,7 @@ public:
         fio.setLastName(last_name);
         fio.setMiddleName(middle_name);
     }
-    void setFIO(FIO &obj)
-    {
-        fio = obj;
-    }
+    void setFIO(FIO &obj) { fio = obj; }
     DATE getDATE() const { return date; }
     void setDATE(int bday_day, string bday_month, int bday_year)
     {
@@ -77,13 +74,10 @@ public:
     }
     string getCountry() const { return country; }
     void setCountry(string country) { this->country = country; }
-    void setDATE(DATE &obj)
-    {
-        date = obj;
-    }
-    string getBdayLoc() { return bday_loc; }
+    void setDATE(DATE &obj) { this->date = obj; }
+    string getBdayLoc() const { return bday_loc; }
     void setBdayLoc(string bday_loc) { this->bday_loc = bday_loc; }
-    void print()
+    void print() const
     {
         cout << "\t" << id << endl;
         cout << "\t   \342\230\272" << endl;

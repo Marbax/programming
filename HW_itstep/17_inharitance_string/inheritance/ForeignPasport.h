@@ -69,6 +69,8 @@ public:
     void setIssuedDate(DATE issued_date) { this->issued_date = issued_date; }
     DATE getExpiresDate() { return expires_date; }
     void setExpiresDate(DATE expires_date) { this->expires_date = expires_date; }
+    int getVisaSize() const { return visa_size; }
+    int getVisaCount() const { return visa_count; }
 
     void Reloc()
     {
@@ -83,6 +85,16 @@ public:
         visa_count = tmp_capacity;
     }
 
+    void AddVisa(Visa &obj)
+    {
+        if (visa_size + 1 > visa_count)
+        {
+            Reloc();
+        }
+
+        visa_arr[visa_size++] = obj;
+    }
+
     void AddVisa(string destination, DATE start_date, DATE end_date)
     {
         if (visa_size + 1 > visa_count)
@@ -92,26 +104,31 @@ public:
 
         visa_arr[visa_size++] = Visa(destination, start_date, end_date);
     }
-    void AddVisa(Visa &obj)
+
+    void AddVisa(string destination, int start_day, string start_month, int start_year, int end_day, string end_month, int end_year)
     {
         if (visa_size + 1 > visa_count)
         {
             Reloc();
         }
 
-        visa_arr[visa_size++] = Visa(obj);
+        visa_arr[visa_size++] = Visa(destination, start_day, start_month, start_year, end_day, end_month, end_year);
     }
 
     void print()
     {
         Pasport::print();
         cout << endl;
-        cout << "Issued date : " << issued_date << "\nExpires date : " << expires_date << endl;
-        for (size_t i = 0; i < visa_size; i++)
+        cout << "Issued date : \t" << issued_date << "\nExpires date : \t" << expires_date << endl;
+        if (visa_size)
         {
-            visa_arr[i].print();
-            cout << "\n"
-                 << endl;
+            cout << "Visas : " << endl;
+            for (size_t i = 0; i < visa_size; i++)
+            {
+                visa_arr[i].print();
+                cout << "\n"
+                     << endl;
+            }
         }
     }
 
@@ -122,13 +139,14 @@ public:
             return *this;
         }
 
-        this->issued_date = issued_date;
-        this->expires_date = expires_date;
+        this->issued_date = obj.issued_date;
+        this->expires_date = obj.expires_date;
         if (obj.visa_size)
         {
             visa_size = obj.visa_size;
             //visa_count = obj.visa_size + RESERVED;
-            (visa_size + RESERVED < obj.visa_count) ? visa_count = obj.visa_count + RESERVED : visa_count = obj.visa_count;
+            //(visa_size + RESERVED < obj.visa_count) ? visa_count = obj.visa_count + RESERVED : visa_count = obj.visa_count;
+            visa_count = (visa_size + RESERVED < obj.visa_count) ? obj.visa_count + RESERVED : obj.visa_count;
             visa_arr = new Visa[visa_count];
 
             for (size_t i = 0; i < obj.visa_size; i++)

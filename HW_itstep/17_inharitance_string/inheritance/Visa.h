@@ -4,12 +4,12 @@
 #include <iostream>
 #include <string>
 
-class Visa
+class Visa //: public DATE
 {
 private:
     //string id = "";
 
-    string destination = "";
+    string destination = "NONE";
     DATE start_date;
     DATE end_date;
 
@@ -40,20 +40,27 @@ public:
     } */
 
     Visa() = default;
-    Visa(string destination, DATE start_date, DATE end_date) : destination(destination), start_date(start_date), end_date(end_date) {}
+
+    Visa(string destination, DATE start_date, DATE end_date) : destination(destination), start_date(start_date), end_date(end_date) { this->destination = destination; }
+
+    Visa(string destination, int start_day, string start_month, int start_year, int end_day, string end_month, int end_year) : destination(destination) /* , DATE(start_day, start_month, start_year), DATE(end_day, end_month, end_year )*/
+    {
+        start_date = DATE(start_day, start_month, start_year);
+        end_date = DATE(end_day, end_month, end_year);
+    }
 
     Visa(const Visa &obj)
     {
-        this->destination = destination;
-        this->start_date = start_date;
-        this->end_date = end_date;
+        this->destination = obj.destination;
+        this->start_date = obj.start_date;
+        this->end_date = obj.end_date;
     }
 
     Visa(Visa &&obj)
     {
-        this->destination.swap(destination);
-        this->start_date = move(start_date);
-        this->end_date = move(end_date);
+        this->destination.swap(obj.destination);
+        this->start_date = move(obj.start_date);
+        this->end_date = move(obj.end_date);
     }
 
     string getDestination() const { return destination; }
@@ -65,8 +72,8 @@ public:
 
     void print()
     {
-        cout << "\t\tDestination : " << destination << endl;
-        cout << "\tStart date : " << start_date << "\t\tEnd date : " << end_date << " ";
+        cout << "Destination : \t" << destination << endl;
+        cout << "Start date : \t" << start_date << "\nEnd date : \t" << end_date << " ";
     }
 
     Visa &operator=(const Visa &obj)
@@ -76,9 +83,9 @@ public:
             return *this;
         }
 
-        this->destination = destination;
-        this->start_date = start_date;
-        this->end_date = end_date;
+        this->destination = obj.destination;
+        this->start_date = obj.start_date;
+        this->end_date = obj.end_date;
 
         return *this;
     }
@@ -90,9 +97,9 @@ public:
             return *this;
         }
 
-        this->destination.swap(destination);
-        this->start_date = move(start_date);
-        this->end_date = move(end_date);
+        this->destination.swap(obj.destination);
+        this->start_date = move(obj.start_date);
+        this->end_date = move(obj.end_date);
 
         return *this;
     }

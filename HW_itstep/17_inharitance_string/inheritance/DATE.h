@@ -8,12 +8,12 @@ class DATE
 {
 private:
     int bday_day = 0;
-    string bday_month = "";
+    string bday_month = "NONE";
     int bday_year = 0;
 
 public:
     DATE() = default;
-    DATE(const int bday_day, const string bday_month, const int bday_year) : bday_day(bday_day), bday_year(bday_year), bday_month(bday_month) {}
+    DATE(int bday_day, string bday_month, int bday_year) : bday_day(bday_day), bday_year(bday_year), bday_month(bday_month) {}
     DATE(const DATE &obj)
     {
         bday_day = obj.bday_day;
