@@ -101,6 +101,8 @@ public:
     virtual void SetHDD() = 0;
 
     virtual void SetBattery() = 0;
+
+    virtual ~LaptopBuilder() = default;
 };
 
 class GamingLaptopBuilder : public LaptopBuilder
@@ -199,20 +201,12 @@ int main()
     Laptop *laptop = shopForYou->GetLaptop();
     laptop->Show();
     cout << "++++++++++++++++++++++++++++++++++++" << endl;
+    delete laptop;
     shopForYou->SetLaptopBuilder(tripBuilder);
     shopForYou->ConstructLaptop();
     laptop = shopForYou->GetLaptop();
     laptop->Show();
-    if (tripBuilder)
-    {
-        delete tripBuilder;
-    }
-    if (gamingBuilder)
-    {
-        delete gamingBuilder;
-    }
-    if (shopForYou)
-    {
-        delete shopForYou;
-    }
+    delete tripBuilder;
+    delete gamingBuilder;
+    delete shopForYou;
 }

@@ -1,23 +1,24 @@
-/*
-#include<iostream>
-#include<string>
+
+#include <iostream>
+#include <string>
 
 using namespace std;
 
-*/
 /*
  *  Это абстрактный базовый класс Device.
  *  Он определяет функцию Clone, которая составляет
  *  основу паттерна Prototype
- *//*
+ */
 
 class Device
 {
 private:
     string name;
+
 public:
     Device() : Device("Unknown device")
-    {}
+    {
+    }
 
     Device(const string &dname)
     {
@@ -38,7 +39,8 @@ public:
 
     virtual void Show() const
     {
-        cout << "\nName is\n" << GetName() << "\n";
+        cout << "\nName is\n"
+             << GetName() << "\n";
     }
 };
 
@@ -115,20 +117,23 @@ public:
     void Show() const override
     {
         Device::Show();
-        cout << "\nDescription of car is\n" << GetDescription() << "\n";
-        cout << "\nManufacturer of car is\n" << GetManufacturer() << "\n";
-        cout << "\nYear of car is\n" << GetYear() << "\n";
-        cout << "\nColor of car is\n" << GetColor() << "\n";
+        cout << "\nDescription of car is\n"
+             << GetDescription() << "\n";
+        cout << "\nManufacturer of car is\n"
+             << GetManufacturer() << "\n";
+        cout << "\nYear of car is\n"
+             << GetYear() << "\n";
+        cout << "\nColor of car is\n"
+             << GetColor() << "\n";
     }
-
 };
-
 
 int main()
 {
 
     string manufacturer;
-    cout << endl << "Input manufacturer of car:" << endl;
+    cout << endl
+         << "Input manufacturer of car:" << endl;
     std::getline(std::cin, manufacturer);
 
     string description;
@@ -148,9 +153,9 @@ int main()
 
     cout << "Let's clone!\nLet's prototype!" << endl;
 
-    Car *copy = (Car *) c.Clone();
+    Car *copy = (Car *)c.Clone();
     copy->Show();
     delete copy;
 
     return 0;
-}*/
+}
