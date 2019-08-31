@@ -1,4 +1,6 @@
-#pragma once;
+//#pragma once
+#ifndef BIRD_H
+#define BIRD_H
 #include "animal.h"
 
 class Bird : public Animal
@@ -8,3 +10,5 @@ public:
     void move();
     ~Bird();
 };
+
+#endif

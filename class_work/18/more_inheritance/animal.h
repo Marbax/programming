@@ -1,4 +1,6 @@
-#pragma once
+//#pragma once
+#ifndef ANIMAL_H
+#define ANIMAL_H
 #include <iostream>
 #include <string>
 
@@ -17,3 +19,4 @@ public:
     ~Animal();
 };
 
+#endif

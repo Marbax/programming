@@ -17,7 +17,7 @@ const string &Animal::getName() const
 
 void Animal::move()
 {
-    cout << "is moving" << endl;
+    cout << getName() << " is moving" << endl;
 }
 Animal::~Animal()
 {
