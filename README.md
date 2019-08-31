@@ -584,6 +584,11 @@ void Tree<T>::print(Node<T> *node) // выводит в отсортирован
 
 </p></details>
 
+<details><summary> 18.  </summary><p>
+
+
+
+</p></details>
 
 
 ---
