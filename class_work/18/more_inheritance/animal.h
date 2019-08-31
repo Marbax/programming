@@ -15,8 +15,8 @@ public:
     Animal(const string &n);
     void setName(const string &name);
     const string &getName() const;
-    void move();
-    ~Animal();
+    virtual void move() = 0; //чисто виртуальная ф-я
+    virtual ~Animal();
 };
 
 #endif

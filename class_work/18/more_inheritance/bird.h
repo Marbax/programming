@@ -7,8 +7,8 @@ class Bird : public Animal
 {
 public:
     Bird(const string &n);
-    void move();
-    ~Bird();
+    void move() override;//final;
+    ~Bird()override;
 };
 
 #endif

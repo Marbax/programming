@@ -8,4 +8,5 @@ void Bird::move() { cout << getName() << " is flying" << endl; }
 
 Bird::~Bird()
 {
+    cout << "~Bird" << endl;
 }

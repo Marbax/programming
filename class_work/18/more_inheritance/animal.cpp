@@ -15,10 +15,11 @@ const string &Animal::getName() const
     return name;
 }
 
-void Animal::move()
+/* void Animal::move()
 {
     cout << getName() << " is moving" << endl;
-}
+} */
 Animal::~Animal()
 {
+    cout << "~Animal" << endl;
 }

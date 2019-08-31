@@ -1,7 +1,8 @@
 #include <iostream>
-#include "bird.h"
+//#include "bird.h" // инклудится в пенгвине
 #include "fish.h"
 #include "kenguru.h"
+#include "penguin.h"
 
 using namespace std;
 
@@ -18,13 +19,13 @@ int main()
     //    d.move();
 
     srand(time(0));
-    Animal *zoo[10]; // working only if childs have parrent methods
+    Animal *zoo[10]; // working only if childs have parrent's methods too , all another can't be shown
     for (size_t i = 0; i < 10; i++)
     {
-        switch (rand() % 4)
+        switch (rand() % 5)
         {
         case 0:
-            zoo[i] = new Animal("Animal");
+            zoo[i] = new Penguin("the Animal");
             break;
         case 1:
             zoo[i] = new Bird("Kesha");
@@ -35,10 +36,10 @@ int main()
         case 3:
             zoo[i] = new Kenguru("Bobby Jack");
             break;
-
-        default:
-            zoo[i] = new Animal("the thisg");
+        case 4:
+            zoo[i] = new Penguin("Cipppa");
             break;
+        
         }
     }
 

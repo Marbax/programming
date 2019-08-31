@@ -8,4 +8,5 @@ void Kenguru::move() { cout << getName() << " is jumping" << endl; }
 
 Kenguru::~Kenguru()
 {
+    cout << "~Kenguru" << endl;
 }

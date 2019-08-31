@@ -5,6 +5,6 @@ class Fish : public Animal
 {
 public:
     Fish(const string &n);
-    void move();
-    ~Fish();
+    void move()override;
+    ~Fish()override;
 };
