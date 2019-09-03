@@ -1,14 +1,139 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Моя страница</title>
+    <style>
+        p {
+            color: chocolate;
+            font-size: 24px;
+        }
+
+        a {
+            color: rgb(20, 0, 90);
+        }
+
+        ul {
+            color: rgb(216, 88, 110);
+        }
+    </style>
 </head>
 
 <body>
+    <div class="header-region">
+        <div class="site-logo">
+            <img src="logo.jpg" alt="">
+        </div>
+        <div class="site-name">
+            <h1 class="title"> 404Group</h1>
+            <p class="description"> Leeds,call etc</p>
+        </div>
+        <div class="share-site">
+            <div class="main-button">
+                <a class="button" href="#">MAain button</a>
+            </div>
+            <div class="social-medias"> social-medias</div>
+        </div>
+    </div>
+
+    <div class="control-panel">
+        <div class="color-choice">
+            <p class="label">Active color</p>
+            <select class="dropdown" name="" id="">
+                <option value="red">red</option>
+                <option value="blue">blue</option>
+                <option value="purple">purple</option>
+            </select>
+        </div>
+    </div>
+
+
+    <table class="calendar">
+        <caption>Calendar</caption>
+        <!--calendar draw-->
+        <tr>
+            <th>Mon</th>
+            <th>Tue</th>
+            <th>Wed</th>
+            <th>Thu</th>
+            <th>Fri</th>
+            <th>Sat</th>
+            <th>Sun</th>
+        </tr>
+        <tr>
+            <th>1</th>
+            <th>2</th>
+            <th>3</th>
+            <th>4</th>
+            <th>5</th>
+            <th>6</th>
+            <th>7</th>
+        </tr>
+        <tr>
+            <th>8</th>
+            <th>9</th>
+            <th>10</th>
+            <th>11</th>
+            <th>12</th>
+            <th>13</th>
+            <th>14</th>
+        </tr>
+        <tr>
+            <th>15</th>
+            <th>16</th>
+            <th>17</th>
+            <th>18</th>
+            <th>19</th>
+            <th>20</th>
+            <th>21</th>
+        </tr>
+        <tr>
+            <th>22</th>
+            <th>23</th>
+            <th>24</th>
+            <th>25</th>
+            <th>26</th>
+            <th>27</th>
+            <th>28</th>
+        </tr>
+        <tr>
+            <th>29</th>
+            <th>30</th>
+            <th>31</th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+    </table>
+
+    <hr>
+
+    <div class="html-lessons">
+        <div class="html-motivation">
+            <h2 class="title">HTML</h2>
+            <p class="desciprion">The language for building web pages</p>
+            <div class="buttons-line">
+                <a class="greyButton" href="#">Learn HTML</a>
+                <a href="#">HTML reference</a>
+            </div>
+        </div>
+        <div class="html-example">
+            <h4 class="title">HTML Example</h4>
+            <div class="code-block"> some html code </div>
+            <a class="greenButton" href="#">Try it yourself</a>
+        </div>
+    </div>
+
+    <hr>
+
+    <div>
+        <hr style="height: 64px;">
+    </div>
+
     <h1>Веб-дизайн</h1>
     <p><b>Веб-дизайн</b> (от <a
             href="https://ru.wikipedia.org/wiki/%D0%90%D0%BD%D0%B3%D0%BB%D0%B8%D0%B9%D1%81%D0%BA%D0%B8%D0%B9_%D1%8F%D0%B7%D1%8B%D0%BA">англ.</a>
@@ -24,20 +149,68 @@
 
     </p>
 
-    <p>Веб-дизайнеры:
-
-        проектируют логическую структуру веб-страниц;
-        продумывают наиболее удобные решения подачи информации;
-        занимаются художественным оформлением веб-проекта.
-
-        В результате пересечения двух отраслей человеческой деятельности грамотный веб-дизайнер должен быть знаком с
+    <p>Веб-дизайнеры:</p>
+    <ul>
+        <li>проектируют логическую структуру веб-страниц;</li>
+        <li>продумывают наиболее удобные решения подачи информации;</li>
+        <li>занимаются художественным оформлением веб-проекта.</li>
+    </ul>
+    <p>В результате пересечения двух отраслей человеческой деятельности грамотный веб-дизайнер должен быть знаком с
         новейшими веб-технологиями и обладать соответствующими художественными качествами. Большая часть специалистов,
-        работающих в области дизайна, обычно концентрирует в себе такое творческое образование, как студия дизайна.
+        работающих в области дизайна, обычно концентрирует в себе такое творческое образование, как студия дизайна.</p>
 
-        Веб-дизайнер — сравнительно молодая профессия, и профессиональное образование в области веб-дизайна в России
+    <p> Веб-дизайнер — сравнительно молодая профессия, и профессиональное образование в области веб-дизайна в России
         пока не распространено. В связи с увеличением спроса на представительство в Сети растёт и спрос на дизайн
         сайтов, увеличивается количество веб-дизайнеров. В настоящее время услуги веб-дизайна предоставляют как
         веб-студии, так и частные лица (веб-дизайнеры, являющиеся фрилансерами).</p>
 </body>
 
 </html>
+<details>
+    <summary>Dropdown </summary>
+    <p></p>
+    <h1>Заголовок до(унилькальный)
+        <h5>последнего</h5>
+    </h1>
+
+    <p>Какой-то <br>(первод строки) текст (параграф/)</p>
+
+    <hr>
+    <p>Линия</p>
+
+    <b>Жирный просто <br></b>
+
+    <strong>жирний (выделеный), акцент</strong>
+
+    <i>Курсив</i>
+
+    <pre>для кода
+        всякой 
+            фигни
+    </pre>
+
+    <span style="color: red;"> спан контейнер для текста <span style="color: purple;">можно выделить текст внутри
+            параграфа
+            или иконку</span></span>
+
+    <div> див тоже некий контейнер,но по интересней ,разбивает на блоки </div>
+
+    <img src="/../../photo_2019-08-24_05-36-18.jpg" alt="image.jpg">
+
+    <a href="https://b.404.group"></a>
+
+    <ul>
+        <li>hone</li>
+        <li>two</li>
+        <li>three </li>
+    </ul>
+
+
+    <ol>
+        <li>one</li>
+        <li>two</li>
+        <li>three</li>
+    </ol>
+
+    </p>
+</details>
