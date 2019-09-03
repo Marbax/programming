@@ -1,0 +1,145 @@
+$header-background-color: rgb(247, 223, 175);
+$color-white: rgba(255, 242, 219, 0.932);
+$color-grey: rgb(63, 62, 62);
+$color-red: rgb(212, 14, 14);
+
+body {
+  background: white;
+  margin: 0;
+  padding: 0 2px;
+  display: flex;
+  flex-direction: column;
+  font-family: sans-serif;
+}
+
+tr {
+  margin-bottom: 10px;
+}
+._container {
+  //display: flex;
+  width: 1024px;
+  margin: 0 auto;
+}
+
+._flexbox {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  padding: 10px;
+}
+.header-region {
+  background: $header-background-color;
+  margin-bottom: 20px;
+
+  //justify-content: space-between;
+
+  .site-name {
+    font-family: "Roboto Condensed", sans-serif;
+    margin-left: 20px;
+    margin-top: 10px;
+
+    .title {
+      font-size: 32px;
+      font-weight: bold;
+      margin-bottom: 3px;
+    }
+    .description {
+      margin-top: 0px;
+      font-size: 16px;
+    }
+  }
+
+  .site-logo {
+    top: 0;
+    left: 0;
+
+    .logo {
+      width: 95px;
+      height: 95px;
+      float: left;
+    }
+  }
+
+  .share-site {
+    margin-left: auto;
+    text-align: center;
+
+    .main-button {
+      background: $color-red;
+      font-family: sans-serif;
+      text-decoration: none;
+      color: $header-background-color;
+      padding: 5px 8px;
+      border-radius: 14px;
+      font-size: 14px;
+      font-weight: bold;
+      margin-bottom: 22px;
+    }
+
+    .a2a_kit {
+      margin-top: 15px;
+    }
+    .socLink {
+      border: 2px black solid;
+      background: rgb(108, 108, 235);
+      border-radius: 25%;
+      font-weight: bold;
+    }
+  }
+}
+
+.control-panel {
+  background: $color-white;
+
+  .color-choice {
+    .label {
+      font-weight: bold;
+    }
+
+    .dropdown {
+      border-radius: 5px;
+    }
+  }
+}
+
+.calendars-component {
+  background: $color-white;
+
+  .calendar {
+    padding: 15px 10px;
+    margin-top: 50px;
+    border: 1px $color-grey solid;
+    border-radius: 10px;
+    height: 320px;
+    width: 270px;
+
+    .monthName {
+      font-weight: bold;
+      font-size: 24px;
+      margin-bottom: 10px;
+      color: $color-grey;
+    }
+
+    .dayName {
+      color: lighten($color-grey, 40%);
+    }
+
+    .tableRow {
+      .tableCol {
+        font-weight: normal;
+        padding: 15px 8px;
+      }
+    }
+
+    .tableCol:last-child {
+      color: lighten($color-red, 40%);
+    }
+
+    .tableCol:hover {
+      background-color: lighten($color-grey, 65%);
+      border-radius: 10px;
+      cursor: pointer ;
+    }
+  }
+}

@@ -1,0 +1,38 @@
+body {
+  background: #9e9d9d;
+}
+
+.article-teaser {
+  font-family: sans-serif;
+  background-color: white;
+  border: 1px solid grey;
+  width: 300px;
+  padding: 20px;
+}
+
+.article-teaser > .image-block {
+  text-align: center;
+}
+
+.article-teaser > .image-block > .image {
+  border-radius: 40%;
+  border: solid 4px grey;
+}
+
+.article-teaser > .title {
+  font-weight: bold;
+  font-size: 20px;
+  margin-bottom: 0;
+  color: black;
+}
+
+.article-teaser > .description {
+  margin: 5px 0;
+  font-size: 13px;
+  color: #999999;
+}
+
+.article-teaser > .text {
+  font-size: 15px;
+}
+/*# sourceMappingURL=style.css.map */

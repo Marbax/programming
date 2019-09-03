@@ -1,0 +1,151 @@
+body {
+  background: white;
+  margin: 0;
+  padding: 0 2px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  font-family: sans-serif;
+}
+
+tr {
+  margin-bottom: 10px;
+}
+
+._container {
+  width: 1024px;
+  margin: 0 auto;
+}
+
+._flexbox {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -ms-flex-wrap: nowrap;
+      flex-wrap: nowrap;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 10px;
+}
+
+.header-region {
+  background: #f7dfaf;
+  margin-bottom: 20px;
+}
+
+.header-region .site-name {
+  font-family: "Roboto Condensed", sans-serif;
+  margin-left: 20px;
+  margin-top: 10px;
+}
+
+.header-region .site-name .title {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 3px;
+}
+
+.header-region .site-name .description {
+  margin-top: 0px;
+  font-size: 16px;
+}
+
+.header-region .site-logo {
+  top: 0;
+  left: 0;
+}
+
+.header-region .site-logo .logo {
+  width: 95px;
+  height: 95px;
+  float: left;
+}
+
+.header-region .share-site {
+  margin-left: auto;
+  text-align: center;
+}
+
+.header-region .share-site .main-button {
+  background: #d40e0e;
+  font-family: sans-serif;
+  text-decoration: none;
+  color: #f7dfaf;
+  padding: 5px 8px;
+  border-radius: 14px;
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 22px;
+}
+
+.header-region .share-site .a2a_kit {
+  margin-top: 15px;
+}
+
+.header-region .share-site .socLink {
+  border: 2px black solid;
+  background: #6c6ceb;
+  border-radius: 25%;
+  font-weight: bold;
+}
+
+.control-panel {
+  background: rgba(255, 242, 219, 0.932);
+}
+
+.control-panel .color-choice .label {
+  font-weight: bold;
+}
+
+.control-panel .color-choice .dropdown {
+  border-radius: 5px;
+}
+
+.calendars-component {
+  background: rgba(255, 242, 219, 0.932);
+}
+
+.calendars-component .calendar {
+  padding: 15px 10px;
+  margin-top: 50px;
+  border: 1px #3f3e3e solid;
+  border-radius: 10px;
+  height: 320px;
+  width: 270px;
+}
+
+.calendars-component .calendar .monthName {
+  font-weight: bold;
+  font-size: 24px;
+  margin-bottom: 10px;
+  color: #3f3e3e;
+}
+
+.calendars-component .calendar .dayName {
+  color: #a5a4a4;
+}
+
+.calendars-component .calendar .tableRow .tableCol {
+  font-weight: normal;
+  padding: 15px 8px;
+}
+
+.calendars-component .calendar .tableCol:last-child {
+  color: #fab4b4;
+}
+
+.calendars-component .calendar .tableCol:hover {
+  background-color: #e4e4e4;
+  border-radius: 10px;
+  cursor: pointer;
+}
+/*# sourceMappingURL=style.css.map */
