@@ -1,4 +1,3 @@
-/*
 #include <iostream>
 #include <string>
 #include <list>
@@ -11,8 +10,8 @@ class RobotBombDefuser
 {
     int _robotConfiguredWavelength = 41;
     bool _isConnected = false;
-public:
 
+public:
     void ConnectWireless(int communicationWaveLength)
     {
         if (communicationWaveLength == _robotConfiguredWavelength)
@@ -28,14 +27,12 @@ public:
     }
 
 private:
-
     bool IsConnectedImmitatingConnectivitiyIssues()
     {
         return rand() % 10 < 9;
     }
 
 public:
-
     virtual void WalkStraightForward(int steps)
     {
         cout << "Did " << steps << " steps forward..." << endl;
@@ -52,7 +49,9 @@ public:
     }
 
     virtual void DefuseBomb()
-    { cout << "Cut red or green or blue wire..." << endl; }
+    {
+        cout << "Cut red or green or blue wire..." << endl;
+    }
 };
 
 class RobotBombDefuserProxy : RobotBombDefuser
@@ -63,7 +62,6 @@ class RobotBombDefuserProxy : RobotBombDefuser
     int _communicationWaveLength;
 
     int _connectionAttempts = 3;
-
 
 public:
     RobotBombDefuserProxy(int communicationWaveLength)
@@ -103,7 +101,6 @@ public:
     }
 
 private:
-
     void EnsureConnectedWithRobot()
     {
         if (_robotBombDefuser == nullptr)
@@ -114,9 +111,13 @@ private:
         for (int i = 0; i < _connectionAttempts; i++)
         {
             if (_robotBombDefuser->IsConnected() != true)
-            { _robotBombDefuser->ConnectWireless(_communicationWaveLength); }
+            {
+                _robotBombDefuser->ConnectWireless(_communicationWaveLength);
+            }
             else
-            { break; }
+            {
+                break;
+            }
         }
         if (_robotBombDefuser->IsConnected() != true)
         {
@@ -125,7 +126,7 @@ private:
     }
 };
 
- void PlanB(int nextOperationNum)
+void PlanB(int nextOperationNum)
 {
     RobotBombDefuser humanOperatingRobotDirectly;
     if (nextOperationNum == 0)
@@ -144,7 +145,9 @@ private:
         nextOperationNum++;
     }
     if (nextOperationNum == 3)
-    { humanOperatingRobotDirectly.DefuseBomb(); }
+    {
+        humanOperatingRobotDirectly.DefuseBomb();
+    }
 }
 
 int main()
@@ -163,10 +166,11 @@ int main()
         proxy.DefuseBomb();
         opNum++;
         cout << endl;
-    } catch (exception e)
+    }
+    catch (exception e)
     {
 
         cout << "Exception has been caught. Decided to have human operate robot there." << endl;
         PlanB(opNum);
     }
-}*/
+}

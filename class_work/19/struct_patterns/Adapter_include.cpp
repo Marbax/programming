@@ -1,7 +1,5 @@
-/*
-
-#include<iostream>
-#include<string>
+#include <iostream>
+#include <string>
 
 using namespace std;
 
@@ -18,29 +16,29 @@ class INewElectricitySystem
 {
 public:
     virtual string MatchWideSocket() = 0;
-    virtual ~INewElectricitySystem()= default;
+    virtual ~INewElectricitySystem() = default;
 };
 
 class NewElectricitySystem : public INewElectricitySystem
 {
 public:
-    string MatchWideSocket()override
+    string MatchWideSocket() override
     {
         return "220V";
     }
 };
 
-
 class Adapter : public INewElectricitySystem
 {
     OldElectricitySystem *_adaptee;
+
 public:
     Adapter(OldElectricitySystem *adaptee)
     {
         _adaptee = adaptee;
     }
 
-    string MatchWideSocket()override
+    string MatchWideSocket() override
     {
         return _adaptee->MatchThinSocket();
     }
@@ -68,4 +66,4 @@ int main()
     delete newElectricitySystem;
     delete oldElectricitySystem;
     delete adapter;
-}*/
+}

@@ -1,4 +1,3 @@
-/*
 #include <iostream>
 #include <string>
 #include <list>
@@ -6,14 +5,12 @@
 
 using namespace std;
 
-
 class Beverage
 {
 public:
     virtual void info() = 0;
 
     virtual ~Beverage() = default;
-
 };
 
 class Coffee : public Beverage
@@ -25,10 +22,11 @@ public:
     }
 };
 
-class Decorator:public Beverage
+class Decorator : public Beverage
 {
 protected:
-    Beverage *component= nullptr;
+    Beverage *component = nullptr;
+
 public:
     Decorator(Beverage *component)
     {
@@ -36,55 +34,49 @@ public:
     }
     void info() override
     {
-        if(component)
+        if (component)
             component->info();
     }
-    ~Decorator()override
+    ~Decorator() override
     {
         delete component;
     }
-
 };
-class WithSugar:public Decorator
+class WithSugar : public Decorator
 {
 public:
-    WithSugar( Beverage* c):Decorator(c)
+    WithSugar(Beverage *c) : Decorator(c)
     {
-
     }
-    void info()override
+    void info() override
     {
         Decorator::info();
-        cout<<"with sugar"<<endl;
+        cout << "with sugar" << endl;
     }
 };
-class WithMilk:public Decorator
+class WithMilk : public Decorator
 {
 public:
-    WithMilk( Beverage* c):Decorator(c)
+    WithMilk(Beverage *c) : Decorator(c)
     {
-
     }
-    void info()override
+    void info() override
     {
         Decorator::info();
-        cout<<"with milk"<<endl;
+        cout << "with milk" << endl;
     }
-
 };
 int main()
 {
-    Beverage* cmp = new Coffee();
+    Beverage *cmp = new Coffee();
     // cmp->info();
-    WithMilk* a = new WithMilk(new WithSugar(new WithSugar(new WithMilk(cmp))));
-    */
-/*WithMilk*c = new WithMilk(cmp);
+    WithMilk *a = new WithMilk(new WithSugar(new WithSugar(new WithMilk(cmp))));
+
+    /*WithMilk*c = new WithMilk(cmp);
     WithSugar *a = new WithSugar(c);
     WithSugar *b = new WithSugar(a);
     b->info();
-     *//*
-
+     */
 
     a->info();
 }
-*/

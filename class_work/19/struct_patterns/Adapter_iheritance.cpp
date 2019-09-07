@@ -1,12 +1,12 @@
-/*
-#include<iostream>
-#include<string>
+#include <iostream>
+#include <string>
 
 using namespace std;
 
 class OldElectricitySystem
 {
     string _voltage;
+
 public:
     OldElectricitySystem(string voltage)
     {
@@ -23,35 +23,35 @@ class INewElectricitySystem
 {
 public:
     virtual string MatchWideSocket() = 0;
-    virtual ~INewElectricitySystem()= default;
+    virtual ~INewElectricitySystem() = default;
 };
 
 class NewElectricitySystem : public INewElectricitySystem
 {
 
     string _voltage;
+
 public:
     NewElectricitySystem(string voltage)
     {
         _voltage = voltage;
     }
 
-    string MatchWideSocket()override
+    string MatchWideSocket() override
     {
         return _voltage;
     }
 };
 
-
 class Adapter : public INewElectricitySystem, public OldElectricitySystem
 {
 
 public:
-
     Adapter(const string &voltage) : OldElectricitySystem(voltage)
-    {}
+    {
+    }
 
-    string MatchWideSocket()override
+    string MatchWideSocket() override
     {
         return MatchThinSocket();
     }
@@ -76,4 +76,4 @@ int main()
     ElectricityConsumer::ChargeNotebook(adapter);
     delete newElectricitySystem;
     delete adapter;
-}*/
+}

@@ -1,4 +1,3 @@
-/*
 #include <iostream>
 #include <string>
 #include <list>
@@ -9,14 +8,15 @@ using namespace std;
 class IDocumentComponent
 {
 public:
-    virtual string GatherData()=0;
+    virtual string GatherData() = 0;
 
-    virtual void AddComponent(IDocumentComponent* documentComponent)=0;
+    virtual void AddComponent(IDocumentComponent *documentComponent) = 0;
 };
 
 class CustomerDocumentComponent : public IDocumentComponent
 {
     int CustomerIdToGatherData;
+
 public:
     CustomerDocumentComponent(int customerIdToGatherData)
     {
@@ -28,18 +28,18 @@ public:
         string customerData("<Customer>\n");
         switch (CustomerIdToGatherData)
         {
-            case 41:
-                customerData += "Khylko Andrii\n";
-                break;
-            default:
-                customerData += "Someone else\n";
-                break;
+        case 41:
+            customerData += "Khylko Andrii\n";
+            break;
+        default:
+            customerData += "Someone else\n";
+            break;
         }
 
         return customerData += "</Customer>\n";
     }
 
-    void AddComponent(IDocumentComponent* documentComponent) override
+    void AddComponent(IDocumentComponent *documentComponent) override
     {
         cout << "Cannot add to leaf..." << endl;
     }
@@ -48,25 +48,26 @@ public:
 class HeaderDocumentComponent : public IDocumentComponent
 {
     string data;
+
 public:
     HeaderDocumentComponent()
     {
         char buf[50];
         time_t seconds = time(NULL);
-        tm* timeinfo = localtime(&seconds);
-        sprintf(buf,"%i:%i:%i\n",timeinfo->tm_hour,timeinfo->tm_min,timeinfo->tm_sec);
+        tm *timeinfo = localtime(&seconds);
+        sprintf(buf, "%i:%i:%i\n", timeinfo->tm_hour, timeinfo->tm_min, timeinfo->tm_sec);
         data = buf;
     }
 
     string GatherData() override
     {
         string headerData("<Header>\n");
-        headerData+=data;
+        headerData += data;
         headerData += "</Header>\n";
         return headerData;
     }
 
-    void AddComponent(IDocumentComponent* documentComponent) override
+    void AddComponent(IDocumentComponent *documentComponent) override
     {
         cout << "Cannot add to leaf..." << endl;
     }
@@ -76,8 +77,7 @@ class DocumentComponent : public IDocumentComponent
 
     string Name;
 
-    list<IDocumentComponent*> DocumentComponents;
-
+    list<IDocumentComponent *> DocumentComponents;
 
 public:
     DocumentComponent(string name)
@@ -94,11 +94,12 @@ public:
         for (auto documentComponent : DocumentComponents)
         {
             sb += documentComponent->GatherData();
-            sb+="\n";
+            sb += "\n";
         }
         sb += "</";
         sb += Name;
-        sb += ">\n";;
+        sb += ">\n";
+        ;
         return sb;
     }
 
@@ -116,13 +117,13 @@ int main()
     DocumentComponent *body = new DocumentComponent("Body");
     document->AddComponent(headerDocumentSection);
     document->AddComponent(body);
-    IDocumentComponent *customerDocumentSection=new CustomerDocumentComponent(41);
+    IDocumentComponent *customerDocumentSection = new CustomerDocumentComponent(41);
     DocumentComponent *orders = new DocumentComponent("Orders");
     //var order0 = new OrderDocumentComponent(0);
     //var order1 = new OrderDocumentComponent(1);
-   // orders.AddComponent(order0);
+    // orders.AddComponent(order0);
     //orders.AddComponent(order1);
     body->AddComponent(customerDocumentSection);
     body->AddComponent(orders);
-    cout<<document->GatherData()<<endl;
-}*/
+    cout << document->GatherData() << endl;
+}

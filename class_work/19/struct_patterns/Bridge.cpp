@@ -1,4 +1,3 @@
-/*
 #include <iostream>
 #include <string>
 using namespace std;
@@ -6,55 +5,55 @@ using namespace std;
 class IWallCreator
 {
 public:
-    virtual void BuildWall()=0;
+    virtual void BuildWall() = 0;
     virtual void BuildWallWithDoor() = 0;
-    virtual void BuildWallWithWindow()=0;
+    virtual void BuildWallWithWindow() = 0;
+    virtual ~IWallCreator() = default;
 };
 
-class BrickWallCreator:public IWallCreator
+class BrickWallCreator : public IWallCreator
 {
 public:
-    void BuildWall()override
+    void BuildWall() override
     {
-        cout<<"Creating brick wall"<<endl;
+        cout << "Creating brick wall" << endl;
     }
 
-   void BuildWallWithDoor()override
-   {
-       cout<<"Creating brick wall with door"<<endl;
-   }
-    void BuildWallWithWindow()override
+    void BuildWallWithDoor() override
     {
-        cout<<"Creating brick wall with window"<<endl;
+        cout << "Creating brick wall with door" << endl;
+    }
+    void BuildWallWithWindow() override
+    {
+        cout << "Creating brick wall with window" << endl;
     }
 };
-class ConcreteWallCreator:public IWallCreator
+class ConcreteWallCreator : public IWallCreator
 {
 public:
-    void BuildWall()override
+    void BuildWall() override
     {
-        cout<<"Creating concrete wall"<<endl;
+        cout << "Creating concrete wall" << endl;
     }
-    void BuildWallWithDoor()override
+    void BuildWallWithDoor() override
     {
-        cout<<"Creating concrete wall with door"<<endl;
+        cout << "Creating concrete wall with door" << endl;
     }
-    void BuildWallWithWindow()override
+    void BuildWallWithWindow() override
     {
-        cout<<"Creating concrete wall with window"<<endl;
+        cout << "Creating concrete wall with window" << endl;
     }
 };
-
 
 class IBuldingCompany
 {
     IWallCreator *WallCreator;
+
 public:
-
-    virtual void BuildFoundation()=0;
-    virtual void BuildRoom()=0;
-    virtual void BuildRoof()=0;
-
+    virtual void BuildFoundation() = 0;
+    virtual void BuildRoom() = 0;
+    virtual void BuildRoof() = 0;
+    virtual ~IBuldingCompany() = default;
     IWallCreator *getWallCreator() const
     {
         return WallCreator;
@@ -66,13 +65,12 @@ public:
     }
 };
 
-class BuldingCompany :public IBuldingCompany
+class BuldingCompany : public IBuldingCompany
 {
 public:
     void BuildFoundation() override
     {
         cout << "Foundation is built." << endl;
-
     }
 
     void BuildRoom() override
@@ -90,13 +88,12 @@ public:
     }
 };
 
-class NearSeaBuldingCompany :public IBuldingCompany
+class NearSeaBuldingCompany : public IBuldingCompany
 {
 public:
     void BuildFoundation() override
     {
         cout << "Foundation near sea is built." << endl;
-
     }
 
     void BuildRoom() override
@@ -116,8 +113,8 @@ public:
 
 int main()
 {
-    BrickWallCreator* bwc = new BrickWallCreator();
-    ConcreteWallCreator* cwc = new ConcreteWallCreator();
+    BrickWallCreator *bwc = new BrickWallCreator();
+    ConcreteWallCreator *cwc = new ConcreteWallCreator();
     IBuldingCompany *bc = new BuldingCompany();
     bc->setWallCreator(bwc);
     bc->BuildFoundation();
@@ -132,6 +129,4 @@ int main()
     delete bc;
     delete bwc;
     delete cwc;
-
-
-}*/
+}

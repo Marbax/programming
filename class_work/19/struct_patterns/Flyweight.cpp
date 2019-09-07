@@ -1,4 +1,3 @@
-/*
 #include <iostream>
 #include <string>
 #include <list>
@@ -13,6 +12,7 @@ protected:
     string Name;
     int Health;
     string Picture;
+
 public:
     const string &getName() const
     {
@@ -44,13 +44,14 @@ public:
         Unit::Picture = Picture;
     }
 
-    virtual void Show()=0;
+    virtual void Show() = 0;
 
     virtual ~Unit() = 0;
 };
 
 Unit::~Unit()
-{}
+{
+}
 
 class UnitImagesFactory
 {
@@ -67,7 +68,6 @@ public:
     {
         return "Goblin.jpg";
     }
-
 };
 
 class Goblin : public Unit
@@ -86,7 +86,7 @@ public:
         cout << Name << endl;
         cout << Health << endl;
         cout << Picture << endl;
-        cout<<"++++++++++++++++++++++++"<<endl;
+        cout << "++++++++++++++++++++++++" << endl;
     }
 };
 
@@ -105,19 +105,20 @@ public:
         cout << Name << endl;
         cout << Health << endl;
         cout << Picture << endl;
-        cout<<"**********************"<<endl;
+        cout << "**********************" << endl;
     }
 };
 
 class Parser
 {
 public:
-
     list<Unit *> ParseHTML()
     {
         list<Unit *> units;
-        for (int i = 0; i < 150; i++) units.push_back(new Dragon());
-        for (int i = 0; i < 500; i++) units.push_back(new Goblin());
+        for (int i = 0; i < 150; i++)
+            units.push_back(new Dragon());
+        for (int i = 0; i < 500; i++)
+            units.push_back(new Goblin());
         cout << "Dragons and Goblins are parsed from HTML page." << endl;
         return units;
     }
@@ -132,8 +133,8 @@ int main()
         i->Show();
     }
 
-    for (auto i=units.begin(); i!=units.end();++i)
+    for (auto i = units.begin(); i != units.end(); ++i)
     {
         delete *i;
     }
-}*/
+}
