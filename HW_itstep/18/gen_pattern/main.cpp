@@ -3,50 +3,46 @@
 “Mercedes” и “Ford”.
 2. Создать UML диаграмму классов для приложения. */
 
-
-//++++++++++++++++++++++++++Abstract Factory
+//-----------------------------Abstract Factory
 #include <iostream>
 #include <string>
 
 using namespace std;
 
-class AnimalToy
+class Automobile
 {
 protected:
     string name;
 
 public:
-    AnimalToy(string n)
-    {
-        name = n;
-    }
+    Automobile(string name) : name(name) {}
 };
 
-class Cat : public AnimalToy
+class Mercedes : public Automobile
 {
 protected:
-    Cat(string name) : AnimalToy(name) {}
+    Mercedes(string name) : Automobile(name) {}
 
 public:
     virtual void Show() = 0;
-    virtual ~Cat() = default;
+    virtual ~Mercedes() = default;
 };
 
-class Bear : public AnimalToy
+class Ford : public Automobile
 {
 protected:
-    Bear(string name) : AnimalToy(name) {}
+    Ford(string name) : Automobile(name) {}
 
 public:
     virtual void Show() = 0;
 
-    virtual ~Bear() = default;
+    virtual ~Ford() = default;
 };
 
-class WoodenCat : public Cat
+class CarMercedes : public Mercedes
 {
 public:
-    WoodenCat() : Cat("Wooden Cat") {}
+    CarMercedes() : Mercedes("Car Mercedes") {}
 
     void Show() override
     {
@@ -54,30 +50,50 @@ public:
     }
 };
 
-class TeddyCat : public Cat
+class TruckMercedes : public Mercedes
 {
 public:
-    TeddyCat() : Cat("Teddy Cat") {}
+    TruckMercedes() : Mercedes("Truck Mercedes") {}
     void Show() override
     {
         cout << name << endl;
     }
 };
 
-class WoodenBear : public Bear
+class BusMercedes : public Mercedes
 {
 public:
-    WoodenBear() : Bear("Wooden Bear") {}
+    BusMercedes() : Mercedes("Bus Mercedes") {}
     void Show() override
     {
         cout << name << endl;
     }
 };
 
-class TeddyBear : public Bear
+class CarFord : public Ford
 {
 public:
-    TeddyBear() : Bear("Teddy Bear") {}
+    CarFord() : Ford("Car Ford") {}
+    void Show() override
+    {
+        cout << name << endl;
+    }
+};
+
+class TruckFord : public Ford
+{
+public:
+    TruckFord() : Ford("Truck Ford") {}
+    void Show() override
+    {
+        cout << name << endl;
+    }
+};
+
+class BusFord : public Ford
+{
+public:
+    BusFord() : Ford("Bus Ford") {}
     void Show() override
     {
         cout << name << endl;
@@ -85,67 +101,87 @@ public:
 };
 
 //absdtract factory
-class IToyFactory
+class IAutomobileFactory
 {
 public:
-    virtual Bear *GetBear() = 0;
+    virtual Ford *GetFord() = 0;
 
-    virtual Cat *GetCat() = 0;
+    virtual Mercedes *GetMercedes() = 0;
 
-    virtual ~IToyFactory() = default;
+    virtual ~IAutomobileFactory() = default;
 };
 
-// конкретна фабрика (concrete factory)
-class TeddyToysFactory : public IToyFactory
+// concrete factory
+class TruckAutomobilesFactory : public IAutomobileFactory
 {
 public:
-    Bear *GetBear()
+    Ford *GetFord()
     {
-        return new TeddyBear();
+        return new TruckFord();
     }
 
-    Cat *GetCat()
+    Mercedes *GetMercedes()
     {
-        return new TeddyCat();
+        return new TruckMercedes();
     }
 };
 
-// і ще одна конкретна фабрика
-class WoodenToysFactory : public IToyFactory
+// concrete factory
+class CarAutomobilesFactory : public IAutomobileFactory
 {
 public:
-    Bear *GetBear()
+    Ford *GetFord()
     {
-        return new WoodenBear();
+        return new CarFord();
     }
 
-    Cat *GetCat()
+    Mercedes *GetMercedes()
     {
-        return new WoodenCat();
+        return new CarMercedes();
+    }
+};
+
+// concrete factory
+class BusAutomobilesFactory : public IAutomobileFactory
+{
+public:
+    Ford *GetFord()
+    {
+        return new BusFord();
+    }
+
+    Mercedes *GetMercedes()
+    {
+        return new BusMercedes();
     }
 };
 
 int main()
 {
-    IToyFactory *toyFactory;
-    Bear *bear;
-    Cat *cat;
+    IAutomobileFactory *automobileFactory;
+    Ford *ford;
+    Mercedes *mercedes;
 
-    string choice = "wood";
-    if (choice == "wood")
+    string choice = "truck";
+    if (choice == "car")
     {
-        toyFactory = new WoodenToysFactory();
+        automobileFactory = new CarAutomobilesFactory();
     }
-    else
+    else if (choice == "truck")
     {
-        toyFactory = new TeddyToysFactory();
+        automobileFactory = new TruckAutomobilesFactory();
     }
-    bear = toyFactory->GetBear();
-    cat = toyFactory->GetCat();
-    bear->Show();
-    cat->Show();
-    if (toyFactory)
+    else if (choice == "bus")
     {
-        delete toyFactory;
+        automobileFactory = new BusAutomobilesFactory();
+    }
+
+    ford = automobileFactory->GetFord();
+    mercedes = automobileFactory->GetMercedes();
+    ford->Show();
+    mercedes->Show();
+    if (automobileFactory)
+    {
+        delete automobileFactory;
     }
 }
