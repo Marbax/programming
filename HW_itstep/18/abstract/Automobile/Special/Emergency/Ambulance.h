@@ -5,7 +5,7 @@
 
 using namespace std;
 
-class Ambulance: public Emergency
+class Ambulance : public Emergency
 {
 private:
 public:
@@ -13,5 +13,5 @@ public:
     Ambulance(string number);
     Ambulance(string number, string organization);
     ~Ambulance();
-    void signal();
+    void signal() override;
 };

@@ -13,5 +13,5 @@ public:
     FireEngine(string number);
     FireEngine(string number, string organization);
     ~FireEngine();
-    void signal();
+    void signal() override;
 };

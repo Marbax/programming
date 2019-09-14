@@ -23,6 +23,8 @@
 
  */
 
+/* Не все методы должны быть виртуальными. При переопределении метода, его нужно помечать как override  */
+
 // нет оверрайда ,потому что ф-и чисто виртуальные и нечего переопределять "member function declared with 'override' does not override a base class member"
 
 #include <iostream>
