@@ -78,19 +78,14 @@ int main()
         getline(cin, f_name);
         cout << "enter l_name" << endl;
         getline(cin, l_name);
-        try
-        {
+        
             Person a(f_name, l_name, 23);
-        }
+        
         /* catch (const invalid_argument &ex)
         {
             cerr << "Error in main " << ex.what() << endl;
             f = true;
         } */
-        catch (int ex)
-        {
-            cerr << "Error in main " << ex << endl;
-            f = true;
-        }
+        
     } while (f);
 };

@@ -1,14 +1,13 @@
-#include <iostream>>
+#include <iostream>
 #include <fstream>
-#include <string>>
-
+#include <string>
 
 using namespace std;
 
 int main()
 {
 	//------------------------------------------------------------------
-	//----------------------ÒÅÊÑÒÎÂÛÉ_ÏÐÈÌÅÐ----------------------------
+	//----------------------ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½_ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½----------------------------
 	//------------------------------------------------------------------
 
 	//fstream fs;
@@ -38,14 +37,13 @@ int main()
 	//		throw new logic_error("can't open file!");
 	//	}
 	//	//fs >> buf;
-	//	//cout << fs.rdbuf() << endl; // âûâîäèò âñå ñîäåðæèìîå ôàéëà , íå äëÿ î÷åíü áîëüøèõ ôàéëîâ
+	//	//cout << fs.rdbuf() << endl; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ , ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	//	while (!fs.eof())
 	//	{
 	//		getline(fs, buf);
 	//		cout << buf << endl;
 
 	//	}
-
 
 	//	fs.close();
 	//}
@@ -54,9 +52,8 @@ int main()
 	//	cerr << "Error. " << ex.what() << endl;
 	//}
 
-
 	//------------------------------------------------------------------
-	//----------------------ÏÐÈÌÅÐ_Ñ_ÏÎËÜÇÎÂÀÒÅËÜÑÊÈÌ_ÒÈÏÎÌ_ÄÀÍÍÛÕ------
+	//----------------------ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½_ï¿½_ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½_ï¿½ï¿½ï¿½ï¿½ï¿½_ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½------
 	//------------------------------------------------------------------
 
 	class MyArray
@@ -69,7 +66,7 @@ int main()
 			arr = new double[size];
 			for (size_t i = 0; i < size; i++)
 			{
-				arr[i] = (val+i) * 2;
+				arr[i] = (val + i) * 2;
 			}
 		}
 		/*MyArray(MyArray& obj) {
@@ -81,34 +78,32 @@ int main()
 		{
 			if (size)
 			{
-				delete[]arr;
+				delete[] arr;
 			}
 		}
-		void save(fstream& fs)
+		void save(fstream &fs)
 		{
-			fs.write((char*)& size, sizeof(int));
-			fs.write((char*)arr, sizeof(double) * size);
+			fs.write((char *)&size, sizeof(int));
+			fs.write((char *)arr, sizeof(double) * size);
 		}
-		void load(fstream& fs)
+		void load(fstream &fs)
 		{
 			if (size)
 			{
-				delete[]arr;
+				delete[] arr;
 			}
-			fs.read((char*)& size, sizeof(int));
+			fs.read((char *)&size, sizeof(int));
 			arr = new double[size];
-			fs.read((char*)arr, sizeof(double) * size);
+			fs.read((char *)arr, sizeof(double) * size);
 		}
 		void setSize(int s) { size = s; }
-		int getSize() { return  size; }
+		int getSize() { return size; }
 		double operator[](int pos) { return arr[pos]; }
-
 
 	private:
 		int size = 0;
-		double* arr = nullptr;
+		double *arr = nullptr;
 	};
-
 
 	// bin example
 	MyArray obj(10, 2);
@@ -116,7 +111,7 @@ int main()
 	fstream fs;
 	try
 	{
-		fs.open(R"(F:\programming\class_work\21\Project1\test.txt)", ios::out | ios::binary);  // row string
+		fs.open(R"(F:\programming\class_work\21\Project1\test.txt)", ios::out | ios::binary); // row string
 		if (!fs.is_open())
 		{
 			throw new logic_error("can't open file!");
@@ -124,7 +119,7 @@ int main()
 		obj.save(fs);
 		fs.close();
 	}
-	catch (const logic_error& ex)
+	catch (const logic_error &ex)
 	{
 		cerr << "Error. " << ex.what() << endl;
 	}
@@ -132,7 +127,7 @@ int main()
 	string buf;
 	try
 	{
-		fs.open(R"(F:\programming\class_work\21\Project1\test.txt)", ios::in | ios::binary);  // row string
+		fs.open(R"(F:\programming\class_work\21\Project1\test.txt)", ios::in | ios::binary); // row string
 		if (!fs.is_open())
 		{
 			throw new logic_error("can't open file!");
@@ -145,14 +140,13 @@ int main()
 		cout << endl;
 		fs.close();
 	}
-	catch (const logic_error& ex)
+	catch (const logic_error &ex)
 	{
 		cerr << "Error. " << ex.what() << endl;
 	}
 
-
 	//------------------------------------------------------------------
-	//----------------------ÁÈÍÀÐÍÛÉ_ÏÐÈÌÅÐ-----------------------------
+	//----------------------ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½_ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½-----------------------------
 	//------------------------------------------------------------------
 
 	//fstream fs;
@@ -180,12 +174,11 @@ int main()
 	//	{
 	//		throw new logic_error("can't open file!");
 	//	}
-	//	fs.read((char*)& mas, sizeof(double)*5); // mas êóäà ÷èòàòü èç ôàéëà
+	//	fs.read((char*)& mas, sizeof(double)*5); // mas ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½
 	//	for (size_t i = 0; i < 5; i++)
 	//	{
 	//		cout << mas[i] << " " << endl;
 	//	}
-
 
 	//	fs.close();
 	//}
@@ -193,5 +186,4 @@ int main()
 	//{
 	//	cerr << "Error. " << ex.what() << endl;
 	//}
-
 }
