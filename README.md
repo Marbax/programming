@@ -753,7 +753,7 @@ phone_number int
 
 
 
-<details><summary> 22. iterator   </summary><p>
+<details><summary> 22. iterator. liambda. DML   </summary><p>
 
 ### 6 iterators
 
@@ -796,6 +796,57 @@ lib `algorithm` - алгоритмы
 `remove_if` - удаляет(перемещает вместо ненужных - нужные и обрезает длинну) эллементы ,по правилу какому-то
 `transform` - (в других языках часто именуется `map`) для функционального программирования ,применяет ф-ю ко всем эллементами контейнера
 `reduce` - ( `accumulate` - была раньше , из всех значений получает одно)
+
+<details><summary> DML </summary><p>
+
+### Commands:
+
+```SQL
+create database Films
+go
+use Films
+create table Film
+(
+Id int identity primary key not null,
+Title nvarchar(60) not null,
+Director nvarchar(30) ,
+R_year int check(r_year>1900) default 1901,
+Country nvarchar(20),
+genre nvarchar(100)
+);
+```
+
+```SQL
+insert into Film(Title,Director,R_year,Country,genre)
+values
+('Titanic','Cameron',1999,'USA','comedy'),
+('Terminator','Cameron',2000,'USA','horror'),
+('Dampo','Jack',1999,'USA','comedy'),
+('Bompo','ss',1999,'USA','comedy'),
+('Pimpa','Camerwon',1999,'USA','triller');
+```
+
+```SQL
+select Title as 'Название',genre as 'Жанр' from Film
+where R_year>=1999
+;
+```
+
+
+```SQL
+update Film
+set Country='USA'
+where Country='UA' and Id=1 ;
+```
+
+```SQL
+delete from Film
+where Title='Bompo';
+```
+
+
+</p></details>
+
 
 </p></details>
 
