@@ -867,6 +867,22 @@ where Title='Bompo';
 
 </p></details>
 
+<details><summary> 24. Агрегирование и Джойны </summary><p>
+
+Агрегирование - если нужно что то из многих ( напр sum , avg , count).  
+
+## Джойны - для обьеденения данных из нескольких таблиц
+- Inner join - показывает если инфа есть в обоих полях(пересекающаяся часть/общее из двух таблиц) , join просто - всегда Inner ,может опускаться
+- Outer join - (left,right,full могут опускать outer )
+    - Outer left join - все данные из левой , и соответствие из правой (если оно есть или нул)
+    - Outer right join - наоборот
+    - Outer full join - все со всем
+
+>Коротко : join , left join ,right join , full join.  
+
+
+</p></details>
+
 
 ---
 <details><summary> Экзамен №2 </summary><p>
