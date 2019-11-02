@@ -96,7 +96,7 @@ insert into Themes(Name)
 values
 ('Documental'),
 ('Political novel'),
-('Оuvenile fantasy'),
+('Ouvenile fantasy'),
 ('Heroic fantasy'),
 ('Child''s'),
 ('High fantasy'),
@@ -187,58 +187,116 @@ values
 go
 
 
---- 1. Показать все книги, количество страниц в которых больше 500, но меньше 650. +
+--- 1. Показать все книги, количество страниц в которых больше 500, но меньше 650.
+select *
+from Books
+where Books.Pages between  500 and 650
+;
 
+--- 2. Показать все книги, в которых первая буква названия либо «А», либо «З». 'A' || 'The'
+select *
+from Books
+where Books.Name like 'A%'
+or
+Books.Name like 'The%'
+;
 
---- 2. Показать все книги, в которых первая буква названия либо «А», либо «З». 'A' || 'Z' +
+--- 3. Показать все книги жанра «Детектив», количество проданных книг более 30 экземпляров. 'Detective'(id=8) (Sales>30)
+select Books.Name as 'Title',Themes.Name as 'Genre' , Sales.Quantity as "Saled Count"
+from Sales join Books on Sales.BookId=Books.Id and Sales.Quantity>30
+join Themes on Books.ThemeId=Themes.Id
+and Themes.Name='Detective'
+;
 
-
---- 3. Показать все книги жанра «Детектив», количество проданных книг более 30 экземпляров. 'Detective'(id=8) (Sales>30) +
-
-
---- 4. Показать все книги, в названии которых есть слово «Microsoft », но нет слова «Windows». +
-
+--- 4. Показать все книги, в названии которых есть слово «Microsoft », но нет слова «Windows».
+select *
+from Books 
+where Books.Name like '%Microsoft%' and  Books.Name not like '%Windows%'
+;
 
 --- 5. Показать все книги (название, тематика, полное имя автора в одной ячейке), цена одной страницы которых меньше 65 копеек.
-
+select Books.Name+'. '+ Themes.Name+'. '+Authors.Name+ ' '+Authors.Surname as 'Books', Books.Price/Books.Pages as "One paper cost"
+from Authors join Books on Books.AuthorId=Authors.Id and Books.Price/Books.Pages<0.65
+join Themes on Themes.Id=Books.ThemeId
+;
 
 --- 6. Показать все книги, название которых состоит из 4 слов.
+select * , len(Books.Name)-len(replace(Books.Name,' ',''))+1 as 'Words count'
+from Books
+where len(Books.Name)-len(replace(Books.Name,' ',''))+1=4
+;
 
 
 --- 7. Показать информацию о продажах в следующем виде:
-    --- ▷▷Название книги, но, чтобы оно не содержало букву «А».
-    --- ▷▷Тематика, но, чтобы не «Программирование».
-    --- ▷▷Автор, но, чтобы не «Герберт Шилдт».
+    --- ▷▷Название книги, но, чтобы оно не содержало букву «А». not like '%A%'
+    --- ▷▷Тематика, но, чтобы не «Программирование». not Study
+    --- ▷▷Автор, но, чтобы не «Герберт Шилдт». not Bill Gates
     --- ▷▷Цена, но, чтобы в диапазоне от 10 до 20 гривен.
     --- ▷▷Количество продаж, но не менее 8 книг.
-    --- ▷▷Название магазина, который продал книгу, но он не должен быть в Украине или России.
-
+    --- ▷▷Название магазина, который продал книгу, но он не должен быть в Украине или России. not USA or Poland
+select Books.Name as 'Title',Themes.Name as 'Genre', Authors.Name+' '+Authors.Surname as 'Author',Books.Price, Sales.Quantity as 'Quantity of sales',Shops.Name 'Shop''s name' 
+from Themes join Books on Books.ThemeId=Themes.Id and Themes.Name not like 'Study' and Books.Name not like '%A%' and Books.Price between 10 and 20
+join Authors on Authors.Id=Books.AuthorId and Authors.Name not like 'Bill' and Authors.Surname not like 'Gates'
+join Sales on Books.Id=Sales.BookId and Sales.Quantity>8
+join Shops on Shops.Id=Sales.ShopId
+join Countries on Countries.Id=Shops.CountryId and Countries.Name not like 'USA' and Countries.Name not like 'Poland'
+;
 
 --- 8. Показать следующую информацию в два столбца (числа в правом столбце приведены в качестве примера):
     --- ▷▷Количество авторов: 14
     --- ▷▷Количество книг: 47
     --- ▷▷Средняя цена продажи: 85.43 грн.
     --- ▷▷Среднее количество страниц: 650.6.
-
+select count(Authors.Id) as 'Authors count', count(Books.Id) as 'Books count', avg(Sales.Price) as 'Average sale cost', avg(Books.Pages) as 'Average pages count'
+from Authors,Books,Sales
+;
 
 --- 9. Показать тематики книг и сумму страниц всех книг по каждой из них.
-
+select Themes.Name as 'Genre' , sum (Books.Pages) as 'Pages count'
+from Books join Themes on Themes.Id=Books.ThemeId
+group by Themes.Name
+;
 
 --- 10. Показать количество всех книг и сумму страниц этих книг по каждому из авторов.
+select Authors.Name+' '+Authors.Surname as 'Author' , count (Books.id) as 'Books count' , sum (Books.Pages) as 'Pages count'
+from Authors join Books on Authors.Id=Books.AuthorId
+join Themes on Themes.Id=Books.ThemeId
+group by Authors.Name+' '+Authors.Surname
+;
 
-
---- 11. Показать книгу тематики «Программирование» с наибольшим количеством страниц.
-
+--- 11. Показать книгу тематики «Программирование» с наибольшим количеством страниц. Study
+select top 1 *
+from Books join Themes on Themes.id=Books.ThemeId  and Themes.Name like 'Study'
+order by Books.Pages desc
+;
 
 --- 12. Показать среднее количество страниц по каждой тематике, которое не превышает 400.
+select Themes.Name , avg (Books.Pages)
+from Books join Themes on Themes.Id=Books.ThemeId
+group by Themes.Name
+having avg(Books.Pages)<400
+;
 
-
---- 13. Показать сумму страниц по каждой тематике, учитывая только книги с количеством страниц более 400, и чтобы тематики были «Программирование», «Администрирование » и «Дизайн».
-
+--- 13. Показать сумму страниц по каждой тематике, учитывая только книги с количеством страниц более 400,
+	--- и чтобы тематики были «Программирование», «Администрирование » и «Дизайн». Fantasy , Detective ,Study
+select Themes.Name , sum (Books.Pages)
+from Books join Themes on Themes.Id=Books.ThemeId and Books.Pages>400 and Themes.Name in ('Fantasy','Detective','Study')
+group by Themes.Name
+;
 
 --- 14. Показать информацию о работе магазинов: что, где, кем, когда и в каком количестве было продано.
-
+select Books.Name as 'What',Countries.Name 'Where', Shops.Name as 'Whom' , Sales.SaleDate as 'When' , Sales.Quantity as 'How much'
+from Books join Sales on Sales.BookId=Books.Id
+join Shops on Shops.Id=Sales.ShopId
+join Countries on Countries.Id=Shops.CountryId
+order by Books.Name
+;
 
 --- 15. Показать самый прибыльный магазин.
+select top 1 Shops.Name as 'Shop Title', sum(Sales.Price*Sales.Quantity) as 'Profit'
+from Sales join Shops on Sales.ShopId=Shops.Id
+group by Shops.Name
+order by 'Profit' desc
+;
 
 
