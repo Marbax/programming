@@ -152,30 +152,10 @@ values
 ('Dzyu-Rok',4.15,1),
 ;
 
-
---- Examples 
-
----make a  view
-create View songView as
-select *
-from Song;
-
---- select
-select *
-from songView;
-
---- not working example
-create view nameView (song.name ,disk.name) as 
-select song.name ,disk.name
-from song join Disk on Song.DiskId=Disk.Id;
-
-
 --- Exercises ---
 
-/*
-	Задание 1. Все задания необходимо выполнить по отношению к базе данных «Музыкальная коллекция»,
-	описанной в практическом задании для этого модуля. Создайте следующие представления: 
-*/
+---	Задание 1. Все задания необходимо выполнить по отношению к базе данных «Музыкальная коллекция»,
+---	описанной в практическом задании для этого модуля. Создайте следующие представления: 
 
 ---		1. Представление отображает названия всех исполнителей 
 create view SingersView as
@@ -188,7 +168,6 @@ from song join Disk on Song.DiskId=Disk.Id
 join Author on Author.Id=Disk.AuthorId
 join Genre on Genre.Id=Disk.GenreId;
 
-
 ---		3. Представление отображает информацию о музыкальных дисках конкретной группы. Например, The Beatles 
 create view ParticularAuthorView as 
 select Disk.Name as 'Disk',Author.Name as 'Author',PublishDate , Genre.Name as 'Genre',Publisher.Name as 'Publisher',Publisher.Country
@@ -197,13 +176,23 @@ join Genre on Genre.Id=Disk.GenreId
 join Publisher on Publisher.Id=Disk.PublisherId;
 
 ---		4. Представление отображает название самого популярного в коллекции исполнителя. Популярность определяется по количеству дисков в коллекции 
-
+create view MostPopularView as 
+select top 1 Author.Name , count(Disk.Id) as 'Disks'
+from Disk join Author on Disk.AuthorId=Author.Id
+group by Author.Name
+order by 'Disks' desc;
 
 ---		5. Представление отображает топ-3 самых популярных в коллекции исполнителей. Популярность определяется по количеству дисков в коллекции 
-
+create view Top3View as 
+select top 3 Author.Name , count(Disk.Id) as 'Disks'
+from Disk join Author on Disk.AuthorId=Author.Id
+group by Author.Name
+order by 'Disks' desc;
 
 ---		6. Представление отображает самый долгий по длительности музыкальный альбом
-
-
-
------                                  Song -> Disk -> Author|Genre|Publisher
+create view LongestDiskView as
+select top 1 Disk.Name , sum(Song.Durability) as 'Time'
+from song join Disk on Song.DiskId=Disk.Id
+group by Disk.Name
+order by 'Time' desc;
+;
