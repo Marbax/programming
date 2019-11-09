@@ -149,7 +149,7 @@ values
 ('Dzyu-San',4.15,1),
 ('Dzyu-Chee',3.21,2),
 ('Dzyu-Go',3.35,1),
-('Dzyu-Rok',4.15,1),
+('Dzyu-Rok',4.15,1)
 ;
 
 --- Exercises ---
@@ -196,3 +196,21 @@ from song join Disk on Song.DiskId=Disk.Id
 group by Disk.Name
 order by 'Time' desc;
 ;
+
+----- Updatable views
+
+create view dbo.TestView (Name,Country) with schemabinding as
+select Name,Country from dbo.Publisher;
+go 
+select * from TestView;
+--- Без dbo. не работает . С schemabinding нельзя удалить таблицу , если на нее кто то ссылается
+
+
+
+
+
+
+
+
+
+--- Сделать еще базу данных Продажи и остальные задания для этих баз.
