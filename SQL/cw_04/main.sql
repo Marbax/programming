@@ -69,7 +69,7 @@ create table [Song]
 (
     [Id] int not null identity(1, 1) primary key,
 	[Name] nvarchar(100) not null unique check ([Name] <> N''),
-	[Durability] int not null check (Durability>0),
+	[Durability] float not null check (Durability>0),
 	[DiskId] int not null
 );
 go
@@ -90,6 +90,68 @@ alter table [Song]
 add foreign key ([DiskId]) references [Disk]([Id]);
 go
 
+--- Song -> Disk -> Author|Genre|Publisher
+
+insert into Publisher(Name,Country)
+values
+('Britain Records','Britain'),
+('USA Records','USA'),
+('Russian Records','Russia'),
+('Indian Records','India'),
+('China Records','China')
+;
+
+insert into Genre(Name)
+values
+('Indie Rock'),
+('Doom Metal'),
+('Core Metal'),
+('D&B')
+;
+
+insert into Author(Name)
+values
+('Deathclock'),
+('Rolling Stones'),
+('Muse'),
+('Pirate Station')
+;
+
+insert into Disk(Name,AuthorId,PublishDate,GenreId,PublisherId)
+values
+('Trash',4,'2010-03-2',4,2),
+('Hard',1,'2000-07-2',2,1),
+('Indastrial',3,'2012-03-2',1,3),
+('Stones',2,'1989-03-2',1,4),
+('About life',3,'2001-02-12',1,5),
+('Some kind',4,'2010-03-2',4,2),
+('Polka',4,'2012-12-22',4,3)
+;
+
+insert into Song(Name,Durability,DiskId)
+values
+('First',3.55,1),
+('Second',3.25,2),
+('Third',4.55,3),
+('Uno',3.51,4),
+('Ich',3.15,5),
+('Nee',4.35,6),
+('San',3.21,7),
+('Chee',3.35,5),
+('Go',4.15,6),
+('Rok',3.15,4),
+('Sich',4.35,3),
+('Hach',3.21,2),
+('Ku',3.35,1),
+('Dzyu',4.15,1),
+('Dzyu-Ich',3.21,2),
+('Dzyu-Nee',3.35,1),
+('Dzyu-San',4.15,1),
+('Dzyu-Chee',3.21,2),
+('Dzyu-Go',3.35,1),
+('Dzyu-Rok',4.15,1),
+;
+
 
 --- Examples 
 
@@ -106,3 +168,42 @@ from songView;
 create view nameView (song.name ,disk.name) as 
 select song.name ,disk.name
 from song join Disk on Song.DiskId=Disk.Id;
+
+
+--- Exercises ---
+
+/*
+	Задание 1. Все задания необходимо выполнить по отношению к базе данных «Музыкальная коллекция»,
+	описанной в практическом задании для этого модуля. Создайте следующие представления: 
+*/
+
+---		1. Представление отображает названия всех исполнителей 
+create view SingersView as
+select Name from Author;
+
+---		2. Представление отображает полную информацию о всех песнях: название песни, название диска, длительность песни, музыкальный стиль песни, исполнитель 
+create view SongInfoView as 
+select song.name as 'Song' ,disk.name as 'Disk',Song.Durability,Genre.Name as 'Genre ',Author.Name as 'Author'
+from song join Disk on Song.DiskId=Disk.Id
+join Author on Author.Id=Disk.AuthorId
+join Genre on Genre.Id=Disk.GenreId;
+
+
+---		3. Представление отображает информацию о музыкальных дисках конкретной группы. Например, The Beatles 
+create view ParticularAuthorView as 
+select Disk.Name as 'Disk',Author.Name as 'Author',PublishDate , Genre.Name as 'Genre',Publisher.Name as 'Publisher',Publisher.Country
+from Disk join Author on Author.Id=Disk.AuthorId and Author.Name like 'Muse'
+join Genre on Genre.Id=Disk.GenreId
+join Publisher on Publisher.Id=Disk.PublisherId;
+
+---		4. Представление отображает название самого популярного в коллекции исполнителя. Популярность определяется по количеству дисков в коллекции 
+
+
+---		5. Представление отображает топ-3 самых популярных в коллекции исполнителей. Популярность определяется по количеству дисков в коллекции 
+
+
+---		6. Представление отображает самый долгий по длительности музыкальный альбом
+
+
+
+-----                                  Song -> Disk -> Author|Genre|Publisher
