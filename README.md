@@ -883,3 +883,11 @@ where Title='Bompo';
 
 </p></details>
 
+
+<details><summary> sql 06.Trigers,procedures </summary><p>
+
+[Trigers,procedures](SQL\CW_06\main.sql "SQL\CW_06\main.sql")   
+
+
+
+</p></details>
