@@ -1,7 +1,6 @@
 print 'hello world'
 declare @a int = 3 ,@b int = 9,@res int
 set @res = @a+@b
---- print @a+' + '+@b+' = '+@res;
 print @res;
 
 if (@a>@b)
