@@ -1190,3 +1190,13 @@ else
 
 
 </p></details>
+
+
+
+<details><summary> sql 06.Trigers,procedures </summary><p>
+
+### HW
+> Делать только 2 задания(по созданным таблица) 7 и 8 процедур
+
+
+</p></details>
